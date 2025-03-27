@@ -1,6 +1,6 @@
-# New Next Project
+# MON-EY
 
-### Local Development
+### The next gen finance tracking app
 
 To work locally, please install the dependencies using `npm i` first.
 
