@@ -28,8 +28,13 @@ export default class MyDocument extends Document {
       <Html lang="en">
         <Head />
         <body>
-          <Main />
-          <NextScript />
+          <div className="layout-wrapper">
+            <header>Title</header>
+            <main>
+              <Main />
+              <NextScript />
+            </main>
+          </div>
         </body>
       </Html>
     );
