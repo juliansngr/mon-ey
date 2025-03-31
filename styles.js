@@ -1,12 +1,27 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
   html { 
     font-size: 100%;
     line-height: 1.15;
   } 
+
+  h1, h2, h3, h4, h5, h6 {
+  font-size: inherit; /* Verhindert unerwartete Größen */
+  font-weight: inherit;
+}
+
+ul, ol {
+  list-style: none; /* Entfernt Standard-Punkte */
+}
 
   body {
     margin: 0;
