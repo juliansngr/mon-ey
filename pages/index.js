@@ -6,16 +6,15 @@ export default function HomePage() {
   if (isLoading) return null;
 
   return (
-    <>
+    <ul>
       {data.map((transaction) => {
-        return <p key={transaction.id}>{transaction.amount}</p>;
+        return (
+          <li key={transaction.id}>
+            <p>Transaction ID: {transaction.id}</p>
+            <p>{transaction.amount}</p>
+          </li>
+        );
       })}
-
-      {/* <container>
-        <header></header>
-        <main></main>
-        <nav></nav>
-      </container> */}
-    </>
+    </ul>
   );
 }
