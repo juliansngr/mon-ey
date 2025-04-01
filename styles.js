@@ -13,21 +13,22 @@ export default createGlobalStyle`
   /* colors */
   --color-dark: #111111;
   --color-light: #eeeeee;
-  --red-500: #ff0000;
+  --red-500: #fa3b3b;
 
   --lightgray:#fffefe;
   --darkgray:#4f4949;
 
-  --green-50: #f0fdf4;
-  --green-100: #dcfce7;
-  --green-200: #bbf7d0;
-  --green-300: #86efac;
-  --green-400: #4ade80;
-  --green-500: #22c55e;
-  --green-600: #16a34a;
-  --green-700: #15803d;
-  --green-800: #166534;
-  --green-900: #14532d;
+  --green-50: #ebfef4;
+  --green-100: #cefde2;
+  --green-200: #a2f8cb;
+  --green-300: #66efb1;
+  --green-400: #29de92;
+  --green-500: #05c47a;
+  --green-600: #00a064;
+  --green-700: #008053;
+  --green-800: #006241;
+  --green-900: #015338;
+  --green-950: #002f20;
 
   --green-text-light: #fff;
   --green-text-dark: #002f20;
