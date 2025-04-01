@@ -8,7 +8,7 @@ export default function TransactionsList({ transactions }) {
       <StyledH2>Transaktionen</StyledH2>
       <StyledUl>
         {transactions.map(([isoDate, dayTransactions]) => {
-          //Formate date 
+          // Formate date
           const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
 
           return (
@@ -30,7 +30,7 @@ export default function TransactionsList({ transactions }) {
 const StyledUl = styled.ul`
   display: flex;
   flex-direction: column;
-  gap: var(--xs);;
+  gap: var(--xs);
 `;
 
 const StyledH2 = styled.h2`

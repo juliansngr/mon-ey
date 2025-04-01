@@ -30,7 +30,7 @@ export default createGlobalStyle`
   --green-900: #015338;
   --green-950: #002f20;
 
-  --green-text-light: #fff;
+  --green-text-light: #ebfef4;
   --green-text-dark: #002f20;
 
   /* distances */
@@ -47,7 +47,7 @@ export default createGlobalStyle`
   --4xl: 2rem;     /* 32px */
 
 /* generals */
-  --bgBody: var(--lightgray);
+  --bgBody: var(--green-50);
   --bgHeader: var(--green-800);
   --headerColor: var(--green-text-light);
 }
@@ -58,12 +58,12 @@ export default createGlobalStyle`
   } 
 
   h1, h2, h3, h4, h5, h6 {
-  font-size: inherit; /* Verhindert unerwartete Größen */
+  font-size: inherit;
   font-weight: inherit;
 }
 
 ul, ol {
-  list-style: none; /* Entfernt Standard-Punkte */
+  list-style: none;
 }
 
   body {
