@@ -32,6 +32,8 @@ ul, ol {
     max-width: 400px;
     margin-left:auto;
     margin-right:auto;
+
+    background-color: #ebfef4;
   }
 
   .layout-wrapper {

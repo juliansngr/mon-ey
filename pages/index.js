@@ -2,9 +2,9 @@ import { useTransactionsContext } from "@/utils/TransactionsContext/Transactions
 import TransactionsList from "@/components/TransactionsList/";
 
 export default function HomePage() {
-  const { data, isLoading } = useTransactionsContext();
+  const { data, isLoading, sortedEntries } = useTransactionsContext();
 
   if (isLoading) return null;
 
-  return <TransactionsList transactions={data} />;
+  return <TransactionsList transactions={sortedEntries} />;
 }
