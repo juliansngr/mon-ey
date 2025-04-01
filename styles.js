@@ -69,7 +69,7 @@ ul, ol {
     margin: 0;
     font-family: system-ui;
     width:100%;
-    max-width: 435px;
+    max-width: 27rem;
     margin-left:auto;
     margin-right:auto;
     background-color: #ebfef4;
@@ -82,5 +82,16 @@ ul, ol {
     grid-template-rows: 3rem 1fr;
     grid-template-areas: "Header" "Main";
     min-height: 100vh;
+  }
+  header {
+    background-color: var(--bgHeader);
+    color: var(--headerColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  main{
+    padding: 0 var(--xs);
   }
 `;
