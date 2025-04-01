@@ -72,7 +72,7 @@ ul, ol {
     max-width: 27rem;
     margin-left:auto;
     margin-right:auto;
-    background-color: #ebfef4;
+    background-color: var(--bgBody);
   }
 
   .layout-wrapper {
