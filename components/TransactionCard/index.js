@@ -1,5 +1,5 @@
+import { CircleArrowOutDownRight, CircleArrowOutUpRight } from "lucide-react";
 import styled from "styled-components";
-import { CircleArrowOutUpRight, CircleArrowOutDownRight } from "lucide-react";
 
 export default function TransactionCard({ data }) {
   //Falls der Transaktions-Partner zu lang ist
@@ -48,21 +48,21 @@ const StyledTransactionCard = styled.li`
 `;
 
 const StyledAmount = styled.p`
-  font-size: large;
+  font-size: var(--lg);
   font-weight: 500;
-  color: ${(props) => (props.$type === "income" ? "#05c47a" : "#fa3b3b")};
+  color: ${(props) => (props.$type === "income" ? `var(--green-500)` : `var(--red-500)`)};
 `;
 
 const StyledCircleArrowOutUpRight = styled(CircleArrowOutUpRight)`
-  color: #05c47a;
+  color: var(--green-500);
   width: 35px;
   height: 35px;
 `;
 
 const StyledCircleArrowOutDownRight = styled(CircleArrowOutDownRight)`
-  color: #fa3b3b;
-  width: 35px;
-  height: 35px;
+  color:var(--red-500);
+  width: var(--4xl);
+  height: var(--4xl);
 `;
 
 const IconTextWrapper = styled.div`
@@ -71,6 +71,6 @@ const IconTextWrapper = styled.div`
 `;
 
 const StyledTransactionPartner = styled.p`
-  font-size: large;
+  font-size: var(--lg);
   font-weight: 500;
 `;
