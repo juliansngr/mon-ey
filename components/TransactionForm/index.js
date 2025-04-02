@@ -29,7 +29,7 @@ export default function TransactionForm() {
           </StyledFormSelectOption>
         ))}
       </StyledFormSelect>
-      {/* <StyledFormDate></StyledFormDate> */}
+      <StyledFormDate type="date"></StyledFormDate>
       <StyledFormSubmit>Hinzuf&uuml;gen</StyledFormSubmit>
     </StyledForm>
   );
@@ -37,20 +37,9 @@ export default function TransactionForm() {
 
 const StyledForm = styled.form``;
 
-const StyledFormInput = styled.input`
-  input::-webkit-outer-spin-button,
-  nput::-webkit-inner-spin-button {
-    /* display: none; <- Crashes Chrome on hover */
-    -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-  }
-
-  input[type="number"] {
-    -moz-appearance: textfield; /* Firefox */
-  }
-`;
+const StyledFormInput = styled.input``;
 
 const StyledFormSelect = styled.select``;
 const StyledFormSelectOption = styled.option``;
 const StyledFormSubmit = styled.button``;
-// const StyledFormDate = styled.date``;
+const StyledFormDate = styled.input``;

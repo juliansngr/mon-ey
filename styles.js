@@ -95,4 +95,15 @@ ul, ol {
   main{
     padding: 0 var(--xs);
   }
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
 `;
