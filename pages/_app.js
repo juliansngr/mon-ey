@@ -6,8 +6,12 @@ export default function App({ Component, pageProps }) {
     <>
       <TransactionsProvider>
         <GlobalStyle />
-
-        <Component {...pageProps} />
+        <div className="layout-wrapper">
+          {/* <header>Title</header> */}
+          <main>
+            <Component {...pageProps} />
+          </main>
+        </div>
       </TransactionsProvider>
     </>
   );

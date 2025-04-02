@@ -8,7 +8,6 @@ export default function TransactionsList({ transactions }) {
       <StyledH2>Transaktionen</StyledH2>
       <StyledUl>
         {transactions.map(([isoDate, dayTransactions]) => {
-          // Formate date
           const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
 
           return (

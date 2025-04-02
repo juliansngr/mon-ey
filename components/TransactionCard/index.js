@@ -2,7 +2,6 @@ import { CircleArrowOutDownRight, CircleArrowOutUpRight } from "lucide-react";
 import styled from "styled-components";
 
 export default function TransactionCard({ data }) {
-  // If transaction-partner excees maxLength -> cut
   const truncateText = (text, maxLength) =>
     text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 
@@ -34,8 +33,8 @@ const StyledTransactionCard = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
-  border-radius: 10px;
+  padding: var(--md);
+  border-radius: var(--xs);
   background-color: white;
   box-shadow: 0 0 0 1px #d2d2d5, 0 10px 15px -3px rgba(0, 0, 0, 0.05),
     0 4px 6px -4px rgba(0, 0, 0, 0.05);

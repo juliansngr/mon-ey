@@ -1,4 +1,4 @@
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext } from "react";
 import useSWR from "swr";
 import dayjs from "dayjs";
 
@@ -10,6 +10,10 @@ export function TransactionsProvider({ children }) {
   const { data, isLoading, error, mutate } = useSWR(`/api/dummy/`, fetcher);
 
   if (isLoading) {
+    return null;
+  }
+
+  if (!data) {
     return null;
   }
 
