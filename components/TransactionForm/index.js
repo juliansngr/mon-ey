@@ -1,45 +1,76 @@
 import styled from "styled-components";
+import categories from "@/db/categories.json";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 
 export default function TransactionForm() {
-  const { data } = useTransactionsContext();
+  const { mutate } = useTransactionsContext();
 
-  const singleCategories = [...new Set(data.map((item) => item.category))];
+  async function handleTransactionSubmit(event) {
+    event.preventDefault();
 
+    const formData = new FormData(event.target);
+    const transactionData = Object.fromEntries(formData);
+
+    console.log(transactionData);
+
+    const response = await fetch("/api/dummy", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(transactionData),
+    });
+    if (response.ok) {
+      mutate("/api/dummy");
+    }
+  }
   return (
-    <StyledForm>
+    <StyledForm onSubmit={handleTransactionSubmit}>
       <StyledFormInput
         type="number"
         id="amount"
-        name="transaction_amount"
+        name="amount"
         placeholder="Summe"
         required
       ></StyledFormInput>
       <StyledFormInput
         type="text"
-        id="amount"
-        name="transaction_amount"
+        id="partner"
+        name="partner"
         placeholder="An wen? bzw. Von wem?"
         required
       ></StyledFormInput>
-      <StyledFormSelect id="category" name="transaction_category" required>
-        {singleCategories.map((cat) => (
+      <StyledFormInput
+        type="radio"
+        name="type"
+        id="transaction_type_income"
+        value="income"
+      ></StyledFormInput>
+      <StyledFormLabel for="transaction_type_income">Einnahme</StyledFormLabel>
+      <StyledFormInput
+        type="radio"
+        name="type"
+        id="transaction_type_expense"
+        value="expense"
+      ></StyledFormInput>
+      <StyledFormLabel for="transaction_type_expense">Ausgabe</StyledFormLabel>
+
+      <StyledFormSelect id="category" name="category" required>
+        {categories.map((cat) => (
           <StyledFormSelectOption key={cat} value={cat}>
             {cat}
           </StyledFormSelectOption>
         ))}
       </StyledFormSelect>
-      <StyledFormDate type="date"></StyledFormDate>
+      <StyledFormInput type="date" name="date"></StyledFormInput>
       <StyledFormSubmit>Hinzuf&uuml;gen</StyledFormSubmit>
     </StyledForm>
   );
 }
 
 const StyledForm = styled.form``;
-
 const StyledFormInput = styled.input``;
-
 const StyledFormSelect = styled.select``;
 const StyledFormSelectOption = styled.option``;
 const StyledFormSubmit = styled.button``;
-const StyledFormDate = styled.input``;
+const StyledFormLabel = styled.label``;
