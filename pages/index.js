@@ -1,7 +1,10 @@
+import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import TransactionsList from "@/components/TransactionsList/";
+
 export default function HomePage() {
-  return (
-    <div>
-      <h1>Hello from Next.js</h1>
-    </div>
-  );
+  const { isLoading, sortedEntries } = useTransactionsContext();
+
+  if (isLoading) return null;
+
+  return <TransactionsList transactions={sortedEntries} />;
 }

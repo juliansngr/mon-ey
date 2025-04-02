@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1",
+    "amount": -50.75,
+    "category": "Groceries",
+    "type": "expense",
+    "date": "2025-07-01T00:00:00",
+    "partner": "Lidl Dienstleistung GmbH & Co. KG"
+  },
+  {
+    "id": "2",
+    "amount": -1200.0,
+    "category": "Rent",
+    "type": "expense",
+    "date": "2024-07-02T00:00:00",
+    "partner": "Michael Wendler"
+  },
+  {
+    "id": "3",
+    "amount": 1500.0,
+    "category": "Salary",
+    "type": "income",
+    "date": "2025-07-01T00:00:00",
+    "partner": "Deutschland GmbH"
+  },
+  {
+    "id": "4",
+    "amount": -200.5,
+    "category": "Insurance",
+    "type": "expense",
+    "date": "2025-07-01T00:00:00",
+    "partner": "AOK Deutschland AG"
+  },
+  {
+    "id": "5",
+    "amount": -75.25,
+    "category": "Entertainment",
+    "type": "expense",
+    "date": "2024-07-05T00:00:00",
+    "partner": "Cineplex International Ltd."
+  },
+  {
+    "id": "6",
+    "amount": -60.0,
+    "category": "Restaurants",
+    "type": "expense",
+    "date": "2024-07-06T00:00:00",
+    "partner": "China Ecke Mauer"
+  },
+  {
+    "id": "7",
+    "amount": 500.0,
+    "category": "Investment",
+    "type": "income",
+    "date": "2024-07-07T00:00:00",
+    "partner": "Trade Republic Aktien"
+  },
+  {
+    "id": "8",
+    "amount": -30.0,
+    "category": "Transportation",
+    "type": "expense",
+    "date": "2024-07-08T00:00:00",
+    "partner": "Deutsche Bahn"
+  },
+  {
+    "id": "9",
+    "amount": -100.0,
+    "category": "Education",
+    "type": "expense",
+    "date": "2024-07-09T00:00:00",
+    "partner": "Wikipedia Foundation"
+  },
+  {
+    "id": "10",
+    "amount": 200.0,
+    "category": "Savings",
+    "type": "income",
+    "date": "2024-07-10T00:00:00",
+    "partner": "Rente"
+  }
+]
