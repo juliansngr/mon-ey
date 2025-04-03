@@ -6,9 +6,8 @@ import TransactionForm from "@/components/TransactionForm";
 import Modal from "@/components/Modal";
 
 export default function HomePage() {
-  const { isLoading, sortedEntries, data  } = useTransactionsContext();
+  const { isLoading, sortedEntries, data } = useTransactionsContext();
   const { modalOpen } = useModalContext();
-
 
   if (isLoading) return null;
 

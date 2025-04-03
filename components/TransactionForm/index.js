@@ -14,11 +14,15 @@ export default function TransactionForm() {
     const formData = new FormData(event.target);
     const rawData = Object.fromEntries(formData);
 
+    const amount = Number(rawData.amount);
+
     const transactionData = {
       ...rawData,
+      amount: amount,
       id: crypto.randomUUID(),
       date: dayjs(rawData.date).format("YYYY-MM-DDTHH:mm:ss"),
     };
+
     const response = await fetch("/api/dummy", {
       method: "POST",
       headers: {

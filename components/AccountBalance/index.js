@@ -2,13 +2,14 @@ import styled from "styled-components";
 
 export default function AccountBalance({ transactions }) {
   let totalBalance = 0;
+
   for (const transaction of transactions) {
-    totalBalance += transaction.amount;
+    totalBalance += Number(transaction.amount);
   }
   const isNegative = totalBalance < 0;
 
   return (
-    <StyledAccount >
+    <StyledAccount>
       <StyledTotalAmount $isNegative={isNegative}>
         Kontostand: {totalBalance.toFixed(2)} €
       </StyledTotalAmount>
@@ -31,9 +32,9 @@ const StyledAccount = styled.div`
 `;
 
 const StyledTotalAmount = styled.p`
-width: 100%;
+  width: 100%;
   font-size: var(--lg);
   font-weight: 500;
-  color: ${(props) => (props.isNegative ? `var(--red-500)` : `var(--green-500)`)};
+  color: ${(props) =>
+    props.isNegative ? `var(--red-500)` : `var(--green-500)`};
 `;
-
