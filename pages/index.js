@@ -1,10 +1,16 @@
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import AccountBalance from "@/components/AccountBalance";
 import TransactionsList from "@/components/TransactionsList/";
+import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 
 export default function HomePage() {
-  const { isLoading, sortedEntries } = useTransactionsContext();
+  const { isLoading, sortedEntries, data } = useTransactionsContext();
 
   if (isLoading) return null;
 
-  return <TransactionsList transactions={sortedEntries} />;
+  return (
+    <>
+      <AccountBalance transactions={data} />
+      <TransactionsList transactions={sortedEntries} />
+    </>
+  );
 }
