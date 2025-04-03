@@ -71,6 +71,9 @@ export default function TransactionForm() {
       </StyledFormInputRadioSection>
 
       <StyledFormSelect id="category" name="category" required>
+        <StyledFormSelectOption value="">
+          -Bitte Kategorie ausw&auml;hlen-
+        </StyledFormSelectOption>
         {categories.map((cat) => (
           <StyledFormSelectOption key={cat} value={cat}>
             {cat}
