@@ -8,12 +8,14 @@ export default function TransactionsList({ transactions }) {
   const { handleModalCall } = useModalContext();
   return (
     <>
-      <StyledH2>Transaktionen</StyledH2>
-      <StyledAddButton onClick={handleModalCall}>
-        <IconTextWrapper>
-          <StyledCirclePlus></StyledCirclePlus>
-        </IconTextWrapper>
-      </StyledAddButton>
+      <StyledHeaderWrapper>
+        <StyledH2>Transaktionen</StyledH2>
+        <StyledAddButton onClick={handleModalCall}>
+          <IconTextWrapper>
+            <StyledCirclePlus></StyledCirclePlus>
+          </IconTextWrapper>
+        </StyledAddButton>
+      </StyledHeaderWrapper>
       <StyledUl>
         {transactions.map(([isoDate, dayTransactions]) => {
           const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
@@ -22,9 +24,13 @@ export default function TransactionsList({ transactions }) {
             <StyledLi key={isoDate}>
               <h3>{formattedDate}</h3>
               <StyledUl>
-                {dayTransactions.map((transaction) => (
-                  <TransactionCard key={transaction.id} data={transaction} />
-                ))}
+                {dayTransactions
+                  .sort(
+                    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+                  )
+                  .map((transaction) => (
+                    <TransactionCard key={transaction.id} data={transaction} />
+                  ))}
               </StyledUl>
             </StyledLi>
           );
@@ -41,7 +47,7 @@ const StyledUl = styled.ul`
 `;
 
 const StyledH2 = styled.h2`
-  font-size: var(--lg);
+  font-size: var(--2xl);
   margin-bottom: 1rem;
 `;
 
@@ -51,7 +57,10 @@ const StyledLi = styled.li`
   gap: var(--3xs);
 `;
 
-const StyledAddButton = styled.button``;
+const StyledAddButton = styled.button`
+  background-color: transparent;
+  border: none;
+`;
 
 const IconTextWrapper = styled.div`
   display: flex;
@@ -62,4 +71,9 @@ const StyledCirclePlus = styled(CirclePlus)`
   color: var(--green-500);
   width: 35px;
   height: 35px;
+`;
+
+const StyledHeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
