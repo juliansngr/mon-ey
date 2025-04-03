@@ -9,14 +9,14 @@ export default function AccountBalance({ transactions }) {
 
   return (
     <StyledAccount >
-      <StyledTotalAmount isNegative={isNegative}>
+      <StyledTotalAmount $isNegative={isNegative}>
         Kontostand: {totalBalance.toFixed(2)} €
       </StyledTotalAmount>
     </StyledAccount>
   );
 }
 
-const StyledAccount = styled.button`
+const StyledAccount = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
