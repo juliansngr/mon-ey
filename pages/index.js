@@ -5,9 +5,9 @@ import Modal from "@/components/Modal";
 
 export default function HomePage() {
   const { isLoading, sortedEntries } = useTransactionsContext();
-
+  console.log("Loading...");
   if (isLoading) return null;
-
+  console.log("... finished loading");
   return (
     <>
       <Modal title="Überschrift">

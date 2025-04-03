@@ -1,13 +1,10 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { CircleX } from "lucide-react";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
 
 export default function Modal({ children, title }) {
-  const [modalOpen, setModalOpen] = useState(true);
-
-  const handleModalClose = () => {
-    setModalOpen(false);
-  };
+  const { modalOpen, handleModalClose } = useModalContext();
 
   return (
     <ModalContainer $openingState={modalOpen} onClick={handleModalClose}>

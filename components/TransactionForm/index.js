@@ -1,15 +1,19 @@
 import styled from "styled-components";
 import categories from "@/db/categories.json";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
 
 export default function TransactionForm() {
   const { mutate } = useTransactionsContext();
+  const { handleModalClose } = useModalContext();
 
   async function handleTransactionSubmit(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    const transactionData = Object.fromEntries(formData);
+    const rawData = Object.fromEntries(formData);
+
+    const transactionData = { ...rawData, id: crypto.randomUUID() };
 
     console.log(transactionData);
 
@@ -21,7 +25,8 @@ export default function TransactionForm() {
       body: JSON.stringify(transactionData),
     });
     if (response.ok) {
-      mutate("/api/dummy");
+      mutate();
+      handleModalClose();
     }
   }
   return (
