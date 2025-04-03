@@ -5,7 +5,6 @@ import { CirclePlus } from "lucide-react";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import Link from "next/link";
 
-
 export default function TransactionsList({ transactions }) {
   const { handleModalCall } = useModalContext();
   return (
@@ -31,14 +30,13 @@ export default function TransactionsList({ transactions }) {
                     (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
                   )
                   .map((transaction) => (
-                  <TransactionCardLink
-                    key={transaction.id}
-                    href={`/transactions/${transaction.id}`}
-                  >
-                    <TransactionCard data={transaction} />
-                  </TransactionCardLink>
-                ))}
-
+                    <TransactionCardLink
+                      key={transaction.id}
+                      href={`/transactions/${transaction.id}`}
+                    >
+                      <TransactionCard data={transaction} />
+                    </TransactionCardLink>
+                  ))}
               </StyledUl>
             </StyledLi>
           );
@@ -65,7 +63,6 @@ const StyledLi = styled.li`
   gap: var(--3xs);
 `;
 
-
 const StyledAddButton = styled.button`
   background-color: transparent;
   border: none;
@@ -89,6 +86,6 @@ const StyledHeaderWrapper = styled.div`
 `;
 
 const TransactionCardLink = styled(Link)`
+  all: unset;
   cursor: pointer;
 `;
-
