@@ -28,10 +28,6 @@ const StyledAccount = styled.div`
     0 4px 6px -4px rgba(0, 0, 0, 0.05);
 
   transition: background-color 0.3s ease;
-  &:hover {
-    background-color: var(--green-50);
-    cursor: pointer;
-  }
 `;
 
 const StyledTotalAmount = styled.p`
