@@ -67,7 +67,7 @@ const TransactionCategory = styled.h4`
 
 const IconLink = styled(Link)`
   display: flex;
-
+  cursor: pointer;
   align-items: center;
   justify-self: start;
 `;

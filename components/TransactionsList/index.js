@@ -49,4 +49,6 @@ const StyledLi = styled.li`
   gap: var(--3xs);
 `;
 
-const TransactionCardLink = styled.a``;
+const TransactionCardLink = styled(Link)`
+  cursor: pointer;
+`;
