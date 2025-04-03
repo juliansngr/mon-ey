@@ -36,5 +36,5 @@ const StyledTotalAmount = styled.p`
   font-size: var(--lg);
   font-weight: 500;
   color: ${(props) =>
-    props.isNegative ? `var(--red-500)` : `var(--green-500)`};
+    props.$isNegative ? `var(--red-500)` : `var(--green-500)`};
 `;
