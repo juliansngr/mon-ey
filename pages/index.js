@@ -1,18 +1,22 @@
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import TransactionsList from "@/components/TransactionsList/";
 import TransactionForm from "@/components/TransactionForm";
 import Modal from "@/components/Modal";
 
 export default function HomePage() {
   const { isLoading, sortedEntries } = useTransactionsContext();
-  console.log("Loading...");
+  const { modalOpen } = useModalContext();
+
   if (isLoading) return null;
-  console.log("... finished loading");
+
   return (
     <>
-      <Modal title="Überschrift">
-        <TransactionForm />
-      </Modal>
+      {modalOpen && (
+        <Modal title="Neue Transaktion erfassen">
+          <TransactionForm />
+        </Modal>
+      )}
 
       <TransactionsList transactions={sortedEntries} />
     </>

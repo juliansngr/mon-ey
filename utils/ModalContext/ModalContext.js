@@ -3,7 +3,11 @@ import { useContext, createContext, useState } from "react";
 const ModalContext = createContext();
 
 export function ModalProvider({ children }) {
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleModalCall = () => {
+    setModalOpen(true);
+  };
 
   const handleModalClose = () => {
     setModalOpen(false);
@@ -14,6 +18,7 @@ export function ModalProvider({ children }) {
       value={{
         modalOpen,
         handleModalClose,
+        handleModalCall,
       }}
     >
       {children}
