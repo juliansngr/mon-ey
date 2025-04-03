@@ -10,9 +10,9 @@ export default function Modal({ children, title }) {
     <ModalContainer $openingState={modalOpen} onClick={handleModalClose}>
       <ModalWrapper onClick={(e) => e.stopPropagation()}>
         <ModalHeader>
-          <ModalHeading>{title}</ModalHeading>
           <CloseIcon onClick={handleModalClose} />
         </ModalHeader>
+        <ModalHeading>{title}</ModalHeading>
         {children}
       </ModalWrapper>
     </ModalContainer>
@@ -42,7 +42,10 @@ const ModalWrapper = styled.div`
     0 4px 6px -4px rgba(0, 0, 0, 0.05);
 
   padding: var(--2xl) var(--2xl);
+  padding-top: var(--4xl);
   border-radius: var(--xs);
+
+  position: relative;
 `;
 
 const ModalHeader = styled.div`
@@ -55,9 +58,16 @@ const ModalHeader = styled.div`
 
 const ModalHeading = styled.h3`
   font-weight: 500;
+  margin-bottom: var(--sm);
   font-size: var(--xl);
 `;
 
 const CloseIcon = styled(CircleX)`
+  position: absolute;
+  right: var(--sm);
+  top: var(--sm);
   color: var(--green-950);
+  width: var(--4xl);
+  height: var(--4xl);
+  cursor: pointer;
 `;

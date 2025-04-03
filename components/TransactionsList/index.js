@@ -71,6 +71,7 @@ const StyledCirclePlus = styled(CirclePlus)`
   color: var(--green-500);
   width: 35px;
   height: 35px;
+  cursor: pointer;
 `;
 
 const StyledHeaderWrapper = styled.div`
