@@ -13,9 +13,8 @@ export default function TransactionDetails() {
 
   const currentTransaction = data.find((transaction) => transaction.id === id);
 
-  console.log(currentTransaction);
-
-  if (isLoading || !currentTransaction) return <p>Lädt...</p>;
+  if (isLoading) return <p>Lädt...</p>;
+  if (!currentTransaction) return <p>Transaktion nicht vorhanden.</p>;
 
   return (
     <TransactionDetailsWrapper>
@@ -33,9 +32,9 @@ export default function TransactionDetails() {
         <TransactionCategory>{currentTransaction.category}</TransactionCategory>
       </TransactionInfoWrapper>
       <TransactionNumbersWrapper>
-        <TransactionCategory>
+        <TransactionDate>
           {dayjs(currentTransaction.date).format("DD.MM.YYYY")}
-        </TransactionCategory>
+        </TransactionDate>
         <TransactionAmount $type={currentTransaction.type}>
           {`${currentTransaction.type === "income" ? "+" : "-"} ${Math.abs(
             currentTransaction.amount
@@ -99,3 +98,5 @@ const TransactionAmount = styled.p`
   font-size: var(--xl);
   font-weight: 500;
 `;
+
+const TransactionDate = styled(TransactionCategory)``;
