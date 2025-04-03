@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import styled from "styled-components";
 import TransactionCard from "../TransactionCard";
+import Link from "next/link";
 
 export default function TransactionsList({ transactions }) {
   return (
@@ -15,7 +16,12 @@ export default function TransactionsList({ transactions }) {
               <h3>{formattedDate}</h3>
               <StyledUl>
                 {dayTransactions.map((transaction) => (
-                  <TransactionCard key={transaction.id} data={transaction} />
+                  <TransactionCardLink
+                    key={transaction.id}
+                    href={`/transactions/${transaction.id}`}
+                  >
+                    <TransactionCard data={transaction} />
+                  </TransactionCardLink>
                 ))}
               </StyledUl>
             </StyledLi>
@@ -41,4 +47,8 @@ const StyledLi = styled.li`
   display: flex;
   flex-direction: column;
   gap: var(--3xs);
+`;
+
+const TransactionCardLink = styled(Link)`
+  cursor: pointer;
 `;

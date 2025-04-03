@@ -95,4 +95,8 @@ ul, ol {
   main{
     padding: 0 var(--xs);
   }
+
+  a {
+    all: unset;
+}
 `;
