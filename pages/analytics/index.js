@@ -1,41 +1,63 @@
 import TransactionsList from "@/components/TransactionsList/";
+import TransactionFilters from "@/components/TransactionFilters";
+import Modal from "@/components/Modal";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
-import styled from "styled-components";
-import { CalendarDays, Tag } from "lucide-react";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import {
   groupTransactions,
   filterTransactions,
 } from "@/utils/FilterFunctionsLib/filterFunctions";
+
+import styled from "styled-components";
+import { CalendarDays, Tag } from "lucide-react";
 import { useState } from "react";
 
 export default function AnalyticsPage() {
   const { isLoading, sortedEntries, data, mutate } = useTransactionsContext();
-
+  const { modalOpen, handleModalCall } = useModalContext();
   const [displayedEntries, setDisplayedEntries] = useState([...sortedEntries]);
+  const [useFilterType, setUseFilterType] = useState();
 
-  function testFilterByCategory() {
+  function getTransactionsFiltered({
+    allTransactions,
+    filterCriterium,
+    filterPattern,
+  }) {
     const filteredTransactions = filterTransactions({
-      allTransactions: data,
-      filterCriterium: "category",
-      filterPattern: "Education",
+      allTransactions: [...allTransactions],
+      filterCriterium: filterCriterium,
+      filterPattern: filterPattern,
     });
     console.log(filteredTransactions);
     setDisplayedEntries([...groupTransactions(filteredTransactions)]);
+  }
+
+  function handleOpenFilter(filterType) {
+    setUseFilterType(filterType);
+    handleModalCall();
   }
 
   if (isLoading) return null;
 
   return (
     <>
+      {modalOpen && (
+        <Modal title="">
+          <TransactionFilters
+            getTransactionsFiltered={getTransactionsFiltered}
+            filterType={useFilterType}
+          />
+        </Modal>
+      )}
       <StyledH1>Analyse</StyledH1>
       <StyledH2>Filtern nach:</StyledH2>
       <StyledFilterCriteriaWrapper>
-        <StyledFilterButton onClick={() => testFilterByCategory()}>
+        <StyledFilterButton onClick={() => handleOpenFilter("category")}>
           <IconTextWrapper>
             <StyledTag></StyledTag>
           </IconTextWrapper>
         </StyledFilterButton>
-        <StyledFilterButton>
+        <StyledFilterButton onClick={() => handleOpenFilter("date")}>
           <IconTextWrapper>
             <StyledCalendarDays></StyledCalendarDays>
           </IconTextWrapper>

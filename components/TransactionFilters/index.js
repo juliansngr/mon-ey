@@ -1,0 +1,89 @@
+import styled from "styled-components";
+import categories from "@/db/categories.json";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
+import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import dayjs from "dayjs";
+
+export default function TransactionFilters({
+  filterType,
+  getTransactionsFiltered,
+}) {
+  const { handleModalClose } = useModalContext();
+  const { data, mutate } = useTransactionsContext();
+
+  function handleFilterSubmit(event) {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const filterData = Object.fromEntries(formData);
+
+    getTransactionsFiltered({
+      allTransactions: [...data],
+      filterCriterium: filterData.filterType,
+      filterPattern: filterData[filterData.filterType],
+    });
+    mutate();
+    handleModalClose();
+  }
+
+  return (
+    <>
+      <StyledFilterForm onSubmit={handleFilterSubmit}>
+        <input type="hidden" name="filterType" value={filterType} />
+        {filterType === "category" && (
+          <StyledFilterSelect
+            id="category"
+            name="category"
+            required
+            aria-label="Kategorie der Transaktion wählen"
+          >
+            <StyledFilterSelectOption value="">
+              -Bitte Kategorie ausw&auml;hlen-
+            </StyledFilterSelectOption>
+            {categories.map((cat) => (
+              <StyledFilterSelectOption key={cat} value={cat}>
+                {cat}
+              </StyledFilterSelectOption>
+            ))}
+          </StyledFilterSelect>
+        )}
+        {filterType === "date" && (
+          <StyledFilterInput
+            type="datetime-local"
+            name="date"
+            defaultValue={dayjs().format("YYYY-MM-DDTHH:mm")}
+            aria-label="Zeitpunkt der Transaktion wählen"
+          />
+        )}
+        <StyledFilterSubmit aria-label="Transaktionen filtern">
+          Filtern
+        </StyledFilterSubmit>
+      </StyledFilterForm>
+    </>
+  );
+}
+
+const StyledFilterForm = styled.form`
+  width: 300px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--base);
+`;
+const StyledFilterInput = styled.input`
+  padding: var(--3xs);
+  line-height: 1.15;
+  font-size: 100%;
+`;
+
+const StyledFilterSubmit = styled.button`
+  padding: var(--3xs);
+  line-height: 1.15;
+  font-size: 100%;
+`;
+const StyledFilterSelect = styled.select`
+  padding: var(--3xs);
+  line-height: 1.15;
+  font-size: 100%;
+`;
+const StyledFilterSelectOption = styled.option``;

@@ -5,18 +5,23 @@ import { CirclePlus } from "lucide-react";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import Link from "next/link";
 
-export default function TransactionsList({ transactions }) {
+export default function TransactionsList({
+  transactions,
+  hasAddButton = false,
+}) {
   const { handleModalCall } = useModalContext();
   return (
     <>
       <StyledHeaderWrapper>
         <StyledH2>Transaktionen</StyledH2>
-        <StyledAddButton
-          onClick={handleModalCall}
-          aria-label="add a transaction"
-        >
-          <StyledCirclePlus />
-        </StyledAddButton>
+        {hasAddButton && (
+          <StyledAddButton
+            onClick={handleModalCall}
+            aria-label="add a transaction"
+          >
+            <StyledCirclePlus />
+          </StyledAddButton>
+        )}
       </StyledHeaderWrapper>
       <StyledUl>
         {transactions.map(([isoDate, dayTransactions]) => {
