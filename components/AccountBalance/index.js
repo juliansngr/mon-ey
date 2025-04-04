@@ -28,7 +28,7 @@ export default function AccountBalance({ transactions }) {
   }, []);
 
   const handleToggle = (btnIndex) => {
-    setActiveButton(activeButton === btnIndex ? null : btnIndex);
+    setActiveButton(btnIndex);
   };
 
   return (
@@ -37,7 +37,7 @@ export default function AccountBalance({ transactions }) {
         className={activeButton === 0 ? "active" : ""}
         onClick={() => handleToggle(0)}
       >
-        <StyledTotalAmount isNegative={isNegative}>
+        <StyledTotalAmount $isNegative={isNegative}>
           <StyledTotalSpan>Aktueller Kontostand</StyledTotalSpan> 
           {totalBalance.toFixed(2)} €
         </StyledTotalAmount>
@@ -57,7 +57,7 @@ export default function AccountBalance({ transactions }) {
           className={activeButton === 2 ? "active" : ""}
           onClick={() => handleToggle(2)}
         >
-          <StyledTotalAmount isNegative={true}>
+          <StyledTotalAmount $isNegative={true}>
             <StyledTotalSpan>Gesamt Ausgang</StyledTotalSpan> 
             {totalExpenses.toFixed(2)} €
           </StyledTotalAmount>
@@ -98,7 +98,12 @@ const StyledAccount = styled.button`
     color: var(--green-50);
   }
 
+  &:last-child p {
+    color: var(--red-500);
+  }
+
   &.active:last-child p {
+
     color: var(--green-50);
   }
 `;
@@ -109,7 +114,7 @@ const StyledTotalAmount = styled.p`
   font-weight: 500;
   text-align: right;
   color: ${(props) =>
-    props.isNegative ? `var(--red-500)` : `var(--green-500)`};
+    props.$isNegative ? `var(--red-500)` : `var(--green-500)`};
 `;
 
 const StyledTotalSpan = styled.span`
