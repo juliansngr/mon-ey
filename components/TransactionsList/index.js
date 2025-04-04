@@ -1,12 +1,23 @@
 import dayjs from "dayjs";
 import styled from "styled-components";
 import TransactionCard from "../TransactionCard";
+import { CirclePlus } from "lucide-react";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import Link from "next/link";
 
 export default function TransactionsList({ transactions }) {
+  const { handleModalCall } = useModalContext();
   return (
     <>
-      <StyledH2>Transaktionen</StyledH2>
+      <StyledHeaderWrapper>
+        <StyledH2>Transaktionen</StyledH2>
+        <StyledAddButton
+          onClick={handleModalCall}
+          aria-label="add a transaction"
+        >
+          <StyledCirclePlus />
+        </StyledAddButton>
+      </StyledHeaderWrapper>
       <StyledUl>
         {transactions.map(([isoDate, dayTransactions]) => {
           const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
@@ -15,14 +26,18 @@ export default function TransactionsList({ transactions }) {
             <StyledLi key={isoDate}>
               <h3>{formattedDate}</h3>
               <StyledUl>
-                {dayTransactions.map((transaction) => (
-                  <TransactionCardLink
-                    key={transaction.id}
-                    href={`/transactions/${transaction.id}`}
-                  >
-                    <TransactionCard data={transaction} />
-                  </TransactionCardLink>
-                ))}
+                {dayTransactions
+                  .sort(
+                    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+                  )
+                  .map((transaction) => (
+                    <TransactionCardLink
+                      key={transaction.id}
+                      href={`/transactions/${transaction.id}`}
+                    >
+                      <TransactionCard data={transaction} />
+                    </TransactionCardLink>
+                  ))}
               </StyledUl>
             </StyledLi>
           );
@@ -39,7 +54,7 @@ const StyledUl = styled.ul`
 `;
 
 const StyledH2 = styled.h2`
-  font-size: var(--lg);
+  font-size: var(--2xl);
   margin-bottom: 1rem;
 `;
 
@@ -49,6 +64,26 @@ const StyledLi = styled.li`
   gap: var(--3xs);
 `;
 
+const StyledAddButton = styled.button`
+  background-color: transparent;
+  border: none;
+  color: var(--green-500);
+  width: 2.25rem;
+  height: 2.25rem;
+  cursor: pointer;
+`;
+
+const StyledCirclePlus = styled(CirclePlus)`
+  width: 100%;
+  height: 100%;
+`;
+
+const StyledHeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
 const TransactionCardLink = styled(Link)`
+  all: unset;
   cursor: pointer;
 `;

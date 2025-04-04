@@ -18,6 +18,7 @@ export function TransactionsProvider({ children }) {
     return null;
   }
 
+<<<<<<< HEAD
   // const dataFixed = Object.groupBy(data, (transaction) => transaction.date);
 
   // const sortedEntries = Object.entries(dataFixed).sort(
@@ -25,6 +26,14 @@ export function TransactionsProvider({ children }) {
   // );
 
   const sortedEntries = groupTransactions(data);
+=======
+  const dataFixed = Object.groupBy(data, (transaction) =>
+    dayjs(transaction.date).format("YYYY.MM.DD")
+  );
+  const sortedEntries = Object.entries(dataFixed).sort(([dateA], [dateB]) => {
+    return dayjs(dateB).valueOf() - dayjs(dateA).valueOf();
+  });
+>>>>>>> origin/HEAD
 
   return (
     <TransactionsContext.Provider

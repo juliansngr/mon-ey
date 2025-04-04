@@ -4,7 +4,7 @@
     "amount": -50.75,
     "category": "Groceries",
     "type": "expense",
-    "date": "2025-07-01T00:00:00",
+    "date": "2025-04-01T00:00:00",
     "partner": "Lidl Dienstleistung GmbH & Co. KG"
   },
   {
@@ -20,7 +20,7 @@
     "amount": 1500.0,
     "category": "Salary",
     "type": "income",
-    "date": "2025-07-01T00:00:00",
+    "date": "2025-04-01T00:00:00",
     "partner": "Deutschland GmbH"
   },
   {
@@ -28,7 +28,7 @@
     "amount": -200.5,
     "category": "Insurance",
     "type": "expense",
-    "date": "2025-07-01T00:00:00",
+    "date": "2025-04-01T00:00:00",
     "partner": "AOK Deutschland AG"
   },
   {
