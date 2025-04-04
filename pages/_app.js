@@ -8,7 +8,6 @@ export default function App({ Component, pageProps }) {
     <>
       <GlobalStyle />
       <LayoutWrapper>
-        {/* <header>Title</header> */}
         <PageBody>
           <TransactionsProvider>
             <ModalProvider>

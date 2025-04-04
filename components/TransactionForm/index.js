@@ -15,9 +15,7 @@ export default function TransactionForm() {
     const rawData = Object.fromEntries(formData);
 
     const amount = Number(
-      `${
-        rawData.type === "expense" ? `-${rawData.amount}` : `${rawData.amount}`
-      }`
+      rawData.type === "expense" ? `-${rawData.amount}` : `${rawData.amount}`
     );
 
     const transactionData = {
@@ -36,6 +34,10 @@ export default function TransactionForm() {
     });
     if (response.ok) {
       mutate();
+      handleModalClose();
+    }
+
+    if (!response.ok) {
       handleModalClose();
     }
   }
