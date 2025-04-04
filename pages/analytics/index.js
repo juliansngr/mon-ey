@@ -6,17 +6,21 @@ import {
   groupTransactions,
   filterTransactions,
 } from "@/utils/FilterFunctionsLib/filterFunctions";
+import { useState } from "react";
 
 export default function AnalyticsPage() {
-  const { isLoading, sortedEntries, data } = useTransactionsContext();
+  const { isLoading, sortedEntries, data, mutate } = useTransactionsContext();
+
+  const [displayedEntries, setDisplayedEntries] = useState([...sortedEntries]);
 
   function testFilterByCategory() {
     const filteredTransactions = filterTransactions({
       allTransactions: data,
       filterCriterium: "category",
-      filterPattern: "Bildung",
+      filterPattern: "Education",
     });
-    console.log(filterTransactions);
+    console.log(filteredTransactions);
+    setDisplayedEntries([...groupTransactions(filteredTransactions)]);
   }
 
   if (isLoading) return null;
@@ -38,7 +42,7 @@ export default function AnalyticsPage() {
         </StyledFilterButton>
       </StyledFilterCriteriaWrapper>
 
-      <TransactionsList transactions={sortedEntries} />
+      <TransactionsList transactions={displayedEntries} />
     </>
   );
 }

@@ -13,13 +13,21 @@ export function groupTransactions(allTransactions) {
   return sortedEntries;
 }
 
-export function filterTransactions(
+export function filterTransactions({
   allTransactions,
   filterCriterium,
-  filterPattern
-) {
+  filterOperator = "===",
+  filterPattern,
+}) {
+  console.log(allTransactions);
+
   const filteredEntries = allTransactions.filter(
     (item) => item[filterCriterium] === filterPattern
   );
   return filteredEntries;
 }
+
+// eval(`${item[filterCriterium]} ${filterOperator} ${filterPattern}`)
+
+// filterLib {date: ()=>{sortiert nach datum}, category: ()=>{}, }
+// filter(data, identifier) {filterLib.category()}
