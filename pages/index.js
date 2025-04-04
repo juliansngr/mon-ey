@@ -10,7 +10,7 @@ export default function HomePage() {
   return (
     <>
       <AccountBalance transactions={data} />
-      <TransactionsList transactions={sortedEntries} />
+      <TransactionsList transactions={sortedEntries} hasAddButton />
     </>
   );
 }

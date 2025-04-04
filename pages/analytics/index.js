@@ -2,9 +2,22 @@ import TransactionsList from "@/components/TransactionsList/";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import styled from "styled-components";
 import { CalendarDays, Tag } from "lucide-react";
+import {
+  groupTransactions,
+  filterTransactions,
+} from "@/utils/FilterFunctionsLib/filterFunctions";
 
 export default function AnalyticsPage() {
   const { isLoading, sortedEntries, data } = useTransactionsContext();
+
+  function testFilterByCategory() {
+    const filteredTransactions = filterTransactions({
+      allTransactions: data,
+      filterCriterium: "category",
+      filterPattern: "Bildung",
+    });
+    console.log(filterTransactions);
+  }
 
   if (isLoading) return null;
 
@@ -13,7 +26,7 @@ export default function AnalyticsPage() {
       <StyledH1>Analyse</StyledH1>
       <StyledH2>Filtern nach:</StyledH2>
       <StyledFilterCriteriaWrapper>
-        <StyledFilterButton>
+        <StyledFilterButton onClick={() => testFilterByCategory()}>
           <IconTextWrapper>
             <StyledTag></StyledTag>
           </IconTextWrapper>
@@ -63,6 +76,8 @@ const StyledTag = styled(Tag)`
 `;
 const StyledFilterCriteriaWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-around; */
   align-items: center;
+  gap: var(--xl);
+  padding: 1rem;
 `;

@@ -1,12 +1,26 @@
 import dayjs from "dayjs";
 import styled from "styled-components";
 import TransactionCard from "../TransactionCard";
-import Link from "next/link";
+import { CirclePlus } from "lucide-react";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
 
-export default function TransactionsList({ transactions }) {
+export default function TransactionsList({
+  transactions,
+  hasAddButton = false,
+}) {
+  const { handleModalCall } = useModalContext();
   return (
     <>
-      <StyledH2>Transaktionen</StyledH2>
+      <StyledHeaderWrapper>
+        <StyledH2>Transaktionen</StyledH2>
+        {hasAddButton && (
+          <StyledAddButton onClick={handleModalCall}>
+            <IconTextWrapper>
+              <StyledCirclePlus></StyledCirclePlus>
+            </IconTextWrapper>
+          </StyledAddButton>
+        )}
+      </StyledHeaderWrapper>
       <StyledUl>
         {transactions.map(([isoDate, dayTransactions]) => {
           const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
@@ -15,14 +29,13 @@ export default function TransactionsList({ transactions }) {
             <StyledLi key={isoDate}>
               <h3>{formattedDate}</h3>
               <StyledUl>
-                {dayTransactions.map((transaction) => (
-                  <TransactionCardLink
-                    key={transaction.id}
-                    href={`/transactions/${transaction.id}`}
-                  >
-                    <TransactionCard data={transaction} />
-                  </TransactionCardLink>
-                ))}
+                {dayTransactions
+                  .sort(
+                    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+                  )
+                  .map((transaction) => (
+                    <TransactionCard key={transaction.id} data={transaction} />
+                  ))}
               </StyledUl>
             </StyledLi>
           );
@@ -39,7 +52,7 @@ const StyledUl = styled.ul`
 `;
 
 const StyledH2 = styled.h2`
-  font-size: var(--lg);
+  font-size: var(--2xl);
   margin-bottom: 1rem;
 `;
 
@@ -49,6 +62,24 @@ const StyledLi = styled.li`
   gap: var(--3xs);
 `;
 
-const TransactionCardLink = styled(Link)`
-  cursor: pointer;
+const StyledAddButton = styled.button`
+  background-color: transparent;
+  border: none;
+`;
+
+const IconTextWrapper = styled.div`
+  display: flex;
+  gap: 1rem;
+`;
+
+const StyledCirclePlus = styled(CirclePlus)`
+  color: var(--green-500);
+  width: 35px;
+  height: 35px;
+`;
+
+const StyledHeaderWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;

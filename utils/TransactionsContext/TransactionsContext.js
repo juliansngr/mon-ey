@@ -1,4 +1,5 @@
 import { useContext, createContext } from "react";
+import { groupTransactions } from "@/utils/FilterFunctionsLib/filterFunctions";
 import useSWR from "swr";
 import dayjs from "dayjs";
 
@@ -17,11 +18,13 @@ export function TransactionsProvider({ children }) {
     return null;
   }
 
-  const dataFixed = Object.groupBy(data, (transaction) => transaction.date);
+  // const dataFixed = Object.groupBy(data, (transaction) => transaction.date);
 
-  const sortedEntries = Object.entries(dataFixed).sort(
-    ([dateA], [dateB]) => dayjs(dateB).valueOf() - dayjs(dateA).valueOf()
-  );
+  // const sortedEntries = Object.entries(dataFixed).sort(
+  //   ([dateA], [dateB]) => dayjs(dateB).valueOf() - dayjs(dateA).valueOf()
+  // );
+
+  const sortedEntries = groupTransactions(data);
 
   return (
     <TransactionsContext.Provider
