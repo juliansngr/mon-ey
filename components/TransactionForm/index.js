@@ -47,6 +47,7 @@ export default function TransactionForm() {
         name="amount"
         placeholder="Summe (in €)"
         step="0.01"
+        min="0.01"
         required
       ></StyledFormInput>
       <StyledFormInput
