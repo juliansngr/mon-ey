@@ -5,7 +5,7 @@ let totalBalance = 0, totalIncome = 0, totalExpenses = 0;
 
 export default function AccountBalance({ transactions }) {
   const [isNegative, setIsNegative] = useState(false);
-  const [activeButton, setActiveButton] = useState(0); 
+  const [activeButton, setActiveButton] = useState(0);
 
   totalBalance = 0;
   totalIncome = 0;
@@ -36,19 +36,22 @@ export default function AccountBalance({ transactions }) {
       <StyledAccount
         className={activeButton === 0 ? "active" : ""}
         onClick={() => handleToggle(0)}
+        aria-label="Gesamt Kontostand anzeigen" title="Gesamt Kontostand anzeigen"
       >
         <StyledTotalAmount $isNegative={isNegative}>
-          <StyledTotalSpan>Aktueller Kontostand</StyledTotalSpan> 
+          <StyledTotalSpan>Aktueller Kontostand</StyledTotalSpan>
           {totalBalance.toFixed(2)} €
         </StyledTotalAmount>
       </StyledAccount>
+
       <StyledSectionIncomeExpense>
         <StyledAccount
           className={activeButton === 1 ? "active" : ""}
           onClick={() => handleToggle(1)}
+          aria-label="Gesamt Eingänge anzeigen" title="Gesamt Eingänge anzeigen"
         >
           <StyledTotalAmount>
-            <StyledTotalSpan>Gesamt Eingang</StyledTotalSpan> 
+            <StyledTotalSpan>Gesamt Eingang</StyledTotalSpan>
             {totalIncome.toFixed(2)} €
           </StyledTotalAmount>
         </StyledAccount>
@@ -56,9 +59,10 @@ export default function AccountBalance({ transactions }) {
         <StyledAccount
           className={activeButton === 2 ? "active" : ""}
           onClick={() => handleToggle(2)}
+          aria-label="Gesamt Ausgänge anzeigen" title="Gesamt Ausgänge anzeigen"
         >
           <StyledTotalAmount $isNegative={true}>
-            <StyledTotalSpan>Gesamt Ausgang</StyledTotalSpan> 
+            <StyledTotalSpan>Gesamt Ausgang</StyledTotalSpan>
             {totalExpenses.toFixed(2)} €
           </StyledTotalAmount>
         </StyledAccount>
@@ -76,7 +80,6 @@ const StyledAccount = styled.button`
   background-color: white;
   border: var(--3xs) solid transparent;
   box-shadow: var(--box-shadow-default);
-
   transition: background-color 0.3s ease, transform 0.3s ease;
 
   &:hover {
@@ -103,7 +106,6 @@ const StyledAccount = styled.button`
   }
 
   &.active:last-child p {
-
     color: var(--green-50);
   }
 `;
