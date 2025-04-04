@@ -76,14 +76,7 @@ ul, ol {
     background-color: var(--bgBody);
   }
 
-  .layout-wrapper {
-    display: grid;
- 
-    grid-template-columns: 1fr;
-    grid-template-rows: 3rem 1fr;
-    grid-template-areas: "Header" "Main";
-    min-height: 100vh;
-  }
+
   header {
     background-color: var(--bgHeader);
     color: var(--headerColor);

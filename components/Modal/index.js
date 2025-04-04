@@ -8,7 +8,7 @@ export default function Modal({ children, title }) {
 
   return (
     <ModalContainer $openingState={modalOpen} onClick={handleModalClose}>
-      <ModalWrapper onClick={(e) => e.stopPropagation()}>
+      <ModalWrapper onClick={(event) => event.stopPropagation()}>
         <ModalHeader>
           <CloseIcon onClick={handleModalClose} />
         </ModalHeader>

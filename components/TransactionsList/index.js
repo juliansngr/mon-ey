@@ -11,10 +11,11 @@ export default function TransactionsList({ transactions }) {
     <>
       <StyledHeaderWrapper>
         <StyledH2>Transaktionen</StyledH2>
-        <StyledAddButton onClick={handleModalCall}>
-          <IconTextWrapper>
-            <StyledCirclePlus></StyledCirclePlus>
-          </IconTextWrapper>
+        <StyledAddButton
+          onClick={handleModalCall}
+          aria-label="add a transaction"
+        >
+          <StyledCirclePlus />
         </StyledAddButton>
       </StyledHeaderWrapper>
       <StyledUl>
@@ -66,18 +67,15 @@ const StyledLi = styled.li`
 const StyledAddButton = styled.button`
   background-color: transparent;
   border: none;
-`;
-
-const IconTextWrapper = styled.div`
-  display: flex;
-  gap: 1rem;
+  color: var(--green-500);
+  width: 2.25rem;
+  height: 2.25rem;
+  cursor: pointer;
 `;
 
 const StyledCirclePlus = styled(CirclePlus)`
-  color: var(--green-500);
-  width: 35px;
-  height: 35px;
-  cursor: pointer;
+  width: 100%;
+  height: 100%;
 `;
 
 const StyledHeaderWrapper = styled.div`

@@ -45,25 +45,27 @@ export default function TransactionForm() {
         type="number"
         id="amount"
         name="amount"
-        placeholder="Summe (in €)"
+        placeholder="Betrag (in €)"
         step="0.01"
         min="0.01"
+        aria-label="Betrag der Transaktion"
         required
-      ></StyledFormInput>
+      />
       <StyledFormInput
         type="text"
         id="partner"
         name="partner"
         placeholder="An wen? bzw. Von wem?"
+        aria-label="Empfänger oder Absender der Transaktion"
         required
-      ></StyledFormInput>
+      />
       <StyledFormInputRadioSection>
         <StyledFormInputRadio
           type="radio"
           name="type"
           id="transaction_type_income"
           value="income"
-        ></StyledFormInputRadio>
+        />
         <StyledFormLabel for="transaction_type_income">
           Einnahme
         </StyledFormLabel>
@@ -74,13 +76,18 @@ export default function TransactionForm() {
           name="type"
           id="transaction_type_expense"
           value="expense"
-        ></StyledFormInputRadio>
+        />
         <StyledFormLabel for="transaction_type_expense">
           Ausgabe
         </StyledFormLabel>
       </StyledFormInputRadioSection>
 
-      <StyledFormSelect id="category" name="category" required>
+      <StyledFormSelect
+        id="category"
+        name="category"
+        required
+        aria-label="Kategorie der Transaktion wählen"
+      >
         <StyledFormSelectOption value="">
           -Bitte Kategorie ausw&auml;hlen-
         </StyledFormSelectOption>
@@ -94,8 +101,11 @@ export default function TransactionForm() {
         type="datetime-local"
         name="date"
         defaultValue={dayjs().format("YYYY-MM-DDTHH:mm")}
-      ></StyledFormInput>
-      <StyledFormSubmit>Hinzuf&uuml;gen</StyledFormSubmit>
+        aria-label="Zeitpunkt der Transaktion wählen"
+      />
+      <StyledFormSubmit aria-label="Transaktion hinzufügen">
+        Hinzuf&uuml;gen
+      </StyledFormSubmit>
     </StyledForm>
   );
 }
