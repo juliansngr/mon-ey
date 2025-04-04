@@ -28,8 +28,6 @@ export default function AccountBalance({ transactions }) {
   }, []);
 
   const handleToggle = (btnIndex) => {
-    // Wenn der Button schon aktiv ist, deaktiviere ihn (setze auf null),
-    // sonst setze den neuen Index
     setActiveButton(activeButton === btnIndex ? null : btnIndex);
   };
 
@@ -69,7 +67,6 @@ export default function AccountBalance({ transactions }) {
   );
 }
 
-// Styled Components bleiben gleich, aber ich füge die .active Klasse hinzu
 const StyledAccount = styled.button`
   display: flex;
   min-width: 10rem;
@@ -93,12 +90,16 @@ const StyledAccount = styled.button`
     border: var(--3xs) solid var(--darkgray);
   }
 
+  &:last-child.active {
+    background-color: var(--red-500);
+  }
+  
   &.active p {
     color: var(--green-50);
   }
 
   &.active:last-child p {
-    color: var(--red-500);
+    color: var(--green-50);
   }
 `;
 
