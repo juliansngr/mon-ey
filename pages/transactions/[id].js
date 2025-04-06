@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import dayjs from "dayjs";
 import { Trash2 } from "lucide-react";
-import DeleteForm from "@/components/DeleteForm";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import { useState } from "react";
 
@@ -32,13 +31,32 @@ export default function TransactionDetails() {
             Details
           </TransactionDetailsHeaderHeading>
         </TransactionDetailsHeader>
-        <SuccessWrapper>
-          <SuccessMessage>Erfolgreich gelöscht! 😎</SuccessMessage>
-        </SuccessWrapper>
+        <NotificationWrapper>
+          <NotificationMessage>Erfolgreich gelöscht! 😎</NotificationMessage>
+        </NotificationWrapper>
       </TransactionDetailsWrapper>
     );
+
   if (isLoading) return <p>Lädt...</p>;
-  if (!currentTransaction) return <p>Transaktion nicht vorhanden.</p>;
+  if (!currentTransaction)
+    return (
+      <TransactionDetailsWrapper>
+        <TransactionDetailsHeader>
+          <IconLink href={"/"}>
+            <ChevronLeft />
+            Zurück
+          </IconLink>
+          <TransactionDetailsHeaderHeading>
+            Details
+          </TransactionDetailsHeaderHeading>
+        </TransactionDetailsHeader>
+        <NotificationWrapper>
+          <NotificationMessage>
+            Transaktion nicht gefunden! ☹️
+          </NotificationMessage>
+        </NotificationWrapper>
+      </TransactionDetailsWrapper>
+    );
 
   return (
     <TransactionDetailsWrapper>
@@ -93,7 +111,7 @@ const TransactionInfoWrapper = styled.div`
   padding-bottom: var(--md);
 `;
 
-const SuccessWrapper = styled.div`
+const NotificationWrapper = styled.div`
   display: flex;
   justify-content: center;
   padding-top: var(--md);
@@ -166,7 +184,7 @@ const TrashIcon = styled(Trash2)`
   height: 100%;
 `;
 
-const SuccessMessage = styled.p`
+const NotificationMessage = styled.p`
   font-weight: 500;
   margin-bottom: var(--sm);
   font-size: var(--xl);

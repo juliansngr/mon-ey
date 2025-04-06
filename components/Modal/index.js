@@ -1,7 +1,5 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { CircleX } from "lucide-react";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
 
 export default function Modal({ children, title, closeModal }) {
   return (
