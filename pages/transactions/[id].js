@@ -32,9 +32,9 @@ export default function TransactionDetails() {
             Details
           </TransactionDetailsHeaderHeading>
         </TransactionDetailsHeader>
-        <TransactionInfoWrapper>
-          <p>Erfolgreich gelöscht! 😎</p>
-        </TransactionInfoWrapper>
+        <SuccessWrapper>
+          <SuccessMessage>Erfolgreich gelöscht! 😎</SuccessMessage>
+        </SuccessWrapper>
       </TransactionDetailsWrapper>
     );
   if (isLoading) return <p>Lädt...</p>;
@@ -65,16 +65,19 @@ export default function TransactionDetails() {
           ).toFixed(2)} €`}
         </TransactionAmount>
       </TransactionNumbersWrapper>
-      <DeleteButton
-        onClick={() => {
-          openModal("deleteTransaction", {
-            id: id,
-            onDelete: () => setWasDeleted(true),
-          });
-        }}
-      >
-        <Trash2 />
-      </DeleteButton>
+      <ActionButtonsWrapper>
+        <DeleteButton
+          onClick={() => {
+            openModal("deleteTransaction", {
+              id: id,
+              onDelete: () => setWasDeleted(true),
+            });
+          }}
+        >
+          <TrashIcon />
+          Löschen
+        </DeleteButton>
+      </ActionButtonsWrapper>
     </TransactionDetailsWrapper>
   );
 }
@@ -89,6 +92,14 @@ const TransactionInfoWrapper = styled.div`
   gap: var(--3xs);
   padding-bottom: var(--md);
 `;
+
+const SuccessWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding-top: var(--md);
+  padding-bottom: var(--md);
+`;
+
 const TransactionPartner = styled.h3`
   font-size: var(--lg);
   font-weight: 500;
@@ -123,6 +134,7 @@ const TransactionNumbersWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: var(--xl);
 `;
 
 const TransactionAmount = styled.p`
@@ -136,4 +148,31 @@ const TransactionAmount = styled.p`
 
 const TransactionDate = styled(TransactionCategory)``;
 
-const DeleteButton = styled.button``;
+const DeleteButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--3xs);
+  background-color: transparent;
+  border: none;
+  color: var(--green-950);
+  width: 2.25rem;
+  height: 3.25rem;
+  cursor: pointer;
+`;
+
+const TrashIcon = styled(Trash2)`
+  width: 100%;
+  height: 100%;
+`;
+
+const SuccessMessage = styled.p`
+  font-weight: 500;
+  margin-bottom: var(--sm);
+  font-size: var(--xl);
+`;
+
+const ActionButtonsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;

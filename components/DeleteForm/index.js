@@ -46,6 +46,8 @@ const StyledButton = styled.button`
   line-height: 1.15;
   font-size: 100%;
   border: none;
+  border-radius: var(--xs);
+  color: var(--green-50);
 `;
 
 const YesButton = styled(StyledButton)`

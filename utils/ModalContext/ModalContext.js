@@ -9,7 +9,6 @@ export function ModalProvider({ children }) {
   const [activeModal, setActiveModal] = useState({ type: null, props: {} });
 
   const openModal = (modalType, props = {}) => {
-    console.log({ type: modalType, props });
     setActiveModal({ type: modalType, props });
   };
 
@@ -26,7 +25,7 @@ export function ModalProvider({ children }) {
     >
       {children}
       {activeModal.type === "addTransaction" && (
-        <Modal title="Neue Transaktion erfassen">
+        <Modal title="Neue Transaktion erfassen" closeModal={closeModal}>
           <TransactionForm />
         </Modal>
       )}
