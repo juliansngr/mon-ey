@@ -4,15 +4,39 @@ import { useTransactionsContext } from "@/utils/TransactionsContext/Transactions
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import dayjs from "dayjs";
+import { Trash2 } from "lucide-react";
+import DeleteForm from "@/components/DeleteForm";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
+import { useState } from "react";
 
 export default function TransactionDetails() {
   const router = useRouter();
   const { id } = router.query;
 
   const { data, isLoading } = useTransactionsContext();
+  const { openModal } = useModalContext();
+
+  const [wasDeleted, setWasDeleted] = useState(null);
 
   const currentTransaction = data.find((transaction) => transaction.id === id);
 
+  if (wasDeleted)
+    return (
+      <TransactionDetailsWrapper>
+        <TransactionDetailsHeader>
+          <IconLink href={"/"}>
+            <ChevronLeft />
+            Zurück
+          </IconLink>
+          <TransactionDetailsHeaderHeading>
+            Details
+          </TransactionDetailsHeaderHeading>
+        </TransactionDetailsHeader>
+        <TransactionInfoWrapper>
+          <p>Erfolgreich gelöscht! 😎</p>
+        </TransactionInfoWrapper>
+      </TransactionDetailsWrapper>
+    );
   if (isLoading) return <p>Lädt...</p>;
   if (!currentTransaction) return <p>Transaktion nicht vorhanden.</p>;
 
@@ -41,6 +65,16 @@ export default function TransactionDetails() {
           ).toFixed(2)} €`}
         </TransactionAmount>
       </TransactionNumbersWrapper>
+      <DeleteButton
+        onClick={() => {
+          openModal("deleteTransaction", {
+            id: id,
+            onDelete: () => setWasDeleted(true),
+          });
+        }}
+      >
+        <Trash2 />
+      </DeleteButton>
     </TransactionDetailsWrapper>
   );
 }
@@ -101,3 +135,5 @@ const TransactionAmount = styled.p`
 `;
 
 const TransactionDate = styled(TransactionCategory)``;
+
+const DeleteButton = styled.button``;

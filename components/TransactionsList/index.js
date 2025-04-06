@@ -6,13 +6,15 @@ import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import Link from "next/link";
 
 export default function TransactionsList({ transactions }) {
-  const { handleModalCall } = useModalContext();
+  const { openModal } = useModalContext();
   return (
     <>
       <StyledHeaderWrapper>
         <StyledH2>Transaktionen</StyledH2>
         <StyledAddButton
-          onClick={handleModalCall}
+          onClick={() => {
+            openModal("addTransaction");
+          }}
           aria-label="add a transaction"
         >
           <StyledCirclePlus />

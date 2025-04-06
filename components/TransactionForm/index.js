@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 
 export default function TransactionForm() {
   const { mutate } = useTransactionsContext();
-  const { handleModalClose } = useModalContext();
+  const { closeModal } = useModalContext();
 
   async function handleTransactionSubmit(event) {
     event.preventDefault();
@@ -34,11 +34,11 @@ export default function TransactionForm() {
     });
     if (response.ok) {
       mutate();
-      handleModalClose();
+      closeModal();
     }
 
     if (!response.ok) {
-      handleModalClose();
+      closeModal();
     }
   }
   return (
@@ -68,7 +68,7 @@ export default function TransactionForm() {
           id="transaction_type_income"
           value="income"
         />
-        <StyledFormLabel for="transaction_type_income">
+        <StyledFormLabel htmlFor="transaction_type_income">
           Einnahme
         </StyledFormLabel>
       </StyledFormInputRadioSection>
@@ -79,7 +79,7 @@ export default function TransactionForm() {
           id="transaction_type_expense"
           value="expense"
         />
-        <StyledFormLabel for="transaction_type_expense">
+        <StyledFormLabel htmlFor="transaction_type_expense">
           Ausgabe
         </StyledFormLabel>
       </StyledFormInputRadioSection>
