@@ -49,9 +49,9 @@ export default function TransactionFilters({
         )}
         {filterType === "date" && (
           <StyledFilterInput
-            type="datetime-local"
+            type="date"
             name="date"
-            defaultValue={dayjs().format("YYYY-MM-DDTHH:mm")}
+            defaultValue={dayjs().format("YYYY-MM-DD")}
             aria-label="Zeitpunkt der Transaktion wählen"
           />
         )}

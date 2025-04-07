@@ -19,15 +19,18 @@ export function filterTransactions({
   filterOperator = "===",
   filterPattern,
 }) {
-  console.log(allTransactions);
-
-  const filteredEntries = allTransactions.filter(
-    (item) => item[filterCriterium] === filterPattern
-  );
+  const filteredEntries = allTransactions.filter((item) => {
+    let filterString;
+    switch (filterCriterium) {
+      case "date":
+        filterString = `item.date.startsWith("${filterPattern}")`;
+        break;
+      default:
+        filterString = `"${item[filterCriterium]}" ${filterOperator} "${filterPattern}"`;
+        break;
+    }
+    const result = eval(filterString);
+    return result;
+  });
   return filteredEntries;
 }
-
-// eval(`${item[filterCriterium]} ${filterOperator} ${filterPattern}`)
-
-// filterLib {date: ()=>{sortiert nach datum}, category: ()=>{}, }
-// filter(data, identifier) {filterLib.category()}

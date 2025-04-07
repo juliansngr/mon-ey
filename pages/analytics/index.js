@@ -13,7 +13,7 @@ import { CalendarDays, Tag } from "lucide-react";
 import { useState } from "react";
 
 export default function AnalyticsPage() {
-  const { isLoading, sortedEntries, data, mutate } = useTransactionsContext();
+  const { isLoading, sortedEntries, data } = useTransactionsContext();
   const { modalOpen, handleModalCall } = useModalContext();
   const [displayedEntries, setDisplayedEntries] = useState([...sortedEntries]);
   const [useFilterType, setUseFilterType] = useState();
@@ -28,13 +28,32 @@ export default function AnalyticsPage() {
       filterCriterium: filterCriterium,
       filterPattern: filterPattern,
     });
-    console.log(filteredTransactions);
+
     setDisplayedEntries([...groupTransactions(filteredTransactions)]);
   }
 
-  function handleOpenFilter(filterType) {
-    setUseFilterType(filterType);
-    handleModalCall();
+  function handleClickFilter(filterType) {
+    if (useFilterType !== filterType) {
+      setUseFilterType(filterType);
+      handleModalCall();
+    } else {
+      setUseFilterType();
+      setDisplayedEntries([...groupTransactions(data)]);
+    }
+  }
+
+  let useModalFilterTitle;
+
+  switch (useFilterType) {
+    case "date":
+      useModalFilterTitle = "Nach Datum filtern";
+      break;
+    case "category":
+      useModalFilterTitle = "Nach Kategorie filtern";
+      break;
+    default:
+      useModalFilterTitle = "";
+      break;
   }
 
   if (isLoading) return null;
@@ -42,7 +61,7 @@ export default function AnalyticsPage() {
   return (
     <>
       {modalOpen && (
-        <Modal title="">
+        <Modal title={useModalFilterTitle}>
           <TransactionFilters
             getTransactionsFiltered={getTransactionsFiltered}
             filterType={useFilterType}
@@ -52,14 +71,18 @@ export default function AnalyticsPage() {
       <StyledH1>Analyse</StyledH1>
       <StyledH2>Filtern nach:</StyledH2>
       <StyledFilterCriteriaWrapper>
-        <StyledFilterButton onClick={() => handleOpenFilter("category")}>
+        <StyledFilterButton onClick={() => handleClickFilter("category")}>
           <IconTextWrapper>
-            <StyledTag></StyledTag>
+            <StyledTag
+              activated={useFilterType === "category" ? true : false}
+            ></StyledTag>
           </IconTextWrapper>
         </StyledFilterButton>
-        <StyledFilterButton onClick={() => handleOpenFilter("date")}>
+        <StyledFilterButton onClick={() => handleClickFilter("date")}>
           <IconTextWrapper>
-            <StyledCalendarDays></StyledCalendarDays>
+            <StyledCalendarDays
+              activated={useFilterType === "date" ? true : false}
+            ></StyledCalendarDays>
           </IconTextWrapper>
         </StyledFilterButton>
       </StyledFilterCriteriaWrapper>
@@ -90,15 +113,19 @@ const IconTextWrapper = styled.div`
 `;
 
 const StyledCalendarDays = styled(CalendarDays)`
-  color: var(--green-500);
+  color: ${(props) =>
+    props.activated ? `var(--red-500)` : `var(--green-500)`};
   width: 35px;
   height: 35px;
+  fill: ${(props) => (props.activated ? `var(--green-500)` : "none")};
 `;
 
 const StyledTag = styled(Tag)`
-  color: var(--green-500);
+  color: ${(props) =>
+    props.activated ? `var(--red-500)` : `var(--green-500)`};
   width: 35px;
   height: 35px;
+  fill: ${(props) => (props.activated ? `var(--green-500)` : "none")};
 `;
 const StyledFilterCriteriaWrapper = styled.div`
   display: flex;
