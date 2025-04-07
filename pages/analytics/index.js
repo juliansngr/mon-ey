@@ -87,7 +87,11 @@ export default function AnalyticsPage() {
         </StyledFilterButton>
       </StyledFilterCriteriaWrapper>
 
-      <TransactionsList transactions={displayedEntries} />
+      {displayedEntries.length > 0 ? (
+        <TransactionsList transactions={displayedEntries} />
+      ) : (
+        <StyledH2>Keine Daten für den gew&auml;hlten Filter!</StyledH2>
+      )}
     </>
   );
 }
@@ -129,7 +133,6 @@ const StyledTag = styled(Tag)`
 `;
 const StyledFilterCriteriaWrapper = styled.div`
   display: flex;
-  /* justify-content: space-around; */
   align-items: center;
   gap: var(--xl);
   padding: 1rem;
