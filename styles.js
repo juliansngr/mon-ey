@@ -34,6 +34,7 @@ export default createGlobalStyle`
   --green-text-dark: #002f20;
 
   /* distances */
+  --4xs: 0.125rem;  /* 2px */
   --3xs: 0.25rem;  /* 4px */
   --2xs: 0.5rem;   /* 8px */
   --xs: 0.625rem;  /* 10px */
