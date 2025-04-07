@@ -1,5 +1,6 @@
 import TransactionsList from "@/components/TransactionsList/";
 import TransactionFilters from "@/components/TransactionFilters";
+import TransactionsHeader from "@/components/TransactionsHeader";
 import Modal from "@/components/Modal";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
@@ -16,7 +17,8 @@ export default function AnalyticsPage() {
   const { isLoading, sortedEntries, data } = useTransactionsContext();
   const { modalOpen, handleModalCall } = useModalContext();
   const [displayedEntries, setDisplayedEntries] = useState([...sortedEntries]);
-  const [useFilterType, setUseFilterType] = useState();
+  const [appliedFilterType, setAppliedFilterType] = useState();
+  const [activeFilterType, setActiveFilterType] = useState();
 
   function getTransactionsFiltered({
     allTransactions,
@@ -28,31 +30,32 @@ export default function AnalyticsPage() {
       filterCriterium: filterCriterium,
       filterPattern: filterPattern,
     });
-
+    setActiveFilterType(appliedFilterType);
     setDisplayedEntries([...groupTransactions(filteredTransactions)]);
   }
 
   function handleClickFilter(filterType) {
-    if (useFilterType !== filterType) {
-      setUseFilterType(filterType);
+    if (appliedFilterType !== filterType) {
+      setAppliedFilterType(filterType);
       handleModalCall();
     } else {
-      setUseFilterType();
+      setAppliedFilterType();
+      setActiveFilterType();
       setDisplayedEntries([...groupTransactions(data)]);
     }
   }
 
-  let useModalFilterTitle;
+  let applyModalFilterTitle;
 
-  switch (useFilterType) {
+  switch (appliedFilterType) {
     case "date":
-      useModalFilterTitle = "Nach Datum filtern";
+      applyModalFilterTitle = "Nach Datum filtern";
       break;
     case "category":
-      useModalFilterTitle = "Nach Kategorie filtern";
+      applyModalFilterTitle = "Nach Kategorie filtern";
       break;
     default:
-      useModalFilterTitle = "";
+      applyModalFilterTitle = "";
       break;
   }
 
@@ -61,10 +64,10 @@ export default function AnalyticsPage() {
   return (
     <>
       {modalOpen && (
-        <Modal title={useModalFilterTitle}>
+        <Modal title={applyModalFilterTitle}>
           <TransactionFilters
             getTransactionsFiltered={getTransactionsFiltered}
-            filterType={useFilterType}
+            filterType={appliedFilterType}
           />
         </Modal>
       )}
@@ -74,19 +77,19 @@ export default function AnalyticsPage() {
         <StyledFilterButton onClick={() => handleClickFilter("category")}>
           <IconTextWrapper>
             <StyledTag
-              activated={useFilterType === "category" ? true : false}
+              $activated={activeFilterType === "category" ? true : false}
             ></StyledTag>
           </IconTextWrapper>
         </StyledFilterButton>
         <StyledFilterButton onClick={() => handleClickFilter("date")}>
           <IconTextWrapper>
             <StyledCalendarDays
-              activated={useFilterType === "date" ? true : false}
+              $activated={activeFilterType === "date" ? true : false}
             ></StyledCalendarDays>
           </IconTextWrapper>
         </StyledFilterButton>
       </StyledFilterCriteriaWrapper>
-
+      <TransactionsHeader />
       {displayedEntries.length > 0 ? (
         <TransactionsList transactions={displayedEntries} />
       ) : (
@@ -109,6 +112,7 @@ const StyledH2 = styled.h2`
 const StyledFilterButton = styled.button`
   background-color: transparent;
   border: none;
+  cursor: pointer;
 `;
 
 const IconTextWrapper = styled.div`
@@ -118,18 +122,18 @@ const IconTextWrapper = styled.div`
 
 const StyledCalendarDays = styled(CalendarDays)`
   color: ${(props) =>
-    props.activated ? `var(--red-500)` : `var(--green-500)`};
+    props.$activated ? `var(--red-500)` : `var(--green-500)`};
   width: 35px;
   height: 35px;
-  fill: ${(props) => (props.activated ? `var(--green-500)` : "none")};
+  fill: ${(props) => (props.$activated ? `var(--green-500)` : "none")};
 `;
 
 const StyledTag = styled(Tag)`
   color: ${(props) =>
-    props.activated ? `var(--red-500)` : `var(--green-500)`};
+    props.$activated ? `var(--red-500)` : `var(--green-500)`};
   width: 35px;
   height: 35px;
-  fill: ${(props) => (props.activated ? `var(--green-500)` : "none")};
+  fill: ${(props) => (props.$activated ? `var(--green-500)` : "none")};
 `;
 const StyledFilterCriteriaWrapper = styled.div`
   display: flex;
