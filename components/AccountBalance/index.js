@@ -123,6 +123,7 @@ const StyledTotalSpan = styled.span`
   display: block;
   font-size: var(--2xs);
   font-weight: 500;
+  letter-spacing: var(--4xs);
   text-align: left;
   margin-bottom: var(--2xs);
   color: var(--green-text-dark);
