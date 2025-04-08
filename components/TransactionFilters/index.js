@@ -8,7 +8,7 @@ export default function TransactionFilters({
   filterType,
   getTransactionsFiltered,
 }) {
-  const { handleModalClose } = useModalContext();
+  const { closeModal } = useModalContext();
   const { data, mutate } = useTransactionsContext();
 
   function handleFilterSubmit(event) {
@@ -23,7 +23,7 @@ export default function TransactionFilters({
       filterPattern: filterData[filterData.filterType],
     });
     mutate();
-    handleModalClose();
+    closeModal();
   }
 
   return (

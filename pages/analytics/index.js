@@ -15,7 +15,7 @@ import { useState } from "react";
 
 export default function AnalyticsPage() {
   const { isLoading, sortedEntries, data } = useTransactionsContext();
-  const { modalOpen, handleModalCall } = useModalContext();
+  const { openModal } = useModalContext();
   const [displayedEntries, setDisplayedEntries] = useState([...sortedEntries]);
   const [appliedFilterType, setAppliedFilterType] = useState();
   const [activeFilterType, setActiveFilterType] = useState();
@@ -36,41 +36,38 @@ export default function AnalyticsPage() {
 
   function handleClickFilter(filterType) {
     if (appliedFilterType !== filterType) {
+      let applyModalFilterTitle;
+
+      switch (filterType) {
+        case "date":
+          applyModalFilterTitle = "Nach Datum filtern";
+          break;
+        case "category":
+          applyModalFilterTitle = "Nach Kategorie filtern";
+          break;
+        default:
+          applyModalFilterTitle = "";
+          break;
+      }
+
       setAppliedFilterType(filterType);
-      handleModalCall();
+
+      openModal("filter", {
+        title: applyModalFilterTitle,
+        filterType: filterType,
+        getTransactionsFiltered: getTransactionsFiltered,
+      });
     } else {
-      setAppliedFilterType();
-      setActiveFilterType();
+      setAppliedFilterType(null);
+      setActiveFilterType(null);
       setDisplayedEntries([...groupTransactions(data)]);
     }
-  }
-
-  let applyModalFilterTitle;
-
-  switch (appliedFilterType) {
-    case "date":
-      applyModalFilterTitle = "Nach Datum filtern";
-      break;
-    case "category":
-      applyModalFilterTitle = "Nach Kategorie filtern";
-      break;
-    default:
-      applyModalFilterTitle = "";
-      break;
   }
 
   if (isLoading) return null;
 
   return (
     <>
-      {modalOpen && (
-        <Modal title={applyModalFilterTitle}>
-          <TransactionFilters
-            getTransactionsFiltered={getTransactionsFiltered}
-            filterType={appliedFilterType}
-          />
-        </Modal>
-      )}
       <StyledH1>Analyse</StyledH1>
       <StyledH2>Filtern nach:</StyledH2>
       <StyledFilterCriteriaWrapper>

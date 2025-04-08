@@ -3,14 +3,16 @@ import { CirclePlus } from "lucide-react";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
 
 export default function TransactionsHeader({ hasAddButton = false }) {
-  const { handleModalCall } = useModalContext();
+  const { openModal } = useModalContext();
   return (
     <>
       <StyledHeaderWrapper>
         <StyledH2>Transaktionen</StyledH2>
         {hasAddButton && (
           <StyledAddButton
-            onClick={handleModalCall}
+            onClick={() => {
+              openModal("addTransaction");
+            }}
             aria-label="add a transaction"
           >
             <StyledCirclePlus />

@@ -1,5 +1,6 @@
 import DeleteForm from "@/components/DeleteForm";
 import Modal from "@/components/Modal";
+import TransactionFilters from "@/components/TransactionFilters";
 import TransactionForm from "@/components/TransactionForm";
 import { useContext, createContext, useState } from "react";
 
@@ -34,6 +35,14 @@ export function ModalProvider({ children }) {
           <DeleteForm
             id={activeModal.props.id}
             onDelete={activeModal.props.onDelete}
+          />
+        </Modal>
+      )}
+      {activeModal.type === "filter" && (
+        <Modal title={activeModal.props.title} closeModal={closeModal}>
+          <TransactionFilters
+            getTransactionsFiltered={activeModal.props.getTransactionsFiltered}
+            filterType={activeModal.props.filterType}
           />
         </Modal>
       )}
