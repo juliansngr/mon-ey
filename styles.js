@@ -82,14 +82,7 @@ ul, ol {
     background-color: var(--bgBody);
   }
 
-  .layout-wrapper {
-    display: grid;
- 
-    grid-template-columns: 1fr;
-    grid-template-rows: 3rem 1fr;
-    grid-template-areas: "Header" "Main";
-    min-height: 100vh;
-  }
+
   header {
     background-color: var(--bgHeader);
     color: var(--headerColor);
@@ -102,7 +95,18 @@ ul, ol {
     padding: 0 var(--xs);
   }
 
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+
   a {
     all: unset;
+
 }
 `;

@@ -1,12 +1,12 @@
 import dayjs from "dayjs";
 import styled from "styled-components";
 import TransactionCard from "../TransactionCard";
+
 import Link from "next/link";
 
 export default function TransactionsList({ transactions }) {
   return (
     <>
-      <StyledH2>Transaktionen</StyledH2>
       <StyledUl>
         {transactions.map(([isoDate, dayTransactions]) => {
           const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
@@ -15,14 +15,18 @@ export default function TransactionsList({ transactions }) {
             <StyledLi key={isoDate}>
               <h3>{formattedDate}</h3>
               <StyledUl>
-                {dayTransactions.map((transaction) => (
-                  <TransactionCardLink
-                    key={transaction.id}
-                    href={`/transactions/${transaction.id}`}
-                  >
-                    <TransactionCard data={transaction} />
-                  </TransactionCardLink>
-                ))}
+                {dayTransactions
+                  .sort(
+                    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
+                  )
+                  .map((transaction) => (
+                    <TransactionCardLink
+                      key={transaction.id}
+                      href={`/transactions/${transaction.id}`}
+                    >
+                      <TransactionCard data={transaction} />
+                    </TransactionCardLink>
+                  ))}
               </StyledUl>
             </StyledLi>
           );
@@ -39,7 +43,7 @@ const StyledUl = styled.ul`
 `;
 
 const StyledH2 = styled.h2`
-  font-size: var(--lg);
+  font-size: var(--2xl);
   margin-bottom: 1rem;
 `;
 
@@ -50,5 +54,6 @@ const StyledLi = styled.li`
 `;
 
 const TransactionCardLink = styled(Link)`
+  all: unset;
   cursor: pointer;
 `;
