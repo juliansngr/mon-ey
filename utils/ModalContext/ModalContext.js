@@ -2,7 +2,7 @@ import DeleteForm from "@/components/DeleteForm";
 import Modal from "@/components/Modal";
 import TransactionFilters from "@/components/TransactionFilters";
 import TransactionForm from "@/components/TransactionForm";
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, act } from "react";
 
 const ModalContext = createContext();
 
@@ -41,6 +41,8 @@ export function ModalProvider({ children }) {
       {activeModal.type === "filter" && (
         <Modal title={activeModal.props.title} closeModal={closeModal}>
           <TransactionFilters
+            setActiveFilterType={activeModal.props.setActiveFilterType}
+            setAppliedFilterType={activeModal.props.setAppliedFilterType}
             getTransactionsFiltered={activeModal.props.getTransactionsFiltered}
             filterType={activeModal.props.filterType}
           />

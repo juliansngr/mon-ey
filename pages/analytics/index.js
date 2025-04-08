@@ -17,8 +17,8 @@ export default function AnalyticsPage() {
   const { isLoading, sortedEntries, data } = useTransactionsContext();
   const { openModal } = useModalContext();
   const [displayedEntries, setDisplayedEntries] = useState([...sortedEntries]);
-  const [appliedFilterType, setAppliedFilterType] = useState();
-  const [activeFilterType, setActiveFilterType] = useState();
+  const [appliedFilterType, setAppliedFilterType] = useState(null);
+  const [activeFilterType, setActiveFilterType] = useState(null);
 
   function getTransactionsFiltered({
     allTransactions,
@@ -30,7 +30,7 @@ export default function AnalyticsPage() {
       filterCriterium: filterCriterium,
       filterPattern: filterPattern,
     });
-    setActiveFilterType(appliedFilterType);
+
     setDisplayedEntries([...groupTransactions(filteredTransactions)]);
   }
 
@@ -50,12 +50,12 @@ export default function AnalyticsPage() {
           break;
       }
 
-      setAppliedFilterType(filterType);
-
       openModal("filter", {
         title: applyModalFilterTitle,
         filterType: filterType,
         getTransactionsFiltered: getTransactionsFiltered,
+        setActiveFilterType: setActiveFilterType,
+        setAppliedFilterType: setAppliedFilterType,
       });
     } else {
       setAppliedFilterType(null);
