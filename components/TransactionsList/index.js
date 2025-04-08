@@ -1,23 +1,12 @@
 import dayjs from "dayjs";
 import styled from "styled-components";
 import TransactionCard from "../TransactionCard";
-import { CirclePlus } from "lucide-react";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
+
 import Link from "next/link";
 
 export default function TransactionsList({ transactions }) {
-  const { handleModalCall } = useModalContext();
   return (
     <>
-      <StyledHeaderWrapper>
-        <StyledH2>Transaktionen</StyledH2>
-        <StyledAddButton
-          onClick={handleModalCall}
-          aria-label="add a transaction"
-        >
-          <StyledCirclePlus />
-        </StyledAddButton>
-      </StyledHeaderWrapper>
       <StyledUl>
         {transactions.map(([isoDate, dayTransactions]) => {
           const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
@@ -62,25 +51,6 @@ const StyledLi = styled.li`
   display: flex;
   flex-direction: column;
   gap: var(--3xs);
-`;
-
-const StyledAddButton = styled.button`
-  background-color: transparent;
-  border: none;
-  color: var(--green-500);
-  width: 2.25rem;
-  height: 2.25rem;
-  cursor: pointer;
-`;
-
-const StyledCirclePlus = styled(CirclePlus)`
-  width: 100%;
-  height: 100%;
-`;
-
-const StyledHeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const TransactionCardLink = styled(Link)`
