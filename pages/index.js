@@ -3,6 +3,7 @@ import { useTransactionsContext } from "@/utils/TransactionsContext/Transactions
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import TransactionsList from "@/components/TransactionsList/";
 import TransactionForm from "@/components/TransactionForm";
+import TransactionsHeader from "@/components/TransactionsHeader";
 import Modal from "@/components/Modal";
 
 export default function HomePage() {
@@ -13,6 +14,7 @@ export default function HomePage() {
   return (
     <>
       <AccountBalance transactions={data} />
+      <TransactionsHeader hasAddButton />
       <TransactionsList transactions={sortedEntries} />
     </>
   );
