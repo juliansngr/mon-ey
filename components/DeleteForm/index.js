@@ -48,6 +48,7 @@ const StyledButton = styled.button`
   border: none;
   border-radius: var(--xs);
   color: var(--green-50);
+  cursor: pointer;
 `;
 
 const YesButton = styled(StyledButton)`

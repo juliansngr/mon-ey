@@ -19,44 +19,7 @@ export default function TransactionDetails() {
 
   const currentTransaction = data.find((transaction) => transaction.id === id);
 
-  if (wasDeleted)
-    return (
-      <TransactionDetailsWrapper>
-        <TransactionDetailsHeader>
-          <IconLink href={"/"}>
-            <ChevronLeft />
-            Zurück
-          </IconLink>
-          <TransactionDetailsHeaderHeading>
-            Details
-          </TransactionDetailsHeaderHeading>
-        </TransactionDetailsHeader>
-        <NotificationWrapper>
-          <NotificationMessage>Erfolgreich gelöscht! 😎</NotificationMessage>
-        </NotificationWrapper>
-      </TransactionDetailsWrapper>
-    );
-
   if (isLoading) return <p>Lädt...</p>;
-  if (!currentTransaction)
-    return (
-      <TransactionDetailsWrapper>
-        <TransactionDetailsHeader>
-          <IconLink href={"/"}>
-            <ChevronLeft />
-            Zurück
-          </IconLink>
-          <TransactionDetailsHeaderHeading>
-            Details
-          </TransactionDetailsHeaderHeading>
-        </TransactionDetailsHeader>
-        <NotificationWrapper>
-          <NotificationMessage>
-            Transaktion nicht gefunden! ☹️
-          </NotificationMessage>
-        </NotificationWrapper>
-      </TransactionDetailsWrapper>
-    );
 
   return (
     <TransactionDetailsWrapper>
@@ -69,33 +32,53 @@ export default function TransactionDetails() {
           Details
         </TransactionDetailsHeaderHeading>
       </TransactionDetailsHeader>
-      <TransactionInfoWrapper>
-        <TransactionPartner>{currentTransaction.partner}</TransactionPartner>
-        <TransactionCategory>{currentTransaction.category}</TransactionCategory>
-      </TransactionInfoWrapper>
-      <TransactionNumbersWrapper>
-        <TransactionDate>
-          {dayjs(currentTransaction.date).format("DD.MM.YYYY")}
-        </TransactionDate>
-        <TransactionAmount $type={currentTransaction.type}>
-          {`${currentTransaction.type === "income" ? "+" : "-"} ${Math.abs(
-            currentTransaction.amount
-          ).toFixed(2)} €`}
-        </TransactionAmount>
-      </TransactionNumbersWrapper>
-      <ActionButtonsWrapper>
-        <DeleteButton
-          onClick={() => {
-            openModal("deleteTransaction", {
-              id: id,
-              onDelete: () => setWasDeleted(true),
-            });
-          }}
-        >
-          <TrashIcon />
-          Löschen
-        </DeleteButton>
-      </ActionButtonsWrapper>
+      {wasDeleted && (
+        <NotificationWrapper>
+          <NotificationMessage>Erfolgreich gelöscht! 😎</NotificationMessage>
+        </NotificationWrapper>
+      )}
+      {!currentTransaction && !wasDeleted && (
+        <NotificationWrapper>
+          <NotificationMessage>
+            Transaktion nicht gefunden! ☹️
+          </NotificationMessage>
+        </NotificationWrapper>
+      )}
+      {currentTransaction && !wasDeleted && (
+        <>
+          <TransactionInfoWrapper>
+            <TransactionPartner>
+              {currentTransaction.partner}
+            </TransactionPartner>
+            <TransactionCategory>
+              {currentTransaction.category}
+            </TransactionCategory>
+          </TransactionInfoWrapper>
+          <TransactionNumbersWrapper>
+            <TransactionDate>
+              {dayjs(currentTransaction.date).format("DD.MM.YYYY")}
+            </TransactionDate>
+            <TransactionAmount $type={currentTransaction.type}>
+              {`${currentTransaction.type === "income" ? "+" : "-"} ${Math.abs(
+                currentTransaction.amount
+              ).toFixed(2)} €`}
+            </TransactionAmount>
+          </TransactionNumbersWrapper>
+          <ActionButtonsWrapper>
+            <DeleteButton
+              onClick={() => {
+                openModal("deleteTransaction", {
+                  id: id,
+                  onDelete: () => setWasDeleted(true),
+                });
+              }}
+            >
+              <TrashIcon />
+              Löschen
+            </DeleteButton>
+          </ActionButtonsWrapper>
+        </>
+      )}
     </TransactionDetailsWrapper>
   );
 }
