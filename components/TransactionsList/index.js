@@ -8,6 +8,9 @@ export default function TransactionsList({ transactions }) {
   return (
     <>
       <StyledUl>
+        {transactions.length === 0 && (
+          <NoTransactionText>Keine Transaktionen vorhanden.</NoTransactionText>
+        )}
         {transactions.map(([isoDate, dayTransactions]) => {
           const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
 
@@ -56,4 +59,8 @@ const StyledLi = styled.li`
 const TransactionCardLink = styled(Link)`
   all: unset;
   cursor: pointer;
+`;
+
+const NoTransactionText = styled.p`
+  text-align: center;
 `;
