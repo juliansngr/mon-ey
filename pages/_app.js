@@ -1,7 +1,8 @@
-import { TransactionsProvider } from "@/utils/TransactionsContext/TransactionsContext";
-import GlobalStyle from "../styles";
+import Navigation from "@/components/Navigation";
 import { ModalProvider } from "@/utils/ModalContext/ModalContext";
+import { TransactionsProvider } from "@/utils/TransactionsContext/TransactionsContext";
 import styled from "styled-components";
+import GlobalStyle from "../styles";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -15,6 +16,7 @@ export default function App({ Component, pageProps }) {
             </ModalProvider>
           </TransactionsProvider>
         </PageBody>
+        <Navigation />
       </LayoutWrapper>
     </>
   );
