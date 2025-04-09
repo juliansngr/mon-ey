@@ -56,6 +56,10 @@ export default createGlobalStyle`
   --box-shadow-default: 0 0 0 1px #d2d2d5, 
                       0 10px 15px -3px rgba(0, 0, 0, 0.05),
                       0 4px 6px -4px rgba(0, 0, 0, 0.05);
+
+  --box-shadow-active: 5px 5px 22px -4px #002f20,
+                      5px 5px 22px -4px rgba(0, 0, 0, 0.6),
+                      0 4px 6px -4px rgba(0, 0, 0, 0.05);
 }
 
   html { 
