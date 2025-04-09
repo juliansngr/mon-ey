@@ -7,8 +7,10 @@ import dayjs from "dayjs";
 export default function TransactionFilters({
   filterType,
   getTransactionsFiltered,
+  setActiveFilterType,
+  setAppliedFilterType,
 }) {
-  const { handleModalClose } = useModalContext();
+  const { closeModal } = useModalContext();
   const { data, mutate } = useTransactionsContext();
 
   function handleFilterSubmit(event) {
@@ -22,8 +24,10 @@ export default function TransactionFilters({
       filterCriterium: filterData.filterType,
       filterPattern: filterData[filterData.filterType],
     });
+    setAppliedFilterType(filterType);
+    setActiveFilterType(filterType);
     mutate();
-    handleModalClose();
+    closeModal();
   }
 
   return (

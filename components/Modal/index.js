@@ -1,16 +1,12 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { CircleX } from "lucide-react";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
 
-export default function Modal({ children, title }) {
-  const { modalOpen, handleModalClose } = useModalContext();
-
+export default function Modal({ children, title, closeModal }) {
   return (
-    <ModalContainer $openingState={modalOpen} onClick={handleModalClose}>
+    <ModalContainer onClick={closeModal}>
       <ModalWrapper onClick={(event) => event.stopPropagation()}>
         <ModalHeader>
-          <CloseIcon onClick={handleModalClose} />
+          <CloseIcon onClick={closeModal} />
         </ModalHeader>
         <ModalHeading>{title}</ModalHeading>
         {children}
@@ -26,7 +22,7 @@ const ModalContainer = styled.div`
   width: 100vw;
   height: 100vh;
 
-  display: ${(props) => (props.$openingState ? "flex" : "none")};
+  display: flex;
   justify-content: center;
   align-items: center;
 

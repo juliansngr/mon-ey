@@ -8,17 +8,11 @@ import Modal from "@/components/Modal";
 
 export default function HomePage() {
   const { isLoading, sortedEntries, data } = useTransactionsContext();
-  const { modalOpen } = useModalContext();
 
   if (isLoading) return null;
 
   return (
     <>
-      {modalOpen && (
-        <Modal title="Neue Transaktion erfassen">
-          <TransactionForm />
-        </Modal>
-      )}
       <AccountBalance transactions={data} />
       <TransactionsHeader hasAddButton />
       <TransactionsList transactions={sortedEntries} />
