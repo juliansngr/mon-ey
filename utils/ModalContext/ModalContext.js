@@ -40,12 +40,7 @@ export function ModalProvider({ children }) {
       )}
       {activeModal.type === "filter" && (
         <Modal title={activeModal.props.title} closeModal={closeModal}>
-          <TransactionFilters
-            setActiveFilterType={activeModal.props.setActiveFilterType}
-            setAppliedFilterType={activeModal.props.setAppliedFilterType}
-            getTransactionsFiltered={activeModal.props.getTransactionsFiltered}
-            filterType={activeModal.props.filterType}
-          />
+          <TransactionFilters filterType={activeModal.props.filterType} />
         </Modal>
       )}
     </ModalContext.Provider>

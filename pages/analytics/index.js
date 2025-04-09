@@ -1,41 +1,17 @@
 import TransactionsList from "@/components/TransactionsList/";
-import TransactionFilters from "@/components/TransactionFilters";
 import TransactionsHeader from "@/components/TransactionsHeader";
-import Modal from "@/components/Modal";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
-import {
-  groupTransactions,
-  filterTransactions,
-} from "@/utils/FilterFunctionsLib/filterFunctions";
-
 import styled from "styled-components";
 import { CalendarDays, Tag } from "lucide-react";
-import { useState } from "react";
 
 export default function AnalyticsPage() {
-  const { isLoading, sortedEntries, data } = useTransactionsContext();
+  const { isLoading, sortedEntries, activeFilter, handleFilterChange } =
+    useTransactionsContext();
   const { openModal } = useModalContext();
-  const [displayedEntries, setDisplayedEntries] = useState([...sortedEntries]);
-  const [appliedFilterType, setAppliedFilterType] = useState(null);
-  const [activeFilterType, setActiveFilterType] = useState(null);
-
-  function getTransactionsFiltered({
-    allTransactions,
-    filterCriterium,
-    filterPattern,
-  }) {
-    const filteredTransactions = filterTransactions({
-      allTransactions: [...allTransactions],
-      filterCriterium: filterCriterium,
-      filterPattern: filterPattern,
-    });
-
-    setDisplayedEntries([...groupTransactions(filteredTransactions)]);
-  }
 
   function handleClickFilter(filterType) {
-    if (appliedFilterType !== filterType) {
+    if (activeFilter.type !== filterType || !activeFilter.type) {
       let applyModalFilterTitle;
 
       switch (filterType) {
@@ -53,14 +29,9 @@ export default function AnalyticsPage() {
       openModal("filter", {
         title: applyModalFilterTitle,
         filterType: filterType,
-        getTransactionsFiltered: getTransactionsFiltered,
-        setActiveFilterType: setActiveFilterType,
-        setAppliedFilterType: setAppliedFilterType,
       });
     } else {
-      setAppliedFilterType(null);
-      setActiveFilterType(null);
-      setDisplayedEntries([...groupTransactions(data)]);
+      handleFilterChange({ type: null, pattern: null });
     }
   }
 
@@ -74,21 +45,21 @@ export default function AnalyticsPage() {
         <StyledFilterButton onClick={() => handleClickFilter("category")}>
           <IconTextWrapper>
             <StyledTag
-              $activated={activeFilterType === "category" ? true : false}
+              $activated={activeFilter.type === "category" ? true : false}
             ></StyledTag>
           </IconTextWrapper>
         </StyledFilterButton>
         <StyledFilterButton onClick={() => handleClickFilter("date")}>
           <IconTextWrapper>
             <StyledCalendarDays
-              $activated={activeFilterType === "date" ? true : false}
+              $activated={activeFilter.type === "date" ? true : false}
             ></StyledCalendarDays>
           </IconTextWrapper>
         </StyledFilterButton>
       </StyledFilterCriteriaWrapper>
       <TransactionsHeader />
-      {displayedEntries.length > 0 ? (
-        <TransactionsList transactions={displayedEntries} />
+      {sortedEntries.length > 0 ? (
+        <TransactionsList transactions={sortedEntries} />
       ) : (
         <StyledH2>Keine Daten für den gew&auml;hlten Filter!</StyledH2>
       )}
