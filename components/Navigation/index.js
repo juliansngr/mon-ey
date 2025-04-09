@@ -1,25 +1,38 @@
 import { ChartColumn, Home } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useState } from "react";
 import styled from "styled-components";
 
 export default function Navigation() {
-    const router = useRouter();
-    const isActive = (path) => router.pathname === path;
+    const [activePath, setActivePath] = useState("/");
+
+    const handleNavClick = (path) => {
+        setActivePath(path); // Setze den aktiven Pfad beim Klicken
+    };
+
     return (
         <NavContainer role="navigation" aria-label="Hauptnavigation der Website">
             <NavList>
                 <NavListItem>
-                    <NavItem href="/" aria-label="Navigiere zur Startseite"
-                        aria-current={isActive("/") ? "page" : undefined}>
+                    <NavItem
+                        href="/"
+                        aria-label="Navigiere zur Startseite"
+                        aria-current={activePath === "/" && "page"}
+                        className={activePath === "/" && "active"}
+                        onClick={() => handleNavClick("/")}
+                    >
                         <StyledCircle aria-hidden="true">
                             <StyledHomeIcon aria-hidden="true" />
                         </StyledCircle>
                     </NavItem>
                 </NavListItem>
                 <NavListItem>
-                    <NavItem href="/analytics" aria-label="Navigiere zu den Analysen"
-                        aria-current={isActive("/analytics") ? "page" : undefined}>
+                    <NavItem
+                        href="/analytics"
+                        aria-label="Navigiere zu den Analysen"
+                        aria-current={activePath === "/analytics" && "page"}
+                        className={activePath === "/analytics" && "active"}
+                        onClick={() => handleNavClick("/analytics")}>
                         <StyledCircle aria-hidden="true">
                             <StyledAnalyseIcon aria-hidden="true" />
                         </StyledCircle>
@@ -39,8 +52,6 @@ const StyledCircle = styled.div`
     align-items: center;
     justify-content: center;
 `;
-
-
 
 const NavContainer = styled.nav`
     position: fixed;
@@ -75,6 +86,10 @@ const NavItem = styled(Link)`
     &:focus {
         background-color: var(--green-500);
         cursor: pointer;
+    }
+    &.active {
+        cursor: default;
+        background-color: var(--green-600);
     }
 `;
 
