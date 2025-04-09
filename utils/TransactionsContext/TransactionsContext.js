@@ -1,8 +1,8 @@
-import { useContext, createContext, useState } from "react";
 import {
   filterTransactions,
   groupTransactions,
 } from "@/utils/FilterFunctionsLib/filterFunctions";
+import { createContext, useContext, useState } from "react";
 import useSWR from "swr";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
