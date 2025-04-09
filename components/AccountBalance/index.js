@@ -45,7 +45,7 @@ export default function AccountBalance({ transactions }) {
       <StyledAccount
         className={activeButton === 0 ? "active" : ""}
         onClick={() => handleToggle(0)}
-        aria-label="Gesamt Kontostand anzeigen"
+        aria-label="Gesamten Kontostand ein- oder ausblenden"
         aria-expanded={activeButton === 0 ? "true" : "false"}
         title="Gesamt Kontostand anzeigen"
       >
@@ -59,7 +59,7 @@ export default function AccountBalance({ transactions }) {
         <StyledAccount
           className={activeButton === 1 ? "active" : ""}
           onClick={() => handleToggle(1)}
-          aria-label="Gesamt Eingänge anzeigen"
+          aria-label="Gesamte Eingänge ein- oder ausblenden"
           aria-expanded={activeButton === 1 ? "true" : "false"}
           title="Gesamt Eingänge anzeigen"
         >
@@ -72,7 +72,7 @@ export default function AccountBalance({ transactions }) {
         <StyledAccount
           className={activeButton === 2 ? "active" : ""}
           onClick={() => handleToggle(2)}
-          aria-label="Gesamt Ausgänge anzeigen"
+          aria-label="Gesamte Ausgänge ein- oder ausblenden"
           aria-expanded={activeButton === 1 ? "true" : "false"}
           title="Gesamt Ausgänge anzeigen"
         >
