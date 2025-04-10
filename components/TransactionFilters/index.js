@@ -4,14 +4,9 @@ import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import dayjs from "dayjs";
 
-export default function TransactionFilters({
-  filterType,
-  getTransactionsFiltered,
-  setActiveFilterType,
-  setAppliedFilterType,
-}) {
+export default function TransactionFilters({ filterType }) {
   const { closeModal } = useModalContext();
-  const { data, mutate } = useTransactionsContext();
+  const { handleFilterChange } = useTransactionsContext();
 
   function handleFilterSubmit(event) {
     event.preventDefault();
@@ -19,14 +14,11 @@ export default function TransactionFilters({
     const formData = new FormData(event.target);
     const filterData = Object.fromEntries(formData);
 
-    getTransactionsFiltered({
-      allTransactions: [...data],
-      filterCriterium: filterData.filterType,
-      filterPattern: filterData[filterData.filterType],
+    handleFilterChange({
+      type: filterData.filterType,
+      pattern: filterData[filterType],
     });
-    setAppliedFilterType(filterType);
-    setActiveFilterType(filterType);
-    mutate();
+
     closeModal();
   }
 
