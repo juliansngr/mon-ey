@@ -1,0 +1,72 @@
+{
+  "rules": [
+    {
+      "id": "1",
+      "description": "Mein erster Finanzgrundsatz",
+      "precondtions": [
+        {
+          "id": "1",
+          "object": "grandTotal",
+          "operator": "=<",
+          "pattern": "500.00",
+          "connectOperator": "",
+          "connectId": ""
+        }
+      ],
+      "consequences": {
+        "object": "transactionType",
+        "operator": "!=",
+        "value": "expense"
+      }
+    },
+    {
+      "id": "2",
+      "description": "Kleinvieh macht auch Mist",
+      "precondtions": [
+        {
+          "id": "1",
+          "object": "calendarDay",
+          "operator": ">",
+          "pattern": "15.00",
+          "connectOperator": "",
+          "connectId": ""
+        }
+      ],
+      "consequences": {
+        "object": "transactionAmount",
+        "operator": "<",
+        "value": "35.00"
+      }
+    }
+  ],
+  "variables": [
+    {
+      "id": "1",
+      "varName": "grandTotal",
+      "dataType": "float",
+      "initialValue": "0.00",
+      "domainType": "undefined",
+      "domainValues": "undefinded"
+    },
+    {
+      "id": "2",
+      "varName": "subCategory",
+      "dataType": "string",
+      "initialValue": "",
+      "domainType": "list",
+      "domainValues": [
+        "Notwendigkeit",
+        "sp&auml;ter w&auml;r auch m&ouml;glich gewesen",
+        "Luxus"
+      ]
+    },
+    {
+      "id": "3",
+      "varName": "transactionReference",
+      "dataType": "string",
+      "initialValue": "",
+      "domainType": "",
+      "domainValues": ""
+    }
+  ]
+}
