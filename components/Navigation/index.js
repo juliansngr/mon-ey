@@ -62,7 +62,7 @@ const NavContainer = styled.nav`
 
 const NavList = styled.ul`
     display: flex;
-    background: var(--bgHeader, var(--green-800));
+    background: var(--bgHeader);
     border-top-left-radius: var(--2xs); 
     border-top-right-radius: var(--2xs);
     overflow:hidden;
@@ -90,6 +90,9 @@ const NavItem = styled(Link)`
     &.active {
         cursor: default;
         background-color: var(--green-600);
+        & > div{
+            background-color: var(--red-500);
+        }
     }
 `;
 
