@@ -12,6 +12,18 @@ export default function handler(req, res) {
       data = [newTransactionData, ...data];
       res.status(200).json({ status: "Item succesfully added" });
       break;
+    case "DELETE":
+      const idToDelete = req.body;
+      data = data.filter((transaction) => idToDelete !== transaction.id);
+      res.status(200).json({ status: "Item deleted" });
+      break;
+    case "PUT":
+      const newData = req.body;
+      data = data.map((transaction) =>
+        transaction.id === newData.id ? newData : transaction
+      );
+      res.status(200).json({ status: "Item updated" });
+      break;
     default:
       response.status(405).json({ status: "Method not allowed." });
   }

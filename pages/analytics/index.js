@@ -1,97 +1,65 @@
 import TransactionsList from "@/components/TransactionsList/";
-import TransactionFilters from "@/components/TransactionFilters";
 import TransactionsHeader from "@/components/TransactionsHeader";
-import Modal from "@/components/Modal";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
-import {
-  groupTransactions,
-  filterTransactions,
-} from "@/utils/FilterFunctionsLib/filterFunctions";
-
 import styled from "styled-components";
 import { CalendarDays, Tag } from "lucide-react";
-import { useState } from "react";
 
 export default function AnalyticsPage() {
-  const { isLoading, sortedEntries, data } = useTransactionsContext();
-  const { modalOpen, handleModalCall } = useModalContext();
-  const [displayedEntries, setDisplayedEntries] = useState([...sortedEntries]);
-  const [appliedFilterType, setAppliedFilterType] = useState();
-  const [activeFilterType, setActiveFilterType] = useState();
-
-  function getTransactionsFiltered({
-    allTransactions,
-    filterCriterium,
-    filterPattern,
-  }) {
-    const filteredTransactions = filterTransactions({
-      allTransactions: [...allTransactions],
-      filterCriterium: filterCriterium,
-      filterPattern: filterPattern,
-    });
-    setActiveFilterType(appliedFilterType);
-    setDisplayedEntries([...groupTransactions(filteredTransactions)]);
-  }
+  const { isLoading, sortedEntries, activeFilter, handleFilterChange } =
+    useTransactionsContext();
+  const { openModal } = useModalContext();
 
   function handleClickFilter(filterType) {
-    if (appliedFilterType !== filterType) {
-      setAppliedFilterType(filterType);
-      handleModalCall();
+    if (activeFilter.type !== filterType || !activeFilter.type) {
+      let applyModalFilterTitle;
+
+      switch (filterType) {
+        case "date":
+          applyModalFilterTitle = "Nach Datum filtern";
+          break;
+        case "category":
+          applyModalFilterTitle = "Nach Kategorie filtern";
+          break;
+        default:
+          applyModalFilterTitle = "";
+          break;
+      }
+
+      openModal("filter", {
+        title: applyModalFilterTitle,
+        filterType: filterType,
+      });
     } else {
-      setAppliedFilterType();
-      setActiveFilterType();
-      setDisplayedEntries([...groupTransactions(data)]);
+      handleFilterChange({ type: null, pattern: null });
     }
-  }
-
-  let applyModalFilterTitle;
-
-  switch (appliedFilterType) {
-    case "date":
-      applyModalFilterTitle = "Nach Datum filtern";
-      break;
-    case "category":
-      applyModalFilterTitle = "Nach Kategorie filtern";
-      break;
-    default:
-      applyModalFilterTitle = "";
-      break;
   }
 
   if (isLoading) return null;
 
   return (
     <>
-      {modalOpen && (
-        <Modal title={applyModalFilterTitle}>
-          <TransactionFilters
-            getTransactionsFiltered={getTransactionsFiltered}
-            filterType={appliedFilterType}
-          />
-        </Modal>
-      )}
       <StyledH1>Analyse</StyledH1>
       <StyledH2>Filtern nach:</StyledH2>
       <StyledFilterCriteriaWrapper>
         <StyledFilterButton onClick={() => handleClickFilter("category")}>
           <IconTextWrapper>
             <StyledTag
-              $activated={activeFilterType === "category" ? true : false}
+              $activated={activeFilter.type === "category" ? true : false}
             ></StyledTag>
           </IconTextWrapper>
         </StyledFilterButton>
         <StyledFilterButton onClick={() => handleClickFilter("date")}>
           <IconTextWrapper>
             <StyledCalendarDays
-              $activated={activeFilterType === "date" ? true : false}
+              $activated={activeFilter.type === "date" ? true : false}
             ></StyledCalendarDays>
           </IconTextWrapper>
         </StyledFilterButton>
       </StyledFilterCriteriaWrapper>
       <TransactionsHeader />
-      {displayedEntries.length > 0 ? (
-        <TransactionsList transactions={displayedEntries} />
+      {sortedEntries.length > 0 ? (
+        <TransactionsList transactions={sortedEntries} />
       ) : (
         <StyledH2>Keine Daten für den gew&auml;hlten Filter!</StyledH2>
       )}

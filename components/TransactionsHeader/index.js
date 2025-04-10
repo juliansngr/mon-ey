@@ -1,19 +1,28 @@
-import styled from "styled-components";
-import { CirclePlus } from "lucide-react";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
+import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { handleTransactionAdd } from "@/utils/TransactionsHandler";
+import { CirclePlus } from "lucide-react";
+import styled from "styled-components";
 
 export default function TransactionsHeader({ hasAddButton = false }) {
-  const { handleModalCall } = useModalContext();
+  const { mutate } = useTransactionsContext();
+  const { openModal, closeModal } = useModalContext();
   return (
     <>
       <StyledHeaderWrapper>
         <StyledH2>Transaktionen</StyledH2>
         {hasAddButton && (
           <StyledAddButton
-            onClick={handleModalCall}
-            aria-label="add a transaction"
+            onClick={() => {
+              openModal("addTransaction", {
+                onSubmit: (event) => {
+                  handleTransactionAdd(event, { mutate, closeModal });
+                },
+              });
+            }}
+            aria-label="Neue Transaktion hinzufügen"
           >
-            <StyledCirclePlus />
+            <StyledCirclePlus aria-hidden="true" />
           </StyledAddButton>
         )}
       </StyledHeaderWrapper>
@@ -38,6 +47,11 @@ const StyledAddButton = styled.button`
 const StyledCirclePlus = styled(CirclePlus)`
   width: 100%;
   height: 100%;
+  transition: background-color 0.6s ease, transform 0.8s ease;
+  &:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
 `;
 
 const StyledHeaderWrapper = styled.div`
