@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { CircleX } from "lucide-react";
+import styled from "styled-components";
 
 export default function Modal({ children, title, closeModal }) {
   return (
@@ -29,18 +29,14 @@ const ModalContainer = styled.div`
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 
-  padding: var(--4xl) var(--4xl);
+  padding: var(--4xl);
 `;
 
 const ModalWrapper = styled.div`
   background-color: white;
-  box-shadow: 0 0 0 1px #d2d2d5, 0 10px 15px -3px rgba(0, 0, 0, 0.05),
-    0 4px 6px -4px rgba(0, 0, 0, 0.05);
-
-  padding: var(--2xl) var(--2xl);
-  padding-top: var(--4xl);
+  box-shadow: var(--box-shadow-default);
+  padding: var(--4xl) var(--2xl) var(--2xl);
   border-radius: var(--xs);
-
   position: relative;
 `;
 

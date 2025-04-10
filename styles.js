@@ -34,6 +34,7 @@ export default createGlobalStyle`
   --green-text-dark: #002f20;
 
   /* distances */
+  --4xs: 0.125rem;  /* 2px */
   --3xs: 0.25rem;  /* 4px */
   --2xs: 0.5rem;   /* 8px */
   --xs: 0.625rem;  /* 10px */
@@ -51,6 +52,15 @@ export default createGlobalStyle`
   --bgBody: var(--green-50);
   --bgHeader: var(--green-800);
   --headerColor: var(--green-text-light);
+
+  /* global usages */
+  --box-shadow-default: 0 0 0 1px #d2d2d5, 
+                      0 10px 15px -3px rgba(0, 0, 0, 0.05),
+                      0 4px 6px -4px rgba(0, 0, 0, 0.05);
+
+  --box-shadow-active: 5px 5px 22px -4px #002f20,
+                      5px 5px 22px -4px rgba(0, 0, 0, 0.6),
+                      0 4px 6px -4px rgba(0, 0, 0, 0.05);
 }
 
   html { 
