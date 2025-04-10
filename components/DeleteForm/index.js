@@ -7,12 +7,8 @@ export default function DeleteForm({ id, onDelete }) {
   const { closeModal } = useModalContext();
 
   async function handleDeleteTransaction() {
-    const response = await fetch("/api/dummy", {
+    const response = await fetch(`/api/transactions/${id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(id),
     });
     if (response.ok) {
       mutate();
