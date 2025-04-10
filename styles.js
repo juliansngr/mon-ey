@@ -98,7 +98,11 @@ input::-webkit-inner-spin-button {
 }
 
 input[type=number] {
-  -moz-appearance: textfield;
+  input[type=number] {
+    -moz-appearance: textfield;
+    -webkit-appearance: none;
+    appearance: none; 
+  }
 }
 a {
   all: unset;
