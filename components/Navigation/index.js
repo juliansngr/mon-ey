@@ -10,7 +10,7 @@ export default function Navigation() {
 
     const handleNavClick = (path) => {
         handleFilterChange({ type: null, pattern: null })
-        setActivePath(path); // Setze den aktiven Pfad beim Klicken
+        setActivePath(path);
     };
 
     return (
@@ -92,8 +92,8 @@ const NavItem = styled(Link)`
     }
     &.active {
         cursor: default;
-        background-color: var(--green-600);
-        & > div{
+        background-color: inherit;
+        & > div {
             background-color: var(--green-800);
         }
     }
