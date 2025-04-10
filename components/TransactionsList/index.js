@@ -45,11 +45,6 @@ const StyledUl = styled.ul`
   gap: var(--xs);
 `;
 
-const StyledH2 = styled.h2`
-  font-size: var(--2xl);
-  margin-bottom: 1rem;
-`;
-
 const StyledLi = styled.li`
   display: flex;
   flex-direction: column;

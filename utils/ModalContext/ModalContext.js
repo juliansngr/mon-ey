@@ -27,7 +27,7 @@ export function ModalProvider({ children }) {
       {children}
       {activeModal.type === "addTransaction" && (
         <Modal title="Neue Transaktion erfassen" closeModal={closeModal}>
-          <TransactionForm />
+          <TransactionForm onSubmit={activeModal.props.onSubmit} />
         </Modal>
       )}
       {activeModal.type === "deleteTransaction" && (
@@ -41,6 +41,14 @@ export function ModalProvider({ children }) {
       {activeModal.type === "filter" && (
         <Modal title={activeModal.props.title} closeModal={closeModal}>
           <TransactionFilters filterType={activeModal.props.filterType} />
+        </Modal>
+      )}
+      {activeModal.type === "updateTransaction" && (
+        <Modal title={"Transaktion bearbeiten"} closeModal={closeModal}>
+          <TransactionForm
+            currentTransaction={activeModal.props.currentTransaction}
+            onSubmit={activeModal.props.onSubmit}
+          />
         </Modal>
       )}
     </ModalContext.Provider>

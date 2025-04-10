@@ -4,16 +4,17 @@ import { useTransactionsContext } from "@/utils/TransactionsContext/Transactions
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import dayjs from "dayjs";
-import { Trash2 } from "lucide-react";
+import { Trash2, SquarePen } from "lucide-react";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import { useState } from "react";
+import { handleTransactionUpdate } from "@/utils/TransactionsHandler";
 
 export default function TransactionDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, isLoading } = useTransactionsContext();
-  const { openModal } = useModalContext();
+  const { data, isLoading, mutate } = useTransactionsContext();
+  const { openModal, closeModal } = useModalContext();
 
   const [wasDeleted, setWasDeleted] = useState(null);
 
@@ -76,6 +77,20 @@ export default function TransactionDetails() {
               <TrashIcon />
               Löschen
             </DeleteButton>
+            <UpdateButton
+              onClick={() => {
+                openModal("updateTransaction", {
+                  currentTransaction: currentTransaction,
+                  onSubmit: (event) => {
+                    handleTransactionUpdate(event, id, { mutate, closeModal });
+                  },
+                });
+              }}
+              aria-label="Transaktion bearbeiten"
+            >
+              <EditIcon />
+              Ändern
+            </UpdateButton>
           </ActionButtonsWrapper>
         </>
       )}
@@ -167,6 +182,24 @@ const TrashIcon = styled(Trash2)`
   height: 100%;
 `;
 
+const UpdateButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--3xs);
+  background-color: transparent;
+  border: none;
+  color: var(--green-950);
+  width: 2.25rem;
+  height: 3.25rem;
+  cursor: pointer;
+`;
+
+const EditIcon = styled(SquarePen)`
+  width: 100%;
+  height: 100%;
+`;
+
 const NotificationMessage = styled.p`
   font-weight: 500;
   margin-bottom: var(--sm);
@@ -176,4 +209,5 @@ const NotificationMessage = styled.p`
 const ActionButtonsWrapper = styled.div`
   display: flex;
   justify-content: center;
+  gap: var(--4xl);
 `;

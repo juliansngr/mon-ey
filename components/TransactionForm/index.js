@@ -1,53 +1,18 @@
 import styled from "styled-components";
 import categories from "@/db/categories.json";
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import dayjs from "dayjs";
 
-export default function TransactionForm() {
-  const { mutate } = useTransactionsContext();
-  const { closeModal } = useModalContext();
-
-  async function handleTransactionSubmit(event) {
-    event.preventDefault();
-
-    const formData = new FormData(event.target);
-    const rawData = Object.fromEntries(formData);
-
-    const amount = Number(
-      rawData.type === "expense" ? `-${rawData.amount}` : `${rawData.amount}`
-    );
-
-    const transactionData = {
-      ...rawData,
-      amount: amount,
-      id: crypto.randomUUID(),
-      date: dayjs(rawData.date).format("YYYY-MM-DDTHH:mm:ss"),
-    };
-
-    const response = await fetch("/api/dummy", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(transactionData),
-    });
-    if (response.ok) {
-      mutate();
-      closeModal();
-    }
-
-    if (!response.ok) {
-      closeModal();
-    }
-  }
+export default function TransactionForm({ onSubmit, currentTransaction }) {
   return (
-    <StyledForm onSubmit={handleTransactionSubmit}>
+    <StyledForm onSubmit={onSubmit}>
       <StyledFormInput
         type="number"
         id="amount"
         name="amount"
         placeholder="Betrag (in €)"
+        defaultValue={
+          currentTransaction?.amount && Math.abs(currentTransaction.amount)
+        }
         step="0.01"
         min="0.01"
         aria-label="Betrag der Transaktion"
@@ -58,6 +23,7 @@ export default function TransactionForm() {
         id="partner"
         name="partner"
         placeholder="An wen? bzw. Von wem?"
+        defaultValue={currentTransaction?.partner}
         aria-label="Empfänger oder Absender der Transaktion"
         required
       />
@@ -67,6 +33,7 @@ export default function TransactionForm() {
           name="type"
           id="transaction_type_income"
           value="income"
+          defaultChecked={currentTransaction?.type === "income"}
         />
         <StyledFormLabel htmlFor="transaction_type_income">
           Einnahme
@@ -78,6 +45,7 @@ export default function TransactionForm() {
           name="type"
           id="transaction_type_expense"
           value="expense"
+          defaultChecked={currentTransaction?.type === "expense"}
         />
         <StyledFormLabel htmlFor="transaction_type_expense">
           Ausgabe
@@ -89,6 +57,7 @@ export default function TransactionForm() {
         name="category"
         required
         aria-label="Kategorie der Transaktion wählen"
+        defaultValue={currentTransaction?.category}
       >
         <StyledFormSelectOption value="">
           -Bitte Kategorie ausw&auml;hlen-
@@ -102,11 +71,15 @@ export default function TransactionForm() {
       <StyledFormInput
         type="datetime-local"
         name="date"
-        defaultValue={dayjs().format("YYYY-MM-DDTHH:mm")}
+        defaultValue={
+          currentTransaction?.date
+            ? dayjs().format(currentTransaction.date)
+            : dayjs().format("YYYY-MM-DDTHH:mm")
+        }
         aria-label="Zeitpunkt der Transaktion wählen"
       />
       <StyledFormSubmit aria-label="Transaktion hinzufügen">
-        Hinzuf&uuml;gen
+        {currentTransaction ? "Änderungen speichern" : "Hinzufügen"}
       </StyledFormSubmit>
     </StyledForm>
   );
