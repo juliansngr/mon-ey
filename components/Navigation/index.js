@@ -1,12 +1,15 @@
+import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { ChartColumn, Home } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import styled from "styled-components";
 
 export default function Navigation() {
+    const { handleFilterChange } = useTransactionsContext();
     const [activePath, setActivePath] = useState("/");
 
     const handleNavClick = (path) => {
+        handleFilterChange({ type: null, pattern: null })
         setActivePath(path); // Setze den aktiven Pfad beim Klicken
     };
 
@@ -62,7 +65,7 @@ const NavContainer = styled.nav`
 
 const NavList = styled.ul`
     display: flex;
-    background: var(--bgHeader);
+    background-color: var(--green-600);
     border-top-left-radius: var(--2xs); 
     border-top-right-radius: var(--2xs);
     overflow:hidden;
@@ -91,7 +94,7 @@ const NavItem = styled(Link)`
         cursor: default;
         background-color: var(--green-600);
         & > div{
-            background-color: var(--red-500);
+            background-color: var(--green-800);
         }
     }
 `;
