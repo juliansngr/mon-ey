@@ -7,11 +7,11 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     const transactions = await Transaction.find();
 
-    if (!transaction) {
+    if (!transactions) {
       return res.status(404).json({ status: "Not Found" });
     }
 
-    res.status(200).json(transaction);
+    res.status(200).json(transactions);
   } else if (req.method === "POST") {
     try {
       const transactionData = req.body;
