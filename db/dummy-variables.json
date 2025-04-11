@@ -1,0 +1,74 @@
+[
+  {
+    "id": "1",
+    "varName": "grandTotal",
+    "dataType": "float",
+    "initialValue": "0.00",
+    "isMandatory" : "false",
+    "domainType": "undefined",
+    "domainValues": "undefined"
+  },
+  {
+    "id": "2",
+    "varName": "subCategory",
+    "dataType": "string",
+    "initialValue": "",
+    "isMandatory" : "false" ,
+    "domainType": "list",
+    "domainValues": [
+      "Notwendigkeit",
+      "sp&auml;ter w&auml;r auch m&ouml;glich gewesen",
+      "Luxus"
+    ]
+  },
+  {
+    "id": "3",
+    "varName": "transactionAmount",
+    "dataType": "number",
+    "initialValue": "0.00",
+    "isMandatory" : "true" ,
+    "domainType": "",
+    "domainValues": ""
+  }
+  {
+    "id": "4",
+    "varName": "transactionPartner",
+    "dataType": "string",
+    "initialValue": "",
+    "isMandatory" : "true" ,
+    "domainType": "",
+    "domainValues": ""
+  }
+  {
+    "id": "5",
+    "varName": "transactionType",
+    "dataType": "boolean",
+    "initialValue": "",
+    "isMandatory" : "true" ,
+    "domainType": "",
+    "domainValues": ""
+  }
+  {
+    "id": "6",
+    "varName": "transactionCategory",
+    "dataType": "string",
+    "initialValue": "",
+    "isMandatory" : "true" ,
+    "domainType": "textList",
+    "domainValues": [
+      {"value" : "bildung","text" : "Bildung"},
+      {"value" : "unterhaltung","text" : "Unterhaltung"},
+      {"value" : "lebensmittel","text" :"Lebensmittel"},
+      {"value" : "gesundheit","text" :  "Gesundheit",},
+      {"value" : "versicherung","text" :"Versicherung"},
+      {"value" : "investitionen","text" :"Investitionen"},
+      {"value" : "sonstiges","text" : "Sonstiges"},
+      {"value" : "miete","text" :"Miete"},
+      {"value" : "restaurants","text" :"Restaurants"},
+      {"value" : "gehalt","text" :"Gehalt"},
+      {"value" : "ersparnisse","text" :"Ersparnisse"},
+      {"value" : "transport","text" :"Transport"},
+      {"value" : "dienstprogramme","text" :"Dienstprogramme"}
+    ]
+  }
+]
