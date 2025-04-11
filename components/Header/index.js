@@ -1,16 +1,8 @@
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 
 export default function Header() {
-    const router = useRouter();
-    const activeNavPoint = router.pathname;
-    const { handleFilterChange } = useTransactionsContext();
-
-    const handleNavClick = (path) => {
-        handleFilterChange({ type: null, pattern: null })
-    };
 
     return (
         <StyledHeader>
@@ -20,11 +12,10 @@ export default function Header() {
             <HomeLink
                 href="/"
                 aria-label="Zurück zur Startseite von mon-ey"
-                aria-current={activeNavPoint}
-                onClick={() => handleNavClick()}
+                aria-current="/"
             >
                 <AppName>
-                    mon-<span className="rotateEy">ey</span>
+                    mon-<span>ey</span>
                     <AppNameText>Denn WIR wissen, wo DEIN Geld ab bleibt!</AppNameText>
                 </AppName>
             </HomeLink>
@@ -76,7 +67,7 @@ const AppName = styled.div`
   font-size: var(--3xl);
   font-weight: 600;
  
-  & .rotateEy {
+  & span:nth-child(1)  {
     display: inline-block;
     transform: rotate(20deg);
     transform-origin: center;

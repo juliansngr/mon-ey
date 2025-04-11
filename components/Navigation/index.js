@@ -2,17 +2,17 @@ import { useTransactionsContext } from "@/utils/TransactionsContext/Transactions
 import { ChartColumn, Home } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState } from "react";
-import styled from "styled-components";
+import { useEffect } from "react";
+import { css, styled } from "styled-components";
 
 export default function Navigation() {
     const router = useRouter();
     const activeNavPoint = router.pathname
     const { handleFilterChange } = useTransactionsContext();
 
-    const handleNavClick = (path) => {
-        handleFilterChange({ type: null, pattern: null })
-    };
+    useEffect(() => {
+        handleFilterChange({ type: null, pattern: null });
+    }, [activeNavPoint]);
 
     return (
         <NavContainer role="navigation" aria-label="Hauptnavigation der Website">
@@ -22,8 +22,7 @@ export default function Navigation() {
                         href="/"
                         aria-label="Navigiere zur Startseite"
                         aria-current={activeNavPoint}
-                        className={activeNavPoint === "/" && "active"}
-                        onClick={() => handleNavClick("/")}
+                        $active={activeNavPoint === "/"}
                     >
                         <StyledCircle aria-hidden="true">
                             <StyledHomeIcon aria-hidden="true" />
@@ -35,8 +34,8 @@ export default function Navigation() {
                         href="/analytics"
                         aria-label="Navigiere zu den Analysen"
                         aria-current={activeNavPoint}
-                        className={activeNavPoint === "/analytics" && "active"}
-                        onClick={() => handleNavClick("/analytics")}>
+                        $active={activeNavPoint === "/analytics"}
+                    >
                         <StyledCircle aria-hidden="true">
                             <StyledAnalyseIcon aria-hidden="true" />
                         </StyledCircle>
@@ -91,13 +90,14 @@ const NavItem = styled(Link)`
         background-color: var(--green-500);
         cursor: pointer;
     }
-    &.active {
+
+    ${props => props.$active && css`
         cursor: default;
         background-color: inherit;
         & > div {
             background-color: var(--green-800);
         }
-    }
+    `}
 `;
 
 const StyledHomeIcon = styled(Home)`

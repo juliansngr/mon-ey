@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }) {
   return (
     <>
       <GlobalStyle />
-      <PageBody>
+      <main>
         <TransactionsProvider>
           <Header />
           <ModalProvider>
@@ -17,9 +17,8 @@ export default function App({ Component, pageProps }) {
           </ModalProvider>
           <Navigation />
         </TransactionsProvider>
-      </PageBody>
+      </main>
     </>
   );
 }
 
-const PageBody = styled.main``;
