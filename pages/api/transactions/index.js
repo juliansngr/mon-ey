@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   await dbConnect();
 
   if (req.method === "GET") {
-    const transaction = await Transaction.find();
+    const transactions = await Transaction.find();
 
     if (!transaction) {
       return res.status(404).json({ status: "Not Found" });
