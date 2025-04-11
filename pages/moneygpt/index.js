@@ -6,15 +6,15 @@ import ReactMarkdown from "react-markdown";
 import { RotateCw } from "lucide-react";
 
 export default function Chat() {
-  const { data: transactions } = useTransactionsContext();
+  const { data: transactions, isLoading } = useTransactionsContext();
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(0);
 
-  // isLoading Handler einbauzen
-
   useEffect(() => {
     const sendTransactions = async () => {
+      if (!transactions || transactions.length === 0) return;
+
       setLoading(true);
       setResponse("");
 
@@ -36,6 +36,10 @@ export default function Chat() {
 
     sendTransactions();
   }, [reloadTrigger]);
+
+  if (isLoading) {
+    return <p>Lade Daten</p>;
+  }
 
   return (
     <div className="">
