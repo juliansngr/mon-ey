@@ -1,16 +1,17 @@
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { ChartColumn, Home } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import styled from "styled-components";
 
 export default function Navigation() {
+    const router = useRouter();
+    const activeNavPoint = router.pathname
     const { handleFilterChange } = useTransactionsContext();
-    const [activePath, setActivePath] = useState("/");
 
     const handleNavClick = (path) => {
         handleFilterChange({ type: null, pattern: null })
-        setActivePath(path);
     };
 
     return (
@@ -20,8 +21,8 @@ export default function Navigation() {
                     <NavItem
                         href="/"
                         aria-label="Navigiere zur Startseite"
-                        aria-current={activePath === "/" && "page"}
-                        className={activePath === "/" && "active"}
+                        aria-current={activeNavPoint}
+                        className={activeNavPoint === "/" && "active"}
                         onClick={() => handleNavClick("/")}
                     >
                         <StyledCircle aria-hidden="true">
@@ -33,8 +34,8 @@ export default function Navigation() {
                     <NavItem
                         href="/analytics"
                         aria-label="Navigiere zu den Analysen"
-                        aria-current={activePath === "/analytics" && "page"}
-                        className={activePath === "/analytics" && "active"}
+                        aria-current={activeNavPoint}
+                        className={activeNavPoint === "/analytics" && "active"}
                         onClick={() => handleNavClick("/analytics")}>
                         <StyledCircle aria-hidden="true">
                             <StyledAnalyseIcon aria-hidden="true" />
