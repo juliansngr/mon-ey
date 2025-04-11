@@ -10,11 +10,12 @@ export default function Chat() {
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(0);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const sendTransactions = async () => {
       if (!transactions || transactions.length === 0) return;
-
+      setError(false);
       setLoading(true);
       setResponse("");
 
@@ -25,10 +26,33 @@ export default function Chat() {
           body: JSON.stringify(transactions),
         });
 
+        if (res.status === 504) {
+          throw new Error(
+            `Server ist ausgelastet - versuche es später nochmal`
+          );
+        }
+        if (res.status === 429) {
+          throw new Error(
+            "Zu viele Anfragen – warte kurz und versuch es nochmal"
+          );
+        }
+
+        if (!res.headers.get("content-type").includes("application/json")) {
+          throw new Error(`Response isn't type application/json`);
+        }
+
         const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(
+            "Ein Fehler ist aufgetreten. Bitte versuche es erneut."
+          );
+        }
+
         setResponse(data.response || "Keine Antwort erhalten.");
       } catch (error) {
         setResponse("Fehler: " + error.message);
+        setError(true);
       }
 
       setLoading(false);
@@ -36,10 +60,6 @@ export default function Chat() {
 
     sendTransactions();
   }, [reloadTrigger]);
-
-  if (isLoading) {
-    return <p>Lade Daten</p>;
-  }
 
   return (
     <div className="">
@@ -61,6 +81,12 @@ export default function Chat() {
           <ResponseText></ResponseText>
 
           {response === "Keine Antwort erhalten." && (
+            <RetryButton onClick={() => setReloadTrigger((prev) => prev + 1)}>
+              <RetryIcon />
+              Nochmal versuchen
+            </RetryButton>
+          )}
+          {error && (
             <RetryButton onClick={() => setReloadTrigger((prev) => prev + 1)}>
               <RetryIcon />
               Nochmal versuchen

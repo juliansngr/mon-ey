@@ -41,6 +41,10 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     if (!response.ok) {
+      if (response.status === 504) {
+        return res.status(504).json({ error: "Mistral API timeout (504)" });
+      }
+
       return res
         .status(response.status)
         .json({ error: data.error || "API request failed" });
