@@ -3,6 +3,7 @@ import { ModalProvider } from "@/utils/ModalContext/ModalContext";
 import { TransactionsProvider } from "@/utils/TransactionsContext/TransactionsContext";
 import styled from "styled-components";
 import GlobalStyle from "../styles";
+import { SessionProvider } from "next-auth/react";
 
 export default function App({ Component, pageProps }) {
   return (
@@ -10,12 +11,14 @@ export default function App({ Component, pageProps }) {
       <GlobalStyle />
       <LayoutWrapper>
         <PageBody>
-          <TransactionsProvider>
-            <ModalProvider>
-              <Component {...pageProps} />
-            </ModalProvider>
-            <Navigation />
-          </TransactionsProvider>
+          <SessionProvider session={session}>
+            <TransactionsProvider>
+              <ModalProvider>
+                <Component {...pageProps} />
+              </ModalProvider>
+              <Navigation />
+            </TransactionsProvider>
+          </SessionProvider>
         </PageBody>
       </LayoutWrapper>
     </>
