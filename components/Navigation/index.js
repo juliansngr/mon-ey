@@ -1,17 +1,18 @@
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { ChartColumn, Home } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import styled from "styled-components";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { css, styled } from "styled-components";
 
 export default function Navigation() {
+    const router = useRouter();
+    const activeNavPoint = router.pathname
     const { handleFilterChange } = useTransactionsContext();
-    const [activePath, setActivePath] = useState("/");
 
-    const handleNavClick = (path) => {
-        handleFilterChange({ type: null, pattern: null })
-        setActivePath(path);
-    };
+    useEffect(() => {
+        handleFilterChange({ type: null, pattern: null });
+    }, [activeNavPoint]);
 
     return (
         <NavContainer role="navigation" aria-label="Hauptnavigation der Website">
@@ -20,9 +21,8 @@ export default function Navigation() {
                     <NavItem
                         href="/"
                         aria-label="Navigiere zur Startseite"
-                        aria-current={activePath === "/" && "page"}
-                        className={activePath === "/" && "active"}
-                        onClick={() => handleNavClick("/")}
+                        aria-current={activeNavPoint}
+                        $active={activeNavPoint === "/"}
                     >
                         <StyledCircle aria-hidden="true">
                             <StyledHomeIcon aria-hidden="true" />
@@ -33,9 +33,9 @@ export default function Navigation() {
                     <NavItem
                         href="/analytics"
                         aria-label="Navigiere zu den Analysen"
-                        aria-current={activePath === "/analytics" && "page"}
-                        className={activePath === "/analytics" && "active"}
-                        onClick={() => handleNavClick("/analytics")}>
+                        aria-current={activeNavPoint}
+                        $active={activeNavPoint === "/analytics"}
+                    >
                         <StyledCircle aria-hidden="true">
                             <StyledAnalyseIcon aria-hidden="true" />
                         </StyledCircle>
@@ -90,13 +90,14 @@ const NavItem = styled(Link)`
         background-color: var(--green-500);
         cursor: pointer;
     }
-    &.active {
+
+    ${props => props.$active && css`
         cursor: default;
         background-color: inherit;
         & > div {
             background-color: var(--green-800);
         }
-    }
+    `}
 `;
 
 const StyledHomeIcon = styled(Home)`
