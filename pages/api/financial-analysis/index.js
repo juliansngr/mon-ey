@@ -5,7 +5,13 @@ export default async function handler(req, res) {
 
   const transactions = req.body;
 
-  const jsonString = JSON.stringify(transactions);
+  let jsonString;
+
+  try {
+    jsonString = JSON.stringify(transactions);
+  } catch (err) {
+    return res.status(400).json({ error: "Failed to create JSON" });
+  }
 
   const apiKey = process.env.MISTRAL_API_KEY;
   const apiUrl = "https://api.mistral.ai/v1/chat/completions";
