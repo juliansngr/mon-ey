@@ -1,9 +1,12 @@
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
+import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { handleTransactionAdd } from "@/utils/TransactionsHandler";
 import { CirclePlus } from "lucide-react";
 import styled from "styled-components";
 
 export default function TransactionsHeader({ hasAddButton = false }) {
-  const { openModal } = useModalContext();
+  const { mutate } = useTransactionsContext();
+  const { openModal, closeModal } = useModalContext();
   return (
     <>
       <StyledHeaderWrapper>
@@ -11,7 +14,11 @@ export default function TransactionsHeader({ hasAddButton = false }) {
         {hasAddButton && (
           <StyledAddButton
             onClick={() => {
-              openModal("addTransaction");
+              openModal("addTransaction", {
+                onSubmit: (event) => {
+                  handleTransactionAdd(event, { mutate, closeModal });
+                },
+              });
             }}
             aria-label="Neue Transaktion hinzufügen"
           >
