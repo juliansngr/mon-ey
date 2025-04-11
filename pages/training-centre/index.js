@@ -1,6 +1,7 @@
 import useSWR from "swr";
 import RulesList from "@/components/RulesList";
 import RulesHeader from "@/components/RulesHeader";
+import styled from "styled-components";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -10,13 +11,18 @@ export default function TrainingCentrePage() {
   if (error) return <div>failed to load</div>;
   if (isLoading) return <div>loading...</div>;
 
-  //   if (!rules) return null;
-
-  console.log(rules);
   return (
     <>
       <RulesHeader />
-      <RulesList rules={rules} />
+      {rules.length > 0 ? (
+        <RulesList rules={rules} />
+      ) : (
+        <NoRulesText>Keine Regeln vorhanden.</NoRulesText>
+      )}
     </>
   );
 }
+
+const NoRulesText = styled.p`
+  text-align: center;
+`;

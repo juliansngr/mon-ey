@@ -2,31 +2,29 @@ import { Fingerprint } from "lucide-react";
 import styled from "styled-components";
 
 export default function RuleCard({ data }) {
-  console.log(data);
   const truncateText = (text, maxLength) =>
     text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 
   return (
     <StyledRuleCard>
-      <IconTextWrapper>
-        <StyledRuleIcon />
-        <div>
-          <StyledRuleDescription>
-            {truncateText(data.description, 30)}
-          </StyledRuleDescription>
-          <StyledRuleDetails>
-            beregeltes Eingabefeld: {data.consequences.object}
-          </StyledRuleDetails>
-        </div>
-      </IconTextWrapper>
+      <StyledRuleIcon />
+      <div>
+        <StyledRuleDescription>
+          {truncateText(data.description, 30)}
+        </StyledRuleDescription>
+        <StyledRuleDetails>
+          beregeltes Eingabefeld: {data.consequences.object}
+        </StyledRuleDetails>
+      </div>
     </StyledRuleCard>
   );
 }
 
 const StyledRuleCard = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  gap: 1rem;
   padding: var(--md);
   border-radius: var(--xs);
   background-color: white;
@@ -36,22 +34,10 @@ const StyledRuleCard = styled.div`
   transition: background-color 0.3s ease;
 `;
 
-const StyledAmount = styled.p`
-  font-size: var(--lg);
-  font-weight: 500;
-  color: ${(props) =>
-    props.$type === "income" ? `var(--green-500)` : `var(--red-500)`};
-`;
-
 const StyledRuleIcon = styled(Fingerprint)`
   color: var(--green-500);
   width: 35px;
   height: 35px;
-`;
-
-const IconTextWrapper = styled.div`
-  display: flex;
-  gap: 1rem;
 `;
 
 const StyledRuleDescription = styled.p`
