@@ -1,4 +1,3 @@
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import Link from "next/link";
 import styled from "styled-components";
 
@@ -11,8 +10,7 @@ export default function Header() {
             </LogoContainer>
             <HomeLink
                 href="/"
-                aria-label="Zurück zur Startseite von mon-ey"
-                aria-current="/"
+                aria-label="Startseite von mon ey"
             >
                 <AppName>
                     mon-<span>ey</span>
