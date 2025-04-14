@@ -125,7 +125,7 @@ const ContentWrapper = styled.div`
   gap: var(--sm);
 
   min-height: 100vh;
-  padding: var(--md) 0;
+  padding: var(--md) 0 var(--5xl) 0;
   position: relative;
 `;
 
