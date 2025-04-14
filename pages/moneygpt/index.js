@@ -14,7 +14,9 @@ export default function Chat() {
 
   const sendTransactions = async () => {
     if (!transactions || transactions.length === 0) {
+      setResponse("Keine Transaktionen gefunden.");
       setError(true);
+      return;
     }
     setError(false);
     setLoading(true);
@@ -28,16 +30,16 @@ export default function Chat() {
       });
 
       if (res.status === 504) {
-        throw new Error(`Server ist ausgelastet - versuche es später nochmal`);
+        throw new Error(`Server ist ausgelastet - versuche es später nochmal.`);
       }
       if (res.status === 429) {
         throw new Error(
-          "Zu viele Anfragen – warte kurz und versuch es nochmal"
+          "Zu viele Anfragen – warte kurz und versuch es nochmal."
         );
       }
 
       if (!res.headers.get("content-type").includes("application/json")) {
-        throw new Error(`Response isn't type application/json`);
+        throw new Error(`Die Antwort ist kein application/json.`);
       }
 
       const data = await res.json();
@@ -100,13 +102,13 @@ export default function Chat() {
 
             {response === "Keine Antwort erhalten." && (
               <RedButton onClick={() => sendTransactions()}>
-                <RetryIcon />
+                <RotateCw />
                 Nochmal versuchen
               </RedButton>
             )}
             {error && (
               <RedButton onClick={() => sendTransactions()}>
-                <RetryIcon />
+                <RotateCw />
                 Nochmal versuchen
               </RedButton>
             )}
@@ -164,5 +166,3 @@ const RedButton = styled.button`
   background-color: var(--red-500);
   cursor: pointer;
 `;
-
-const RetryIcon = styled(RotateCw)``;
