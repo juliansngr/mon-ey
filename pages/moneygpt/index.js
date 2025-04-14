@@ -7,7 +7,7 @@ import { RotateCw, BicepsFlexed, Angry } from "lucide-react";
 import Link from "next/link";
 
 export default function Chat() {
-  const { data: transactions, isLoading } = useTransactionsContext();
+  const { data: transactions } = useTransactionsContext();
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
   const [reloadTrigger, setReloadTrigger] = useState(0);
@@ -99,13 +99,13 @@ export default function Chat() {
             <ResponseText></ResponseText>
 
             {response === "Keine Antwort erhalten." && (
-              <RedButton onClick={() => setReloadTrigger((prev) => prev + 1)}>
+              <RedButton onClick={() => sendTransactions()}>
                 <RetryIcon />
                 Nochmal versuchen
               </RedButton>
             )}
             {error && (
-              <RedButton onClick={() => setReloadTrigger((prev) => prev + 1)}>
+              <RedButton onClick={() => sendTransactions()}>
                 <RetryIcon />
                 Nochmal versuchen
               </RedButton>
@@ -123,7 +123,7 @@ const ContentWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: var(--sm);
-  min-width: 100vw;
+
   min-height: 100vh;
   padding: var(--md) 0;
   position: relative;

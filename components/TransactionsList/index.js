@@ -5,12 +5,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 export default function TransactionsList({ transactions }) {
-  const router = useRouter();
-
-  const { route } = router;
-
-  console.log(route);
-
   return (
     <>
       <StyledUl>
