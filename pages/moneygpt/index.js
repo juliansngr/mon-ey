@@ -10,11 +10,12 @@ export default function Chat() {
   const { data: transactions } = useTransactionsContext();
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
-  const [reloadTrigger, setReloadTrigger] = useState(0);
   const [error, setError] = useState(false);
 
   const sendTransactions = async () => {
-    if (!transactions || transactions.length === 0) return;
+    if (!transactions || transactions.length === 0) {
+      setError(true);
+    }
     setError(false);
     setLoading(true);
     setResponse("");
@@ -96,7 +97,6 @@ export default function Chat() {
         <ContentWrapper>
           <ResponseWrapper>
             <ReactMarkdown>{response}</ReactMarkdown>
-            <ResponseText></ResponseText>
 
             {response === "Keine Antwort erhalten." && (
               <RedButton onClick={() => sendTransactions()}>
@@ -149,8 +149,6 @@ const ResponseWrapper = styled.div`
   box-shadow: 0 0 0 1px #d2d2d5, 0 10px 15px -3px rgba(0, 0, 0, 0.05),
     0 4px 6px -4px rgba(0, 0, 0, 0.05);
 `;
-
-const ResponseText = styled.p``;
 
 const RedButton = styled.button`
   display: flex;
