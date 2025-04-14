@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }) {
           <ModalProvider>
             <Component {...pageProps} />
           </ModalProvider>
-        </main >
+        </main>
         <Navigation />
       </TransactionsProvider>
     </>
