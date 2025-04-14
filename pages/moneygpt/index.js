@@ -57,7 +57,7 @@ export default function Chat() {
   };
 
   return (
-    <div>
+    <>
       {!loading && !response && (
         <ContentWrapper>
           <DefaultText>
@@ -113,7 +113,7 @@ export default function Chat() {
           </ResponseWrapper>
         </ContentWrapper>
       )}
-    </div>
+    </>
   );
 }
 
@@ -123,8 +123,10 @@ const ContentWrapper = styled.div`
   justify-content: center;
   align-items: center;
   gap: var(--sm);
-  width: 100vw;
-  height: 100vh;
+  min-width: 100vw;
+  min-height: 100vh;
+  padding: var(--md) 0;
+  position: relative;
 `;
 
 const DefaultText = styled.p`
