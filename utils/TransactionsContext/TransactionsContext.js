@@ -10,7 +10,10 @@ const fetcher = (url) => fetch(url).then((r) => r.json());
 const TransactionsContext = createContext();
 
 export function TransactionsProvider({ children }) {
-  const { data, isLoading, error, mutate } = useSWR(`/api/dummy/`, fetcher);
+  const { data, isLoading, error, mutate } = useSWR(
+    `/api/transactions/`,
+    fetcher
+  );
   const [activeFilter, setActiveFilter] = useState({
     type: null,
     pattern: null,

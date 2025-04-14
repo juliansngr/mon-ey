@@ -17,9 +17,9 @@ export default function TransactionDetails() {
 
   const [wasDeleted, setWasDeleted] = useState(null);
 
-  const currentTransaction = data.find((transaction) => transaction.id === id);
-
   if (isLoading) return <p>Lädt...</p>;
+
+  const currentTransaction = data.find((transaction) => transaction._id === id);
 
   return (
     <TransactionDetailsWrapper>
@@ -68,7 +68,7 @@ export default function TransactionDetails() {
             <DeleteButton
               onClick={() => {
                 openModal("deleteTransaction", {
-                  id: id,
+                  id: currentTransaction._id,
                   onDelete: () => setWasDeleted(true),
                 });
               }}
