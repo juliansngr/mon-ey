@@ -1,9 +1,10 @@
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import Image from "next/image";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import ReactMarkdown from "react-markdown";
-import { RotateCw } from "lucide-react";
+import { RotateCw, BicepsFlexed, Angry } from "lucide-react";
+import Link from "next/link";
 
 export default function Chat() {
   const { data: transactions, isLoading } = useTransactionsContext();
@@ -12,59 +13,75 @@ export default function Chat() {
   const [reloadTrigger, setReloadTrigger] = useState(0);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const sendTransactions = async () => {
-      if (!transactions || transactions.length === 0) return;
-      setError(false);
-      setLoading(true);
-      setResponse("");
+  const sendTransactions = async () => {
+    if (!transactions || transactions.length === 0) return;
+    setError(false);
+    setLoading(true);
+    setResponse("");
 
-      try {
-        const res = await fetch("/api/financial-analysis", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(transactions),
-        });
+    try {
+      const res = await fetch("/api/financial-analysis", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(transactions),
+      });
 
-        if (res.status === 504) {
-          throw new Error(
-            `Server ist ausgelastet - versuche es später nochmal`
-          );
-        }
-        if (res.status === 429) {
-          throw new Error(
-            "Zu viele Anfragen – warte kurz und versuch es nochmal"
-          );
-        }
-
-        if (!res.headers.get("content-type").includes("application/json")) {
-          throw new Error(`Response isn't type application/json`);
-        }
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          throw new Error(
-            "Ein Fehler ist aufgetreten. Bitte versuche es erneut."
-          );
-        }
-
-        setResponse(data.response || "Keine Antwort erhalten.");
-      } catch (error) {
-        setResponse("Fehler: " + error.message);
-        setError(true);
+      if (res.status === 504) {
+        throw new Error(`Server ist ausgelastet - versuche es später nochmal`);
+      }
+      if (res.status === 429) {
+        throw new Error(
+          "Zu viele Anfragen – warte kurz und versuch es nochmal"
+        );
       }
 
-      setLoading(false);
-    };
+      if (!res.headers.get("content-type").includes("application/json")) {
+        throw new Error(`Response isn't type application/json`);
+      }
 
-    sendTransactions();
-  }, [reloadTrigger]);
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(
+          "Ein Fehler ist aufgetreten. Bitte versuche es erneut."
+        );
+      }
+
+      setResponse(data.response || "Keine Antwort erhalten.");
+    } catch (error) {
+      setResponse("Fehler: " + error.message);
+      setError(true);
+    }
+
+    setLoading(false);
+  };
 
   return (
-    <div className="">
+    <div>
+      {!loading && !response && (
+        <ContentWrapper>
+          <DefaultText>
+            Stell dir vor, dein Kontostand wäre ein Comedy-Programm – aber mit
+            bitterem Ernst. mon-eyGPT analysiert deine Ausgaben und reißt dir
+            gnadenlos den Geld-Irrsinn unter’m Hintern weg. Kein Bullshit, keine
+            Wattebällchen. Brutal ehrlich, deshalb nix für schwache Nerven.
+            Traust du dich?
+          </DefaultText>
+          <RedButton onClick={() => sendTransactions()}>
+            <BicepsFlexed />
+            Ich traue mich!
+          </RedButton>
+          <Link href="https://de.wiktionary.org/wiki/Versager">
+            <RedButton>
+              <Angry />
+              Ich mich nicht...
+            </RedButton>
+          </Link>
+        </ContentWrapper>
+      )}
+
       {loading && (
-        <LoadingWrapper>
+        <ContentWrapper>
           <LoadingSpinner
             src="/images/load.gif"
             alt="rotating money gif"
@@ -72,33 +89,35 @@ export default function Chat() {
             height={80}
           />
           Analysiert deine Transaktionen...
-        </LoadingWrapper>
+        </ContentWrapper>
       )}
 
       {response && (
-        <ResponseWrapper>
-          <ReactMarkdown>{response}</ReactMarkdown>
-          <ResponseText></ResponseText>
+        <ContentWrapper>
+          <ResponseWrapper>
+            <ReactMarkdown>{response}</ReactMarkdown>
+            <ResponseText></ResponseText>
 
-          {response === "Keine Antwort erhalten." && (
-            <RetryButton onClick={() => setReloadTrigger((prev) => prev + 1)}>
-              <RetryIcon />
-              Nochmal versuchen
-            </RetryButton>
-          )}
-          {error && (
-            <RetryButton onClick={() => setReloadTrigger((prev) => prev + 1)}>
-              <RetryIcon />
-              Nochmal versuchen
-            </RetryButton>
-          )}
-        </ResponseWrapper>
+            {response === "Keine Antwort erhalten." && (
+              <RedButton onClick={() => setReloadTrigger((prev) => prev + 1)}>
+                <RetryIcon />
+                Nochmal versuchen
+              </RedButton>
+            )}
+            {error && (
+              <RedButton onClick={() => setReloadTrigger((prev) => prev + 1)}>
+                <RetryIcon />
+                Nochmal versuchen
+              </RedButton>
+            )}
+          </ResponseWrapper>
+        </ContentWrapper>
       )}
     </div>
   );
 }
 
-const LoadingWrapper = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -106,6 +125,10 @@ const LoadingWrapper = styled.div`
   gap: var(--sm);
   width: 100vw;
   height: 100vh;
+`;
+
+const DefaultText = styled.p`
+  text-align: center;
 `;
 
 const LoadingSpinner = styled(Image)`
@@ -129,7 +152,7 @@ const ResponseWrapper = styled.div`
 
 const ResponseText = styled.p``;
 
-const RetryButton = styled.button`
+const RedButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
