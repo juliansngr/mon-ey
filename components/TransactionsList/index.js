@@ -25,7 +25,7 @@ export default function TransactionsList({ transactions }) {
                   .map((transaction) => (
                     <TransactionCardLink
                       key={transaction.id}
-                      href={`/transactions/${transaction.id}`}
+                      href={`/transactions/${transaction._id}`}
                     >
                       <TransactionCard data={transaction} />
                     </TransactionCardLink>

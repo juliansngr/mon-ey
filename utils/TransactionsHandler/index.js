@@ -13,11 +13,10 @@ export async function handleTransactionAdd(event, { mutate, closeModal }) {
   const transactionData = {
     ...rawData,
     amount: amount,
-    id: crypto.randomUUID(),
     date: dayjs(rawData.date).format("YYYY-MM-DDTHH:mm:ss"),
   };
 
-  const response = await fetch("/api/dummy", {
+  const response = await fetch("/api/transactions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -51,11 +50,10 @@ export async function handleTransactionUpdate(
   const transactionData = {
     ...rawData,
     amount: amount,
-    id: id,
     date: dayjs(rawData.date).format("YYYY-MM-DDTHH:mm:ss"),
   };
 
-  const response = await fetch("/api/dummy", {
+  const response = await fetch(`/api/transactions/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

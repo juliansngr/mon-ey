@@ -1,0 +1,30 @@
+[
+  {
+    "id": "1",
+    "varName": "grandTotal",
+    "dataType": "float",
+    "initialValue": "0.00",
+    "domainType": "undefined",
+    "domainValues": "undefined"
+  },
+  {
+    "id": "2",
+    "varName": "subCategory",
+    "dataType": "string",
+    "initialValue": "",
+    "domainType": "list",
+    "domainValues": [
+      "Notwendigkeit",
+      "sp&auml;ter w&auml;r auch m&ouml;glich gewesen",
+      "Luxus"
+    ]
+  },
+  {
+    "id": "3",
+    "varName": "transactionReference",
+    "dataType": "string",
+    "initialValue": "",
+    "domainType": "",
+    "domainValues": ""
+  }
+]
