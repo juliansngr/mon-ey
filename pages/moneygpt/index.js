@@ -10,15 +10,14 @@ export default function Chat() {
   const { data: transactions } = useTransactionsContext();
   const [response, setResponse] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
 
   const sendTransactions = async () => {
     if (!transactions || transactions.length === 0) {
       setResponse("Keine Transaktionen gefunden.");
-      setError(true);
+
       return;
     }
-    setError(false);
+
     setLoading(true);
     setResponse("");
 
@@ -53,7 +52,6 @@ export default function Chat() {
       setResponse(data.response || "Keine Antwort erhalten.");
     } catch (error) {
       setResponse("Fehler: " + error.message);
-      setError(true);
     }
 
     setLoading(false);
@@ -100,18 +98,10 @@ export default function Chat() {
           <ResponseWrapper>
             <ReactMarkdown>{response}</ReactMarkdown>
 
-            {response === "Keine Antwort erhalten." && (
-              <RedButton onClick={() => sendTransactions()}>
-                <RotateCw />
-                Nochmal versuchen
-              </RedButton>
-            )}
-            {error && (
-              <RedButton onClick={() => sendTransactions()}>
-                <RotateCw />
-                Nochmal versuchen
-              </RedButton>
-            )}
+            <RedButton onClick={() => sendTransactions()}>
+              <RotateCw />
+              Nochmal analysieren
+            </RedButton>
           </ResponseWrapper>
         </ContentWrapper>
       )}
