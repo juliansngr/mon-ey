@@ -1,17 +1,12 @@
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { ChartColumn, Home, BadgeEuro } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import styled from "styled-components";
+import { useRouter } from "next/router";
+import { css, styled } from "styled-components";
 
 export default function Navigation() {
-  const { handleFilterChange } = useTransactionsContext();
-  const [activePath, setActivePath] = useState("/");
-
-  const handleNavClick = (path) => {
-    handleFilterChange({ type: null, pattern: null });
-    setActivePath(path);
-  };
+  const router = useRouter();
+  const activeNavPoint = router.pathname;
 
   return (
     <NavContainer role="navigation" aria-label="Hauptnavigation der Website">
@@ -20,9 +15,8 @@ export default function Navigation() {
           <NavItem
             href="/"
             aria-label="Navigiere zur Startseite"
-            aria-current={activePath === "/" && "page"}
-            className={activePath === "/" && "active"}
-            onClick={() => handleNavClick("/")}
+            aria-current={activeNavPoint === "/" ? "page" : undefined}
+            $active={activeNavPoint === "/"}
           >
             <StyledCircle aria-hidden="true">
               <StyledHomeIcon aria-hidden="true" />
@@ -33,25 +27,11 @@ export default function Navigation() {
           <NavItem
             href="/analytics"
             aria-label="Navigiere zu den Analysen"
-            aria-current={activePath === "/analytics" && "page"}
-            className={activePath === "/analytics" && "active"}
-            onClick={() => handleNavClick("/analytics")}
+            aria-current={activeNavPoint === "/analytics" ? "page" : undefined}
+            $active={activeNavPoint === "/analytics"}
           >
             <StyledCircle aria-hidden="true">
               <StyledAnalyseIcon aria-hidden="true" />
-            </StyledCircle>
-          </NavItem>
-        </NavListItem>
-        <NavListItem>
-          <NavItem
-            href="/moneygpt"
-            aria-label="Navigiere zur moneyGPT KI"
-            aria-current={activePath === "/moneygpt" && "page"}
-            className={activePath === "/moneygpt" && "active"}
-            onClick={() => handleNavClick("/moneygpt")}
-          >
-            <StyledCircle aria-hidden="true">
-              <StyledMoneyGPTIcon aria-hidden="true" />
             </StyledCircle>
           </NavItem>
         </NavListItem>
@@ -104,13 +84,16 @@ const NavItem = styled(Link)`
     background-color: var(--green-500);
     cursor: pointer;
   }
-  &.active {
-    cursor: default;
-    background-color: inherit;
-    & > div {
-      background-color: var(--green-800);
-    }
-  }
+
+  ${(props) =>
+    props.$active &&
+    css`
+      cursor: default;
+      background-color: inherit;
+      & > div {
+        background-color: var(--green-800);
+      }
+    `}
 `;
 
 const StyledHomeIcon = styled(Home)`
@@ -119,11 +102,6 @@ const StyledHomeIcon = styled(Home)`
 `;
 
 const StyledAnalyseIcon = styled(ChartColumn)`
-  font-size: 1.5rem;
-  color: var(--green-text-light, #ebfef4);
-`;
-
-const StyledMoneyGPTIcon = styled(BadgeEuro)`
   font-size: 1.5rem;
   color: var(--green-text-light, #ebfef4);
 `;

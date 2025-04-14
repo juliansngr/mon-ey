@@ -1,13 +1,19 @@
 import AccountBalance from "@/components/AccountBalance";
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
-import TransactionsList from "@/components/TransactionsList/";
+import Modal from "@/components/Modal";
 import TransactionForm from "@/components/TransactionForm";
 import TransactionsHeader from "@/components/TransactionsHeader";
-import Modal from "@/components/Modal";
+import TransactionsList from "@/components/TransactionsList/";
+import { useModalContext } from "@/utils/ModalContext/ModalContext";
+import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useEffect } from "react";
 
 export default function HomePage() {
   const { isLoading, sortedEntries, data } = useTransactionsContext();
+  const { handleFilterChange } = useTransactionsContext();
+
+  useEffect(() => {
+    handleFilterChange({ type: null, pattern: null });
+  }, []);
 
   if (isLoading) return null;
 
