@@ -1,4 +1,3 @@
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { ChartColumn, Home, BadgeEuro } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -32,6 +31,18 @@ export default function Navigation() {
           >
             <StyledCircle aria-hidden="true">
               <StyledAnalyseIcon aria-hidden="true" />
+            </StyledCircle>
+          </NavItem>
+        </NavListItem>
+        <NavListItem>
+          <NavItem
+            href="/moneygpt"
+            aria-label="Navigiere zur moneyGPT KI"
+            aria-current={activeNavPoint === "/moneygpt" ? "page" : undefined}
+            $active={activeNavPoint === "/moneygpt"}
+          >
+            <StyledCircle aria-hidden="true">
+              <StyledMoneyGPTIcon aria-hidden="true" />
             </StyledCircle>
           </NavItem>
         </NavListItem>
@@ -102,6 +113,11 @@ const StyledHomeIcon = styled(Home)`
 `;
 
 const StyledAnalyseIcon = styled(ChartColumn)`
+  font-size: 1.5rem;
+  color: var(--green-text-light, #ebfef4);
+`;
+
+const StyledMoneyGPTIcon = styled(BadgeEuro)`
   font-size: 1.5rem;
   color: var(--green-text-light, #ebfef4);
 `;

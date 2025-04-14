@@ -124,8 +124,6 @@ const ContentWrapper = styled.div`
   align-items: center;
   gap: var(--sm);
 
-  min-height: 100vh;
-  padding: var(--md) 0 var(--5xl) 0;
   position: relative;
 `;
 
