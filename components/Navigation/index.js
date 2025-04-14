@@ -2,17 +2,11 @@ import { useTransactionsContext } from "@/utils/TransactionsContext/Transactions
 import { ChartColumn, Home } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { css, styled } from "styled-components";
 
 export default function Navigation() {
     const router = useRouter();
-    const activeNavPoint = router.pathname
-    const { handleFilterChange } = useTransactionsContext();
-
-    useEffect(() => {
-        handleFilterChange({ type: null, pattern: null });
-    }, [activeNavPoint]);
+    const activeNavPoint = router.pathname;
 
     return (
         <NavContainer role="navigation" aria-label="Hauptnavigation der Website">
@@ -21,7 +15,7 @@ export default function Navigation() {
                     <NavItem
                         href="/"
                         aria-label="Navigiere zur Startseite"
-                        aria-current={activeNavPoint}
+                        aria-current={activeNavPoint === "/" ? "page" : undefined}
                         $active={activeNavPoint === "/"}
                     >
                         <StyledCircle aria-hidden="true">
@@ -33,7 +27,7 @@ export default function Navigation() {
                     <NavItem
                         href="/analytics"
                         aria-label="Navigiere zu den Analysen"
-                        aria-current={activeNavPoint}
+                        aria-current={activeNavPoint === "/analytics" ? "page" : undefined}
                         $active={activeNavPoint === "/analytics"}
                     >
                         <StyledCircle aria-hidden="true">
