@@ -106,7 +106,9 @@ input[type=number] {
     appearance: none; 
   }
 }
+
 a {
   all: unset;
 }
+
 `;
