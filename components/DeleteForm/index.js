@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
+import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
+import { useModalContext } from "@/contexts/ModalContext/ModalContext";
 
 export default function DeleteForm({ id, onDelete }) {
   const { mutate } = useTransactionsContext();

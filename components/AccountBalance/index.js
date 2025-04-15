@@ -1,8 +1,10 @@
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-let totalBalance = 0, totalIncome = 0, totalExpenses = 0;
+let totalBalance = 0,
+  totalIncome = 0,
+  totalExpenses = 0;
 
 export default function AccountBalance({ transactions }) {
   const [isNegative, setIsNegative] = useState(false);
@@ -113,7 +115,7 @@ const StyledAccount = styled.button`
   &:last-child.active {
     background-color: var(--red-500);
   }
-  
+
   &.active p {
     color: var(--green-50);
   }

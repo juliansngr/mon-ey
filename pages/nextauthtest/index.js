@@ -1,9 +1,8 @@
 import LoginButton from "@/components/LoginButton";
 
-export default function HomePage() {
+export default function index() {
   return (
     <>
-      Dies ist unsere super coole Seite
       <LoginButton />
     </>
   );

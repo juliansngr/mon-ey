@@ -1,5 +1,5 @@
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useModalContext } from "@/contexts/ModalContext/ModalContext";
+import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { handleTransactionAdd } from "@/utils/TransactionsHandler";
 import { CirclePlus } from "lucide-react";
 import styled from "styled-components";
