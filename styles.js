@@ -50,7 +50,7 @@ export default createGlobalStyle`
 
 /* generals */
   --bgBody: var(--green-50);
-  --bgHeader: var(--green-800);
+  --bgHeader: var(--green-600);
   --headerColor: var(--green-text-light);
 
   /* global usages */
@@ -87,19 +87,11 @@ ul, ol {
     background-color: var(--bgBody);
   }
 
-
-  header {
-    background-color: var(--bgHeader);
-    color: var(--headerColor);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  main{
+  main {
     padding: 0 var(--xs);
+    margin-top: 5.5rem;
+    padding-bottom: 5rem;
   }
-
 
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -114,7 +106,9 @@ input[type=number] {
     appearance: none; 
   }
 }
+
 a {
   all: unset;
 }
+
 `;
