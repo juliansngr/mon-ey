@@ -2,73 +2,68 @@
   {
     "id": "1",
     "varName": "grandTotal",
-    "dataType": "float",
+    "varText": "Kontostand",
+    "dataType": "number",
     "initialValue": "0.00",
-    "isMandatory" : "false",
+    "isMandatory": "false",
     "domainType": "undefined",
     "domainValues": "undefined"
   },
   {
-    "id": "2",
-    "varName": "subCategory",
-    "dataType": "string",
-    "initialValue": "",
-    "isMandatory" : "false" ,
-    "domainType": "list",
-    "domainValues": [
-      "Notwendigkeit",
-      "sp&auml;ter w&auml;r auch m&ouml;glich gewesen",
-      "Luxus"
-    ]
-  },
-  {
     "id": "3",
     "varName": "transactionAmount",
+    "varText": "Betrag der Transaktion",
     "dataType": "number",
     "initialValue": "0.00",
-    "isMandatory" : "true" ,
+    "isMandatory": "true",
     "domainType": "",
     "domainValues": ""
-  }
+  },
   {
     "id": "4",
     "varName": "transactionPartner",
+    "varText": "Empfänger/Absender",
     "dataType": "string",
     "initialValue": "",
-    "isMandatory" : "true" ,
+    "isMandatory": "true",
     "domainType": "",
     "domainValues": ""
-  }
+  },
   {
     "id": "5",
     "varName": "transactionType",
-    "dataType": "boolean",
+    "varText": "Art der Transaktion",
+    "dataType": "string",
     "initialValue": "",
-    "isMandatory" : "true" ,
-    "domainType": "",
-    "domainValues": ""
-  }
+    "isMandatory": "true",
+    "domainType": "textList",
+    "domainValues": [
+      { "value": "income", "text": "Einnahme" },
+      { "value": "expense", "text": "Ausgabe" }
+    ]
+  },
   {
     "id": "6",
     "varName": "transactionCategory",
+    "varText": "Typ der Transaktion",
     "dataType": "string",
     "initialValue": "",
-    "isMandatory" : "true" ,
+    "isMandatory": "true",
     "domainType": "textList",
     "domainValues": [
-      {"value" : "bildung","text" : "Bildung"},
-      {"value" : "unterhaltung","text" : "Unterhaltung"},
-      {"value" : "lebensmittel","text" :"Lebensmittel"},
-      {"value" : "gesundheit","text" :  "Gesundheit",},
-      {"value" : "versicherung","text" :"Versicherung"},
-      {"value" : "investitionen","text" :"Investitionen"},
-      {"value" : "sonstiges","text" : "Sonstiges"},
-      {"value" : "miete","text" :"Miete"},
-      {"value" : "restaurants","text" :"Restaurants"},
-      {"value" : "gehalt","text" :"Gehalt"},
-      {"value" : "ersparnisse","text" :"Ersparnisse"},
-      {"value" : "transport","text" :"Transport"},
-      {"value" : "dienstprogramme","text" :"Dienstprogramme"}
+      { "value": "bildung", "text": "Bildung" },
+      { "value": "unterhaltung", "text": "Unterhaltung" },
+      { "value": "lebensmittel", "text": "Lebensmittel" },
+      { "value": "gesundheit", "text": "Gesundheit" },
+      { "value": "versicherung", "text": "Versicherung" },
+      { "value": "investitionen", "text": "Investitionen" },
+      { "value": "sonstiges", "text": "Sonstiges" },
+      { "value": "miete", "text": "Miete" },
+      { "value": "restaurants", "text": "Restaurants" },
+      { "value": "gehalt", "text": "Gehalt" },
+      { "value": "ersparnisse", "text": "Ersparnisse" },
+      { "value": "transport", "text": "Transport" },
+      { "value": "dienstprogramme", "text": "Dienstprogramme" }
     ]
   }
 ]

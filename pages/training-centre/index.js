@@ -1,19 +1,24 @@
-import useSWR from "swr";
+import RuleForm from "@/components/RuleForm";
 import RulesList from "@/components/RulesList";
 import RulesHeader from "@/components/RulesHeader";
 import styled from "styled-components";
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
+import { useRulebaseContext } from "@/utils/RulebaseContext/RulebaseContext";
 
 export default function TrainingCentrePage() {
-  const { data: rules, error, isLoading } = useSWR(`/api/dummy-rules`, fetcher);
+  const { rules, initializedVariables: variables } = useRulebaseContext();
 
-  if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
+  const preconditionObjects = [...variables];
+  const consequenceObjects = variables.filter(
+    (variable) => variable.varName !== "grandTotal"
+  );
 
   return (
     <>
-      <RulesHeader />
+      <RulesHeader
+        hasAddButton
+        preconditionObjects={preconditionObjects}
+        consequenceObjects={consequenceObjects}
+      />
       {rules.length > 0 ? (
         <RulesList rules={rules} />
       ) : (

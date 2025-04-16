@@ -2,6 +2,7 @@ import DeleteForm from "@/components/DeleteForm";
 import Modal from "@/components/Modal";
 import TransactionFilters from "@/components/TransactionFilters";
 import TransactionForm from "@/components/TransactionForm";
+import RuleForm from "@/components/RuleForm";
 import { useContext, createContext, useState, act } from "react";
 
 const ModalContext = createContext();
@@ -48,6 +49,15 @@ export function ModalProvider({ children }) {
           <TransactionForm
             currentTransaction={activeModal.props.currentTransaction}
             onSubmit={activeModal.props.onSubmit}
+          />
+        </Modal>
+      )}
+      {activeModal.type === "addRule" && (
+        <Modal title="Neue Regel erfassen" closeModal={closeModal}>
+          <RuleForm
+            onSubmit={activeModal.props.onSubmit}
+            preconditionObjects={activeModal.props.preconditionObjects}
+            consequenceObjects={activeModal.props.consequenceObjects}
           />
         </Modal>
       )}

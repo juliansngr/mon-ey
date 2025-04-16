@@ -1,6 +1,7 @@
 import Navigation from "@/components/Navigation";
 import { ModalProvider } from "@/utils/ModalContext/ModalContext";
 import { TransactionsProvider } from "@/utils/TransactionsContext/TransactionsContext";
+import { RulebaseProvider } from "@/utils/RulebaseContext/RulebaseContext";
 import styled from "styled-components";
 import GlobalStyle from "../styles";
 
@@ -12,7 +13,9 @@ export default function App({ Component, pageProps }) {
         <PageBody>
           <TransactionsProvider>
             <ModalProvider>
-              <Component {...pageProps} />
+              <RulebaseProvider>
+                <Component {...pageProps} />
+              </RulebaseProvider>
             </ModalProvider>
             <Navigation />
           </TransactionsProvider>
