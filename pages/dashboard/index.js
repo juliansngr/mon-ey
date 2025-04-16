@@ -9,14 +9,12 @@ import { useTransactionsContext } from "@/contexts/TransactionsContext/Transacti
 import { useEffect } from "react";
 
 export default function HomePage() {
-  const { isLoading, sortedEntries, data } = useTransactionsContext();
+  const { sortedEntries, data } = useTransactionsContext();
   const { handleFilterChange } = useTransactionsContext();
 
   useEffect(() => {
     handleFilterChange({ type: null, pattern: null });
   }, []);
-
-  if (isLoading) return null;
 
   return (
     <>

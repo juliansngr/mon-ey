@@ -4,14 +4,17 @@ import {
 } from "@/utils/FilterFunctionsLib/filterFunctions";
 import { createContext, useContext, useState } from "react";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
 const TransactionsContext = createContext();
 
 export function TransactionsProvider({ children }) {
+  const { data: session, status } = useSession();
+
   const { data, isLoading, error, mutate } = useSWR(
-    `/api/transactions/`,
+    status === "authenticated" ? "/api/transactions" : null,
     fetcher
   );
   const [activeFilter, setActiveFilter] = useState({
@@ -19,12 +22,22 @@ export function TransactionsProvider({ children }) {
     pattern: null,
   });
 
-  if (isLoading) {
-    return null;
-  }
-
-  if (!data) {
-    return null;
+  if (status !== "authenticated" || isLoading || !data) {
+    return (
+      <TransactionsContext.Provider
+        value={{
+          data: [],
+          sortedEntries: [],
+          isLoading: false,
+          error: null,
+          mutate: () => {},
+          activeFilter: null,
+          handleFilterChange: () => {},
+        }}
+      >
+        {children}
+      </TransactionsContext.Provider>
+    );
   }
 
   const handleFilterChange = (props) => {

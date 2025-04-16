@@ -8,6 +8,7 @@ const transactionSchema = new Schema({
   type: { type: String, required: true },
   date: { type: String, required: true },
   partner: { type: String, required: true },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 
 const Transaction =

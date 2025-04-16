@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 
 export default function AnalyticsPage() {
-  const { isLoading, sortedEntries, activeFilter, handleFilterChange } =
+  const { sortedEntries, activeFilter, handleFilterChange } =
     useTransactionsContext();
   const { openModal } = useModalContext();
 
@@ -39,8 +39,6 @@ export default function AnalyticsPage() {
       handleFilterChange({ type: null, pattern: null });
     }
   }
-
-  if (isLoading) return null;
 
   return (
     <>
