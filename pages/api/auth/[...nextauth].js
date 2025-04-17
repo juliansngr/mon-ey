@@ -8,9 +8,19 @@ import { ObjectId } from "mongodb";
 export const authOptions = {
   callbacks: {
     async session({ session, token, user }) {
-      session.user.id = user.id;
+      console.log("session callback", { session, token, user });
+
+      if (user?.id) {
+        session.user.id = user.id;
+      } else if (token?.sub) {
+        session.user.id = token.sub;
+      }
+
       return session;
     },
+  },
+  session: {
+    strategy: "jwt",
   },
   adapter: MongoDBAdapter(clientPromise),
   providers: [
@@ -26,33 +36,31 @@ export const authOptions = {
             password: { label: "Password", type: "password" },
           },
           async authorize(credentials) {
-            console.log("authorize called with", credentials);
             const db = (await clientPromise).db("mon-ey");
             const users = db.collection("users");
 
-            // Check if dummy user already exists
-            const existingUser = await users.findOne({
-              email: "test@example.com",
-            });
+            const email = "test@example.com";
 
-            console.log("exists?", existingUser);
+            let user = await users.findOne({ email });
 
-            if (existingUser) {
-              return existingUser;
+            if (!user) {
+              const newUser = {
+                _id: new ObjectId(),
+                name: "Neuer Fisch",
+                email,
+                emailVerified: null,
+              };
+
+              await users.insertOne(newUser);
+              user = newUser;
             }
 
-            // Insert dummy user with unique _id
-            const newUser = {
-              _id: new ObjectId(), // <- muss unique sein!
-              name: "Neuer Fisch",
-              email: "test@example.com",
-              emailVerified: null,
+            return {
+              id: user._id.toString(),
+              name: user.name,
+              email: user.email,
+              emailVerified: user.emailVerified ?? null,
             };
-
-            console.log("newUser?", newUser);
-
-            await users.insertOne(newUser);
-            return newUser;
           },
         })
       : GithubProvider({

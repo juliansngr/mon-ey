@@ -1,11 +1,11 @@
 import LoginButton from "@/components/LoginButton";
-import { useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import styled from "styled-components";
 
 export default function HomePage() {
   const { data: session } = useSession();
-
+  console.log(session);
   return (
     <ContentWrapper>
       <StyledHeading>
