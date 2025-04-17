@@ -27,13 +27,15 @@ export const authOptions = {
           },
           async authorize(credentials) {
             console.log("authorize called with", credentials);
-            const db = (await clientPromise).db("auth");
+            const db = (await clientPromise).db("mon-ey");
             const users = db.collection("users");
 
             // Check if dummy user already exists
             const existingUser = await users.findOne({
               email: "test@example.com",
             });
+
+            console.log("exists?", existingUser);
 
             if (existingUser) {
               return existingUser;
@@ -46,6 +48,8 @@ export const authOptions = {
               email: "test@example.com",
               emailVerified: null,
             };
+
+            console.log("newUser?", newUser);
 
             await users.insertOne(newUser);
             return newUser;
