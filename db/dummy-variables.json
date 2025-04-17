@@ -5,6 +5,7 @@
     "varText": "Kontostand",
     "dataType": "number",
     "initialValue": "0.00",
+    "stepValue": "0.01",
     "isMandatory": "false",
     "domainType": "undefined",
     "domainValues": "undefined"
@@ -15,6 +16,7 @@
     "varText": "Betrag der Transaktion",
     "dataType": "number",
     "initialValue": "0.00",
+    "stepValue": "0.01",
     "isMandatory": "true",
     "domainType": "",
     "domainValues": ""
@@ -25,6 +27,7 @@
     "varText": "Empfänger/Absender",
     "dataType": "string",
     "initialValue": "",
+    "stepValue": "",
     "isMandatory": "true",
     "domainType": "",
     "domainValues": ""
@@ -35,6 +38,7 @@
     "varText": "Art der Transaktion",
     "dataType": "string",
     "initialValue": "",
+    "stepValue": "",
     "isMandatory": "true",
     "domainType": "textList",
     "domainValues": [
@@ -48,6 +52,7 @@
     "varText": "Typ der Transaktion",
     "dataType": "string",
     "initialValue": "",
+    "stepValue": "",
     "isMandatory": "true",
     "domainType": "textList",
     "domainValues": [

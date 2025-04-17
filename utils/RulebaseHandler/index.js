@@ -5,6 +5,7 @@ export async function handleRuleAdd(
   { mutateRules, closeModal, initializedVariables }
 ) {
   event.preventDefault();
+
   const formData = new FormData(event.target);
   const ruleData = Object.fromEntries(formData);
 

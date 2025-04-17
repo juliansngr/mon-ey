@@ -20,13 +20,12 @@ export default function RuleForm({
     consequence_operator: "",
     consequence_pattern: "",
   });
+
   const [selectablePrecondtionOperators, setSelectablePreconditionOperators] =
     useState(operators);
   const [selectableConsequenceOperators, setSelectableConsequenceOperators] =
     useState(operators);
   const [error, setError] = useState("");
-
-  const [hasPrecondition, setHasPrecondition] = useState(true);
 
   function handleFormInput(event) {
     let newFormData = {};
@@ -55,15 +54,23 @@ export default function RuleForm({
           handleInputConsequenceObjectChange(selectConsequenceObject);
         }
         break;
+      case "has_precondition":
+        const newToggleValue = !formData.has_precondition;
+        newFormData = {
+          ...formData,
+          has_precondition: newToggleValue,
+        };
+        break;
       default:
         newFormData = {
           ...formData,
           [event.target.name]: event.target.value,
         };
     }
-
     setFormData(newFormData);
   }
+
+  const patternListTestNumObjects = "^(\\d+([.,]\\d+)?)(#(\\d+([.,]\\d+)?))*$";
 
   function handleInputPreconditionObjectChange(selectPreconditionObject) {
     const operatorsForInputPreconditionObject = getOperatorsForDatafield({
@@ -82,11 +89,6 @@ export default function RuleForm({
     });
     setSelectableConsequenceOperators(operatorsForInputConsequenceObject);
   }
-
-  function handleToggleHasPrecondition() {
-    setHasPrecondition(!hasPrecondition);
-  }
-
   return (
     <StyledForm onSubmit={onSubmit}>
       <StyledFormLabel>
@@ -110,12 +112,12 @@ export default function RuleForm({
           <StyledFormInput
             type="checkbox"
             id="prompt_precondition"
-            name="has_precondtion"
-            checked={hasPrecondition}
-            onChange={handleToggleHasPrecondition}
+            name="has_precondition"
+            checked={formData.has_precondition}
+            onChange={handleFormInput}
           />
         </StyledFormLabel>
-        {hasPrecondition && (
+        {formData.has_precondition && (
           <>
             <StyledFormSelect
               id="precondition_object"
@@ -189,16 +191,37 @@ export default function RuleForm({
                 type={
                   !["textList", "list", "valueList"].includes(
                     formData.precondition_object.domainType
-                  ) && formData.precondition_object.dataType === "number"
+                  ) &&
+                  formData.precondition_object.dataType === "number" &&
+                  !["ni", "in"].includes(formData.precondition_operator)
                     ? "number"
                     : "text"
                 }
+                step={formData.precondition_object.stepValue}
                 id="precondtion_pattern"
                 name="precondtion_pattern"
-                placeholder="Auf welchen Wert wird geprüft"
+                placeholder="Auf welchen Wert wird geprüft?"
                 defaultValue=""
                 aria-label="Prüfwert für Vorbedinung"
                 onChange={handleFormInput}
+                pattern={
+                  ["ni", "in"].includes(formData.precondition_operator) &&
+                  formData.precondition_object.dataType === "number" &&
+                  !["textList", "list", "valueList"].includes(
+                    formData.precondition_object.domainType
+                  )
+                    ? patternListTestNumObjects
+                    : null
+                }
+                title={
+                  ["ni", "in"].includes(formData.precondition_operator) &&
+                  formData.precondition_object.dataType === "number" &&
+                  !["textList", "list", "valueList"].includes(
+                    formData.precondition_object.domainType
+                  )
+                    ? "Liste numerischer Werte getrennt durch '#'-Zeichen"
+                    : null
+                }
                 required
               />
             )}
@@ -279,15 +302,36 @@ export default function RuleForm({
             type={
               !["textList", "list", "valueList"].includes(
                 formData.consequence_object.domainType
-              ) && formData.consequence_object.dataType === "number"
+              ) &&
+              formData.consequence_object.dataType === "number" &&
+              !["ni", "in"].includes(formData.consequence_operator)
                 ? "number"
                 : "text"
             }
+            step={formData.consequence_object.stepValue}
             id="consequence_pattern"
             name="consequence_pattern"
             placeholder="Prüfwert für Auswahl möglicher Werte"
             defaultValue=""
             aria-label="Prüfwert für Auswahl möglicher Werte"
+            pattern={
+              ["ni", "in"].includes(formData.consequence_operator) &&
+              formData.consequence_object.dataType === "number" &&
+              !["textList", "list", "valueList"].includes(
+                formData.consequence_object.domainType
+              )
+                ? patternListTestNumObjects
+                : null
+            }
+            title={
+              ["ni", "in"].includes(formData.consequence_operator) &&
+              formData.consequence_object.dataType === "number" &&
+              !["textList", "list", "valueList"].includes(
+                formData.consequence_object.domainType
+              )
+                ? "Liste numerischer Werte getrennt durch '#'-Zeichen"
+                : null
+            }
             onChange={handleFormInput}
             required
           />
@@ -301,23 +345,23 @@ export default function RuleForm({
 }
 
 const StyledForm = styled.form`
-  width: 300px;
+  max-width: 300px;
   display: flex;
   justify-content: center;
   flex-direction: column;
   gap: var(--base);
 `;
 const StyledFormInput = styled.input`
+  max-width: 300px;
   padding: var(--3xs);
   line-height: 1.15;
   font-size: 100%;
 `;
 const StyledFormSelect = styled.select`
+  max-width: 300px;
   padding: var(--3xs);
   line-height: 1.15;
   font-size: 100%;
-  max-width: 290px;
-  width: auto;
 `;
 const StyledFormSelectOption = styled.option`
   font-style: normal;
@@ -334,6 +378,7 @@ const StyledFormSubmit = styled.button`
   font-size: 100%;
 `;
 const StyledFormLabel = styled.label`
+  max-width: 300px;
   padding: var(--3xs);
   line-height: 1.15;
   font-size: 100%;
@@ -346,6 +391,11 @@ const StyledFormSectionTitle = styled.legend`
 `;
 
 const StyledFormSection = styled.fieldset`
-  gap: var(--base);
-  padding: var(--xs) var(--md) var(--base);
+  /* padding: var(--xs) var(--md) var(--base); */
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: var(--xs);
+  border: none;
+  border-top: solid;
 `;

@@ -2,7 +2,6 @@ import styled from "styled-components";
 import RuleCard from "../RuleCard";
 
 export default function RulesList({ rules }) {
-  console.log(`Rules: `, rules);
   return (
     <StyledUl>
       {rules.map((rule) => (

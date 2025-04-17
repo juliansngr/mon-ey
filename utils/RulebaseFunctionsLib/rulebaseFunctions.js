@@ -5,6 +5,7 @@ class userVariable {
     varName = undefined,
     varText = undefined,
     initialValue = undefined,
+    stepValue = undefined,
     currentValue = undefined,
     dataType = undefined,
     domainType = undefined,
@@ -18,6 +19,7 @@ class userVariable {
     this._varText = varText;
     this._currentValue = currentValue;
     this._initialValue = initialValue;
+    this._stepValue = stepValue;
     this._dataType = dataType;
     this._domainType = domainType;
     this._domainValues = domainValues;
@@ -44,6 +46,11 @@ class userVariable {
   get varText() {
     return this._varText;
   }
+
+  get stepValue() {
+    return this._stepValue;
+  }
+
   get domainValues() {
     return this._domainValues;
   }
@@ -115,7 +122,7 @@ function getOperatorsForDatafield({
   switch (dataType) {
     case "string":
       if (["textList", "list", "valueList"].includes(domainType)) {
-        console.log("string");
+        console.log("string List");
         if (domainLength > 2) {
           console.log("long");
           return operators.filter((item) =>
@@ -126,14 +133,14 @@ function getOperatorsForDatafield({
             ["==", "!="].includes(item.operator)
           );
         }
+      } else {
+        return operators.filter((item) => ["==", "!="].includes(item.operator));
       }
       break;
     case "boolean":
-      console.log("boolean");
       return operators.filter((item) => ["==", "!="].includes(item.operator));
       break;
     default:
-      console.log("default");
       return operators;
       break;
   }
