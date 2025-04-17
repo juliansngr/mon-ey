@@ -1,7 +1,9 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
+import CredentialsProvider from "next-auth/providers/credentials";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "@/db/mongodb";
+import { ObjectId } from "mongodb";
 
 export const authOptions = {
   callbacks: {
@@ -24,18 +26,29 @@ export const authOptions = {
             password: { label: "Password", type: "password" },
           },
           async authorize(credentials) {
-            if (
-              credentials.username === "fisch" &&
-              credentials.password === "fisch"
-            ) {
-              return {
-                name: "Neuer Fisch",
-                email: "test@example.com",
-                id: "a1b2c3d4",
-              };
-            } else {
-              return null;
+            console.log("authorize called with", credentials);
+            const db = (await clientPromise).db("auth");
+            const users = db.collection("users");
+
+            // Check if dummy user already exists
+            const existingUser = await users.findOne({
+              email: "test@example.com",
+            });
+
+            if (existingUser) {
+              return existingUser;
             }
+
+            // Insert dummy user with unique _id
+            const newUser = {
+              _id: new ObjectId(), // <- muss unique sein!
+              name: "Neuer Fisch",
+              email: "test@example.com",
+              emailVerified: null,
+            };
+
+            await users.insertOne(newUser);
+            return newUser;
           },
         })
       : GithubProvider({
