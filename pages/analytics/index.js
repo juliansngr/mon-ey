@@ -9,10 +9,11 @@ import styled from "styled-components";
 export default function AnalyticsPage() {
   const { sortedEntries, activeFilter, handleFilterChange } =
     useTransactionsContext();
-  const { openModal } = useModalContext();
+  const { openModal, closeModal } = useModalContext();
 
   useEffect(() => {
     handleFilterChange({ type: null, pattern: null });
+    closeModal();
   }, []);
 
   function handleClickFilter(filterType) {

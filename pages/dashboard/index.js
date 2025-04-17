@@ -1,6 +1,4 @@
 import AccountBalance from "@/components/AccountBalance";
-import Modal from "@/components/Modal";
-import TransactionForm from "@/components/TransactionForm";
 import TransactionsHeader from "@/components/TransactionsHeader";
 import TransactionsList from "@/components/TransactionsList/";
 import { useModalContext } from "@/contexts/ModalContext/ModalContext";
@@ -9,11 +7,12 @@ import { useTransactionsContext } from "@/contexts/TransactionsContext/Transacti
 import { useEffect } from "react";
 
 export default function HomePage() {
-  const { sortedEntries, data } = useTransactionsContext();
-  const { handleFilterChange } = useTransactionsContext();
+  const { sortedEntries, data, handleFilterChange } = useTransactionsContext();
+  const { closeModal } = useModalContext();
 
   useEffect(() => {
     handleFilterChange({ type: null, pattern: null });
+    closeModal();
   }, []);
 
   return (

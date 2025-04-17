@@ -8,8 +8,6 @@ import { ObjectId } from "mongodb";
 export const authOptions = {
   callbacks: {
     async session({ session, token, user }) {
-      console.log("session callback", { session, token, user });
-
       if (user?.id) {
         session.user.id = user.id;
       } else if (token?.sub) {
@@ -42,18 +40,6 @@ export const authOptions = {
             const email = "test@example.com";
 
             let user = await users.findOne({ email });
-
-            if (!user) {
-              const newUser = {
-                _id: new ObjectId(),
-                name: "Neuer Fisch",
-                email,
-                emailVerified: null,
-              };
-
-              await users.insertOne(newUser);
-              user = newUser;
-            }
 
             return {
               id: user._id.toString(),

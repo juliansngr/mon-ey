@@ -16,6 +16,7 @@ export function AuthProvider({ children }) {
 
   if (!publicRoutes.includes(router.pathname) && status === "unauthenticated") {
     router.push("/api/auth/signin");
+    return null;
   }
 
   return (
