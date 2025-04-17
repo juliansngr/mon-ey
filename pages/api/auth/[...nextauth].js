@@ -5,9 +5,6 @@ import clientPromise from "@/db/mongodb";
 
 export const authOptions = {
   callbacks: {
-    async redirect({ url, baseUrl }) {
-      return `${baseUrl}/dashboard`;
-    },
     async session({ session, token, user }) {
       session.user.id = user.id;
       return session;

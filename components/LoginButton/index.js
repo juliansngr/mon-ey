@@ -7,7 +7,12 @@ export default function LoginButton({ icon }) {
 
   if (session) {
     return (
-      <StyledButton onClick={() => signOut("provider", { callbackUrl: "/" })}>
+      <StyledButton
+        $icon={icon}
+        onClick={() => {
+          signOut({ callbackUrl: "/" });
+        }}
+      >
         {icon ? <LogOut /> : "Ausloggen"}
       </StyledButton>
     );
@@ -16,7 +21,7 @@ export default function LoginButton({ icon }) {
   return (
     <StyledButton
       $icon={icon}
-      onClick={() => signIn("provider", { callbackUrl: "/dashboard" })}
+      onClick={() => signIn(null, { callbackUrl: "/dashboard" })}
     >
       {icon ? <LogIn /> : "Einloggen"}
     </StyledButton>
@@ -24,6 +29,11 @@ export default function LoginButton({ icon }) {
 }
 
 const StyledButton = styled.button`
+  border: none;
+  cursor: pointer;
   background-color: ${(props) =>
-    props.$icon === true ? "transparent" : "var(--green-50)"};
+    props.$icon === true ? "transparent" : "var(--green-500)"};
+  padding: ${(props) => (props.$icon === true ? "0" : "var(--md) var(--xl)")};
+  border-radius: var(--xs);
+  color: var(--green-50);
 `;

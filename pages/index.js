@@ -1,10 +1,49 @@
 import LoginButton from "@/components/LoginButton";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import styled from "styled-components";
 
 export default function HomePage() {
+  const { data: session } = useSession();
+
   return (
-    <>
-      Dies ist unsere super coole Seite
-      <LoginButton />
-    </>
+    <ContentWrapper>
+      <StyledHeading>
+        Die <ColorChange>Finanz-App</ColorChange> der nächsten Generation
+      </StyledHeading>
+      {session ? (
+        <Link href="/dashboard">
+          <DashboardButton>Zum Dashboard</DashboardButton>
+        </Link>
+      ) : (
+        <LoginButton />
+      )}
+    </ContentWrapper>
   );
 }
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--3xl);
+  align-items: center;
+`;
+
+const StyledHeading = styled.h2`
+  font-size: var(--5xl);
+  font-weight: bold;
+  text-align: center;
+`;
+
+const ColorChange = styled.span`
+  color: var(--green-600);
+`;
+
+const DashboardButton = styled.button`
+  border: none;
+  cursor: pointer;
+  background-color: var(--green-500);
+  padding: var(--md) var(--xl);
+  border-radius: var(--xs);
+  color: var(--green-50);
+`;
