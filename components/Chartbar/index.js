@@ -2,8 +2,6 @@ import styled from "styled-components";
 
 export default function Chartbar({ totalIncome, totalExpenses }) {
     const barContainerHeight = 130; // Fixed height of the bars in pixels
-    totalIncome = 5000;
-    totalExpenses = 18001
 
     // Calculate the total value
     const totalValue = Math.abs(totalIncome) + Math.abs(totalExpenses);
