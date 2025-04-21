@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export default function Chartbar({ totalIncome, totalExpenses }) {
-    const barContainerHeight = 100; // Fixed height of the bars in pixels
+    const barContainerHeight = 130; // Fixed height of the bars in pixels
+    totalIncome = 5000;
+    totalExpenses = 18001
 
     // Calculate the total value
     const totalValue = Math.abs(totalIncome) + Math.abs(totalExpenses);
@@ -21,20 +23,22 @@ export default function Chartbar({ totalIncome, totalExpenses }) {
         year: 'numeric',
     });
 
-    function getDifferenceText(incomeHeight, expenseHeight) {
-        if (incomeHeight === 0 && expenseHeight === 0) {
+    function getDifferenceText(totalIncome, totalExpenses) {
+        const absIncome = Math.abs(totalIncome);
+        const absExpenses = Math.abs(totalExpenses);
+        const difference = absIncome - absExpenses;
+
+        if (absIncome === 0 && absExpenses === 0) {
             return "Einnahmen und Ausgaben sind gleich – keine Differenz.";
         }
 
-        const totalHeight = incomeHeight + expenseHeight;
-        const percentageDiff = totalHeight > 0
-            ? Math.abs(((incomeHeight - expenseHeight) / totalHeight) * 100).toFixed(2)
-            : 0;
-
-        if (incomeHeight > expenseHeight) {
-            return `Die Einnahmen liegen um ${percentageDiff}% über den Ausgaben – diese Differenz zeigt einen Überschuss.`;
-        } else if (expenseHeight > incomeHeight) {
-            return `Die Einnahmen liegen um ${percentageDiff}% unter den Ausgaben – die Differenz weist auf ein Defizit hin.`;
+        if (difference > 0) {
+            const ausgabenProzent = (absExpenses / absIncome) * 100;
+            const ueberschussProzent = 100 - ausgabenProzent;
+            return `Die Ausgaben betragen ca. ${ausgabenProzent.toFixed(2)} % der Einnahmen – entsprechend ergibt sich ein Überschuss von etwa ${ueberschussProzent.toFixed(2)} %.`;
+        } else if (difference < 0) {
+            const defizitProzent = (Math.abs(difference) / absIncome) * 100;
+            return `Die Ausgaben übersteigen die Einnahmen um ca. ${defizitProzent.toFixed(2)} % – es entsteht ein Defizit.`;
         } else {
             return "Einnahmen und Ausgaben sind gleich – keine Differenz.";
         }
@@ -44,7 +48,10 @@ export default function Chartbar({ totalIncome, totalExpenses }) {
     return (
         <ChartContainer aria-label={`Balkendiagramm mit Einnahmen und Ausgaben, Stand: ${currentDate}`}>
             <DateText>Stand: {currentDate}</DateText>
-            <DifferenceText aria-label={getDifferenceText(incomeHeight, expenseHeight)}>{getDifferenceText(incomeHeight, expenseHeight)}</DifferenceText>
+            <DifferenceText aria-label={getDifferenceText(totalIncome, totalExpenses)}>
+                {getDifferenceText(totalIncome, totalExpenses)}
+            </DifferenceText>
+
             <Bars className="bars" aria-label="Balken für Einnahmen und Ausgaben">
                 <Bar className="bar">
                     <IncomeBar
@@ -91,7 +98,7 @@ position: relative;
 `;
 
 const Bar = styled.div`
-width: 40%;
+width: 45%;
 display: flex;
 flex-direction: column;
 align-items: center;
