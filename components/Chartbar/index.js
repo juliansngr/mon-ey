@@ -50,8 +50,8 @@ export default function Chartbar({ totalIncome, totalExpenses }) {
                 {getDifferenceText(totalIncome, totalExpenses)}
             </DifferenceText>
 
-            <Bars className="bars" aria-label="Balken für Einnahmen und Ausgaben">
-                <Bar className="bar">
+            <Bars aria-label="Balken für Einnahmen und Ausgaben">
+                <Bar>
                     <IncomeBar
                         className="incomeBar"
                         style={{ height: `${incomeHeight}px` }}
