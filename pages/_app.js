@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { ModalProvider } from "@/contexts/ModalContext/ModalContext";
 import { TransactionsProvider } from "@/contexts/TransactionsContext/TransactionsContext";
+import { RulebaseProvider } from "@/contexts/RulebaseContext/RulebaseContext";
 import GlobalStyle from "../styles";
 import { SessionProvider } from "next-auth/react";
 import { AuthProvider } from "@/contexts/AuthContext/AuthContext";
@@ -20,10 +21,12 @@ export default function App({
           <TransactionsProvider>
             <Header />
             <main>
-              <ModalProvider>
-                <BackToTop />
-                <Component {...pageProps} />
-              </ModalProvider>
+              <RulebaseProvider>
+                <ModalProvider>
+                  <BackToTop />
+                  <Component {...pageProps} />
+                </ModalProvider>
+              </RulebaseProvider>
             </main>
             <Navigation />
           </TransactionsProvider>

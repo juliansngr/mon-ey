@@ -22,7 +22,7 @@ export default function RuleCard({ data }) {
 
 const StyledRuleCard = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   gap: 1rem;
   padding: var(--md);
