@@ -73,8 +73,7 @@ const StyledNavText = styled.span`
 @media (min-width: 768px) {
     display:block;
     color: var(--green-text-light);
-    padding: var(--3xs) var(--xs);
-
+    padding: var(--4xs) var(--xs) var(--3xs);
   }
 `;
 
