@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { CirclePlus } from "lucide-react";
 import { useRulebaseContext } from "@/contexts/RulebaseContext/RulebaseContext";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
+import { useModalContext } from "@/contexts/ModalContext/ModalContext";
 import { handleRuleAdd } from "@/utils/RulebaseHandler";
 
 export default function RulesHeader() {
