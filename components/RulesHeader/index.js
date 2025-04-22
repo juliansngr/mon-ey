@@ -4,36 +4,28 @@ import { useRulebaseContext } from "@/utils/RulebaseContext/RulebaseContext";
 import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import { handleRuleAdd } from "@/utils/RulebaseHandler";
 
-export default function RulesHeader({
-  hasAddButton = false,
-  preconditionObjects,
-  consequenceObjects,
-}) {
+export default function RulesHeader() {
   const { initializedVariables, mutateRules } = useRulebaseContext();
   const { openModal, closeModal } = useModalContext();
   return (
     <StyledHeaderWrapper>
       <StyledH2>Regeln</StyledH2>
-      {hasAddButton && (
-        <StyledAddButton
-          onClick={() => {
-            openModal("addRule", {
-              onSubmit: (event) => {
-                handleRuleAdd(event, {
-                  mutateRules,
-                  closeModal,
-                  initializedVariables,
-                });
-              },
-              preconditionObjects: preconditionObjects,
-              consequenceObjects: consequenceObjects,
-            });
-          }}
-          aria-label="Neue Regel hinzufügen"
-        >
-          <StyledCirclePlus aria-hidden="true" />
-        </StyledAddButton>
-      )}
+      <StyledAddButton
+        onClick={() => {
+          openModal("addRule", {
+            onSubmit: (event) => {
+              handleRuleAdd(event, {
+                mutateRules,
+                closeModal,
+                initializedVariables,
+              });
+            },
+          });
+        }}
+        aria-label="Neue Regel hinzufügen"
+      >
+        <StyledCirclePlus aria-hidden="true" />
+      </StyledAddButton>
     </StyledHeaderWrapper>
   );
 }

@@ -34,11 +34,18 @@ export function RulebaseProvider({ children }) {
 
   const initializedVariables = initializeUserVariables(variables);
 
+  const preconditionObjects = [...initializedVariables];
+  const consequenceObjects = initializedVariables.filter(
+    (variable) => variable.varName !== "grandTotal"
+  );
+
   return (
     <RulebaseContext.Provider
       value={{
         rules,
         initializedVariables,
+        preconditionObjects,
+        consequenceObjects,
         isLoading,
         error,
         mutateRules,

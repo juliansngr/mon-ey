@@ -1,24 +1,14 @@
-import RuleForm from "@/components/RuleForm";
 import RulesList from "@/components/RulesList";
 import RulesHeader from "@/components/RulesHeader";
 import styled from "styled-components";
 import { useRulebaseContext } from "@/utils/RulebaseContext/RulebaseContext";
 
 export default function TrainingCentrePage() {
-  const { rules, initializedVariables: variables } = useRulebaseContext();
-
-  const preconditionObjects = [...variables];
-  const consequenceObjects = variables.filter(
-    (variable) => variable.varName !== "grandTotal"
-  );
+  const { rules } = useRulebaseContext();
 
   return (
     <>
-      <RulesHeader
-        hasAddButton
-        preconditionObjects={preconditionObjects}
-        consequenceObjects={consequenceObjects}
-      />
+      <RulesHeader />
       {rules.length > 0 ? (
         <RulesList rules={rules} />
       ) : (

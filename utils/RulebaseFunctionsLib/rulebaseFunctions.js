@@ -122,9 +122,7 @@ function getOperatorsForDatafield({
   switch (dataType) {
     case "string":
       if (["textList", "list", "valueList"].includes(domainType)) {
-        console.log("string List");
         if (domainLength > 2) {
-          console.log("long");
           return operators.filter((item) =>
             ["==", "!=", "in", "ni"].includes(item.operator)
           );
@@ -136,13 +134,10 @@ function getOperatorsForDatafield({
       } else {
         return operators.filter((item) => ["==", "!="].includes(item.operator));
       }
-      break;
     case "boolean":
       return operators.filter((item) => ["==", "!="].includes(item.operator));
-      break;
     default:
       return operators;
-      break;
   }
 }
 

@@ -4,12 +4,9 @@ import {
   operators,
   getOperatorsForDatafield,
 } from "@/utils/RulebaseFunctionsLib/rulebaseFunctions";
+import { useRulebaseContext } from "@/utils/RulebaseContext/RulebaseContext";
 
-export default function RuleForm({
-  preconditionObjects,
-  consequenceObjects,
-  onSubmit,
-}) {
+export default function RuleForm({ onSubmit }) {
   const [formData, setFormData] = useState({
     rule_description: "",
     has_precondition: "on",
@@ -20,6 +17,8 @@ export default function RuleForm({
     consequence_operator: "",
     consequence_pattern: "",
   });
+
+  const { preconditionObjects, consequenceObjects } = useRulebaseContext();
 
   const [selectablePrecondtionOperators, setSelectablePreconditionOperators] =
     useState(operators);
@@ -250,27 +249,27 @@ export default function RuleForm({
             ))}
           </StyledFormSelect>
         </StyledFormLabel>
-        <StyledFormLabel>
+        <StyledFormExplanation>
           ausgewählt werden k&ouml;nnen, entsprechen folgender Regel bzw.
           unterliegen folgenden Einschr&auml;nkungen: Der Wert
-          <StyledFormSelect
-            id="consequence_operator"
-            name="consequence_operator"
-            aria-label="Auswählen, welches Kriterium erfüllt sein muss"
-            defaultValue=""
-            onChange={handleFormInput}
-            required
-          >
-            <StyledFormSelectOption value="" disabled hidden>
-              -Welches Kriterium muss erf&uuml;llt sein?-
+        </StyledFormExplanation>
+        <StyledFormSelect
+          id="consequence_operator"
+          name="consequence_operator"
+          aria-label="Auswählen, welches Kriterium erfüllt sein muss"
+          defaultValue=""
+          onChange={handleFormInput}
+          required
+        >
+          <StyledFormSelectOption value="" disabled hidden>
+            -Welches Kriterium muss erf&uuml;llt sein?-
+          </StyledFormSelectOption>
+          {selectableConsequenceOperators.map((item) => (
+            <StyledFormSelectOption key={item.operator} value={item.operator}>
+              {item.displayValue}
             </StyledFormSelectOption>
-            {selectableConsequenceOperators.map((item) => (
-              <StyledFormSelectOption key={item.operator} value={item.operator}>
-                {item.displayValue}
-              </StyledFormSelectOption>
-            ))}
-          </StyledFormSelect>
-        </StyledFormLabel>
+          ))}
+        </StyledFormSelect>
         {["textList", "list", "valueList"].includes(
           formData.consequence_object.domainType
         ) || formData.consequence_object.dataType === "boolean" ? (
@@ -390,8 +389,14 @@ const StyledFormSectionTitle = styled.legend`
   font-size: 100%;
 `;
 
+const StyledFormExplanation = styled.p`
+  max-width: 300px;
+  padding: var(--3xs);
+  line-height: 1.15;
+  font-size: 100%;
+`;
+
 const StyledFormSection = styled.fieldset`
-  /* padding: var(--xs) var(--md) var(--base); */
   display: flex;
   justify-content: center;
   flex-direction: column;

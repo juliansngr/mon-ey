@@ -12,11 +12,11 @@ export default function App({ Component, pageProps }) {
       <LayoutWrapper>
         <PageBody>
           <TransactionsProvider>
-            <ModalProvider>
-              <RulebaseProvider>
+            <RulebaseProvider>
+              <ModalProvider>
                 <Component {...pageProps} />
-              </RulebaseProvider>
-            </ModalProvider>
+              </ModalProvider>
+            </RulebaseProvider>
             <Navigation />
           </TransactionsProvider>
         </PageBody>
