@@ -4,7 +4,8 @@ import { useModalContext } from "@/utils/ModalContext/ModalContext";
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { CalendarDays, Tag } from "lucide-react";
 import { useEffect } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
 
 export default function AnalyticsPage() {
   const { isLoading, sortedEntries, activeFilter, handleFilterChange } =
@@ -86,7 +87,12 @@ const StyledH2 = styled.h2`
 const StyledFilterButton = styled.button`
   background-color: transparent;
   border: none;
+  color:var(--green-500);
   cursor: pointer;
+   &:hover {
+    transform: scale(1.1);
+  }
+  ${props => props.$activated && helperIconStyles}
 `;
 
 const IconTextWrapper = styled.div`
@@ -95,23 +101,37 @@ const IconTextWrapper = styled.div`
 `;
 
 const StyledCalendarDays = styled(CalendarDays)`
-  color: ${(props) =>
-    props.$activated ? `var(--red-500)` : `var(--green-500)`};
-  width: 35px;
-  height: 35px;
-  fill: ${(props) => (props.$activated ? `var(--green-500)` : "none")};
+  width: var(--iconSize);
+  height: var(--iconSize);
+
+  &:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+  }
+
+  ${props => props.$activated && helperIconStyles}
 `;
 
 const StyledTag = styled(Tag)`
-  color: ${(props) =>
-    props.$activated ? `var(--red-500)` : `var(--green-500)`};
-  width: 35px;
-  height: 35px;
-  fill: ${(props) => (props.$activated ? `var(--green-500)` : "none")};
+  width: var(--iconSize);
+  height: var(--iconSize);
+
+  ${props => props.$activated && helperIconStyles}
 `;
+
 const StyledFilterCriteriaWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: var(--xl);
   padding: 1rem;
+`;
+
+const helperIconStyles = css`
+      background-color: var(--green-800);
+      border-radius: 50%;
+      padding: var(--sm);
+      box-shadow: var(--box-shadow-active);
+      color: var(--green-text-light);
+      width: 100%;
+      height: 100%;
 `;
