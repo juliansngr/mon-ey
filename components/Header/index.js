@@ -67,6 +67,9 @@ const AppName = styled.div`
     transform: rotate(20deg);
     transform-origin: center;
   }
+  @media (min-width: 768px) {
+    font-size: var(--4xl);
+  }
 `;
 
 const AppNameText = styled.span`
@@ -75,4 +78,8 @@ const AppNameText = styled.span`
   font-weight: 500;
   margin-top: var(--2xs);
   letter-spacing: var(--4xs);
+  @media (min-width: 768px) {
+    font-size: var(--md);
+    margin-top: var(--3xs);
+  }
 `;
