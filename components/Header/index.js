@@ -71,7 +71,7 @@ const AppName = styled.div`
 
 const AppNameText = styled.span`
   display: block;
-  font-size: var(--2xs);
+  font-size: var(--xs);
   font-weight: 500;
   margin-top: var(--2xs);
   letter-spacing: var(--4xs);

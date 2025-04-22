@@ -1,10 +1,10 @@
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { Angry, BicepsFlexed, RotateCw } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
-import styled from "styled-components";
-import ReactMarkdown from "react-markdown";
-import { RotateCw, BicepsFlexed, Angry } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import ReactMarkdown from "react-markdown";
+import styled from "styled-components";
 
 export default function Chat() {
   const { data: transactions } = useTransactionsContext();
@@ -114,13 +114,19 @@ const ContentWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: var(--sm);
-
+  gap: var(--md);
+  padding-top: var(--4xl);
   position: relative;
+  & svg {
+    margin-right: var(--md);
+  }
 `;
 
 const DefaultText = styled.p`
   text-align: center;
+  line-height: var(--3xl);
+  font-size: var(--xl);
+  margin-bottom: var(--xl)
 `;
 
 const LoadingSpinner = styled(Image)`
@@ -140,13 +146,23 @@ const ResponseWrapper = styled.div`
   background-color: white;
   box-shadow: 0 0 0 1px #d2d2d5, 0 10px 15px -3px rgba(0, 0, 0, 0.05),
     0 4px 6px -4px rgba(0, 0, 0, 0.05);
+    & > button {
+      box-shadow: var(--box-shadow-default);
+  transition: background-color 0.6s ease, transform 0.8s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: var(--green-600);
+    cursor: pointer;
+    box-shadow: var(--box-shadow-active);
+  }
+    }
 `;
 
 const RedButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: var(--xs);
   padding: var(--xs) var(--xl);
   line-height: 1.15;
   font-size: 100%;
@@ -154,5 +170,13 @@ const RedButton = styled.button`
   border: none;
   border-radius: var(--xs);
   background-color: var(--red-500);
-  cursor: pointer;
+  box-shadow: var(--box-shadow-default);
+  transition: background-color 0.6s ease, transform 0.8s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: var(--green-600);
+    cursor: pointer;
+    box-shadow: var(--box-shadow-active);
+  }
 `;
