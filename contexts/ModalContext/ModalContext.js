@@ -2,12 +2,19 @@ import DeleteForm from "@/components/DeleteForm";
 import Modal from "@/components/Modal";
 import TransactionFilters from "@/components/TransactionFilters";
 import TransactionForm from "@/components/TransactionForm";
-import { useContext, createContext, useState, act } from "react";
+import { useRouter } from "next/router";
+import { useContext, createContext, useState, act, useEffect } from "react";
+import RuleForm from "@/components/RuleForm";
 
 const ModalContext = createContext();
 
 export function ModalProvider({ children }) {
   const [activeModal, setActiveModal] = useState({ type: null, props: {} });
+  const { pathname } = useRouter();
+
+  useEffect(() => {
+    closeModal();
+  }, [pathname]);
 
   const openModal = (modalType, props = {}) => {
     setActiveModal({ type: modalType, props });
@@ -48,6 +55,15 @@ export function ModalProvider({ children }) {
           <TransactionForm
             currentTransaction={activeModal.props.currentTransaction}
             onSubmit={activeModal.props.onSubmit}
+          />
+        </Modal>
+      )}
+      {activeModal.type === "addRule" && (
+        <Modal title="Neue Regel erfassen" closeModal={closeModal}>
+          <RuleForm
+            onSubmit={activeModal.props.onSubmit}
+            preconditionObjects={activeModal.props.preconditionObjects}
+            consequenceObjects={activeModal.props.consequenceObjects}
           />
         </Modal>
       )}

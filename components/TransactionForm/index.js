@@ -59,7 +59,7 @@ export default function TransactionForm({ onSubmit, currentTransaction }) {
         aria-label="Kategorie der Transaktion wählen"
         defaultValue={currentTransaction?.category}
       >
-        <StyledFormSelectOption value="">
+        <StyledFormSelectOption value="" disabled hidden>
           -Bitte Kategorie ausw&auml;hlen-
         </StyledFormSelectOption>
         {categories.map((cat) => (
@@ -108,7 +108,11 @@ const StyledFormSubmit = styled.button`
   line-height: 1.15;
   font-size: 100%;
 `;
-const StyledFormLabel = styled.label``;
+const StyledFormLabel = styled.label`
+  padding: var(--3xs);
+  line-height: 1.15;
+  font-size: 100%;
+`;
 const StyledFormInputRadioSection = styled.section`
   gap: var(--base);
 `;

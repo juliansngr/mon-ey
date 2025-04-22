@@ -1,21 +1,16 @@
 import TransactionsHeader from "@/components/TransactionsHeader";
 import TransactionsList from "@/components/TransactionsList/";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useModalContext } from "@/contexts/ModalContext/ModalContext";
+import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { CalendarDays, Tag } from "lucide-react";
 import { useEffect } from "react";
 import styled, { css } from "styled-components";
 
 
 export default function AnalyticsPage() {
-  const { isLoading, sortedEntries, activeFilter, handleFilterChange } =
+  const { sortedEntries, activeFilter, handleFilterChange } =
     useTransactionsContext();
-  const { openModal } = useModalContext();
-
-
-  useEffect(() => {
-    handleFilterChange({ type: null, pattern: null });
-  }, []);
+  const { openModal, closeModal } = useModalContext();
 
   function handleClickFilter(filterType) {
     if (activeFilter.type !== filterType || !activeFilter.type) {
@@ -41,8 +36,6 @@ export default function AnalyticsPage() {
       handleFilterChange({ type: null, pattern: null });
     }
   }
-
-  if (isLoading) return null;
 
   return (
     <>

@@ -1,25 +1,49 @@
-import AccountBalance from "@/components/AccountBalance";
-import TransactionsHeader from "@/components/TransactionsHeader";
-import TransactionsList from "@/components/TransactionsList/";
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
-import { useEffect } from "react";
+import LoginButton from "@/components/LoginButton";
+import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
+import styled from "styled-components";
 
 export default function HomePage() {
-  const { isLoading, sortedEntries, data } = useTransactionsContext();
-  const { handleFilterChange } = useTransactionsContext();
-
-  // todo: Lift up to transActionList
-  useEffect(() => {
-    handleFilterChange({ type: null, pattern: null });
-  }, []);
-
-  if (isLoading) return null;
-
+  const { data: session } = useSession();
+  console.log(session);
   return (
-    <>
-      <AccountBalance transactions={data} />
-      <TransactionsHeader hasAddButton />
-      <TransactionsList transactions={sortedEntries} />
-    </>
+    <ContentWrapper>
+      <StyledHeading>
+        Die <ColorChange>Finanz-App</ColorChange> der nächsten Generation
+      </StyledHeading>
+      {session ? (
+        <Link href="/dashboard">
+          <DashboardButton>Zum Dashboard</DashboardButton>
+        </Link>
+      ) : (
+        <LoginButton />
+      )}
+    </ContentWrapper>
   );
 }
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: var(--3xl);
+  align-items: center;
+`;
+
+const StyledHeading = styled.h2`
+  font-size: var(--5xl);
+  font-weight: bold;
+  text-align: center;
+`;
+
+const ColorChange = styled.span`
+  color: var(--green-600);
+`;
+
+const DashboardButton = styled.button`
+  border: none;
+  cursor: pointer;
+  background-color: var(--green-500);
+  padding: var(--md) var(--xl);
+  border-radius: var(--xs);
+  color: var(--green-50);
+`;

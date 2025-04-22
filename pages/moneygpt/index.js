@@ -1,4 +1,4 @@
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { Angry, BicepsFlexed, RotateCw } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -126,7 +126,7 @@ const DefaultText = styled.p`
   text-align: center;
   line-height: var(--3xl);
   font-size: var(--xl);
-  margin-bottom: var(--xl)
+  margin-bottom: var(--xl);
 `;
 
 const LoadingSpinner = styled(Image)`
@@ -146,17 +146,17 @@ const ResponseWrapper = styled.div`
   background-color: white;
   box-shadow: 0 0 0 1px #d2d2d5, 0 10px 15px -3px rgba(0, 0, 0, 0.05),
     0 4px 6px -4px rgba(0, 0, 0, 0.05);
-    & > button {
-      box-shadow: var(--box-shadow-default);
-  transition: background-color 0.6s ease, transform 0.8s ease;
+  & > button {
+    box-shadow: var(--box-shadow-default);
+    transition: background-color 0.6s ease, transform 0.8s ease;
 
-  &:hover {
-    transform: scale(1.1);
-    background-color: var(--green-600);
-    cursor: pointer;
-    box-shadow: var(--box-shadow-active);
-  }
+    &:hover {
+      transform: scale(1.1);
+      background-color: var(--green-600);
+      cursor: pointer;
+      box-shadow: var(--box-shadow-active);
     }
+  }
 `;
 
 const RedButton = styled.button`

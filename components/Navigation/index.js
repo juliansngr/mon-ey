@@ -1,4 +1,4 @@
-import { BadgeEuro, ChartColumn, Home } from "lucide-react";
+import { ChartColumn, Home, BadgeEuro, ContactRound } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { css, styled } from "styled-components";
@@ -7,15 +7,19 @@ export default function Navigation() {
   const router = useRouter();
   const activeNavPoint = router.pathname;
 
+  if (router.pathname === "/") {
+    return;
+  }
+
   return (
     <NavContainer role="navigation" aria-label="Hauptnavigation der Website">
       <NavList>
         <NavListItem>
           <NavItem
-            href="/"
+            href="/dashboard"
             aria-label="Navigiere zur Startseite"
-            aria-current={activeNavPoint === "/" ? "page" : undefined}
-            $active={activeNavPoint === "/"}
+            aria-current={activeNavPoint === "/dashboard" ? "page" : undefined}
+            $active={activeNavPoint === "/dashboard"}
           >
             <StyledNavText><span>Startseite</span></StyledNavText>
             <StyledCircle aria-hidden="true">
@@ -46,6 +50,18 @@ export default function Navigation() {
             <StyledNavText><span>moneyGPT</span></StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledMoneyGPTIcon aria-hidden="true" />
+            </StyledCircle>
+          </NavItem>
+        </NavListItem>
+        <NavListItem>
+          <NavItem
+            href="/profile"
+            aria-label="Navigiere zur deiner Profil Seite"
+            aria-current={activeNavPoint === "/profile" ? "page" : undefined}
+            $active={activeNavPoint === "/profile"}
+          >
+            <StyledCircle aria-hidden="true">
+              <StyledProfileIcon aria-hidden="true" />
             </StyledCircle>
           </NavItem>
         </NavListItem>
@@ -144,6 +160,11 @@ const StyledAnalyseIcon = styled(ChartColumn)`
 `;
 
 const StyledMoneyGPTIcon = styled(BadgeEuro)`
+  font-size: 1.5rem;
+  color: var(--green-text-light, #ebfef4);
+`;
+
+const StyledProfileIcon = styled(ContactRound)`
   font-size: 1.5rem;
   color: var(--green-text-light, #ebfef4);
 `;

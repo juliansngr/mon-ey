@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { useRouter } from "next/router";
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import Link from "next/link";
 import { ChevronLeft, Trash2, SquarePen } from "lucide-react";
 import dayjs from "dayjs";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
+import { useModalContext } from "@/contexts/ModalContext/ModalContext";
 import { useState } from "react";
 import { handleTransactionUpdate } from "@/utils/TransactionsHandler";
 
@@ -12,19 +12,17 @@ export default function TransactionDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, isLoading, mutate } = useTransactionsContext();
+  const { data, mutate } = useTransactionsContext();
   const { openModal, closeModal } = useModalContext();
 
   const [wasDeleted, setWasDeleted] = useState(null);
-
-  if (isLoading) return <p>Lädt...</p>;
 
   const currentTransaction = data.find((transaction) => transaction._id === id);
 
   return (
     <TransactionDetailsWrapper>
       <TransactionDetailsHeader>
-        <IconLink href={"/"}>
+        <IconLink href={"/dashboard"}>
           <ChevronLeft />
           Zurück
         </IconLink>
