@@ -1,4 +1,4 @@
-import { ChartColumn, Home, BadgeEuro } from "lucide-react";
+import { BadgeEuro, ChartColumn, Home } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { css, styled } from "styled-components";
@@ -17,6 +17,7 @@ export default function Navigation() {
             aria-current={activeNavPoint === "/" ? "page" : undefined}
             $active={activeNavPoint === "/"}
           >
+            <StyledNavText><span>Startseite</span></StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledHomeIcon aria-hidden="true" />
             </StyledCircle>
@@ -29,6 +30,7 @@ export default function Navigation() {
             aria-current={activeNavPoint === "/analytics" ? "page" : undefined}
             $active={activeNavPoint === "/analytics"}
           >
+            <StyledNavText><span>Analysen</span></StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledAnalyseIcon aria-hidden="true" />
             </StyledCircle>
@@ -41,6 +43,7 @@ export default function Navigation() {
             aria-current={activeNavPoint === "/moneygpt" ? "page" : undefined}
             $active={activeNavPoint === "/moneygpt"}
           >
+            <StyledNavText><span>moneyGPT</span></StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledMoneyGPTIcon aria-hidden="true" />
             </StyledCircle>
@@ -59,6 +62,20 @@ const StyledCircle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  @media (min-width: 768px) {
+    display:none;
+  }
+`;
+
+const StyledNavText = styled.span`
+    display:none;
+
+@media (min-width: 768px) {
+    display:block;
+    color: var(--green-text-light);
+    padding: var(--3xs) var(--xs);
+
+  }
 `;
 
 const NavContainer = styled.nav`
@@ -104,7 +121,17 @@ const NavItem = styled(Link)`
       & > div {
         background-color: var(--green-800);
       }
+      & > span {
+            scale: 1.1;
+            font-weight:700;
+            letter-spacing: 2px;
+            border-radius: var(--xs);
+            background-color: var(--green-800);
+        }
     `}
+    @media (min-width: 768px) {
+        padding: var(--base) 0;
+    }
 `;
 
 const StyledHomeIcon = styled(Home)`
