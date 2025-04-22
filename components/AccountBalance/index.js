@@ -1,6 +1,7 @@
 import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import Chartbar from "../Chartbar";
 
 let totalBalance = 0, totalIncome = 0, totalExpenses = 0;
 
@@ -42,49 +43,66 @@ export default function AccountBalance({ transactions }) {
 
   return (
     <>
-      <StyledAccount
-        className={activeButton === 0 ? "active" : ""}
-        onClick={() => handleToggle(0)}
-        aria-label="Gesamten Kontostand ein- oder ausblenden"
-        aria-expanded={activeButton === 0 ? "true" : "false"}
-        title="Gesamt Kontostand anzeigen"
-      >
-        <StyledTotalAmount $isNegative={isNegative}>
-          <StyledTotalSpan>Aktueller Kontostand</StyledTotalSpan>
-          {totalBalance.toFixed(2)} €
-        </StyledTotalAmount>
-      </StyledAccount>
+      <StyledSectionTwoColumn>
 
-      <StyledSectionIncomeExpense>
-        <StyledAccount
-          className={activeButton === 1 ? "active" : ""}
-          onClick={() => handleToggle(1)}
-          aria-label="Gesamte Eingänge ein- oder ausblenden"
-          aria-expanded={activeButton === 1 ? "true" : "false"}
-          title="Gesamt Eingänge anzeigen"
-        >
-          <StyledTotalAmount>
-            <StyledTotalSpan>Gesamt Eingang</StyledTotalSpan>
-            {totalIncome.toFixed(2)} €
-          </StyledTotalAmount>
-        </StyledAccount>
+        <StyledSectionIncomeExpense>
+          <StyledAccount
+            className={activeButton === 0 ? "active" : ""}
+            onClick={() => handleToggle(0)}
+            aria-label="Gesamten Kontostand ein- oder ausblenden"
+            aria-expanded={activeButton === 0 ? "true" : "false"}
+            title="Gesamt Kontostand anzeigen"
+          >
+            <StyledTotalAmount $isNegative={isNegative}>
+              <StyledTotalSpan>Aktueller Kontostand</StyledTotalSpan>
+              {totalBalance.toFixed(2)} €
+            </StyledTotalAmount>
+          </StyledAccount>
 
-        <StyledAccount
-          className={activeButton === 2 ? "active" : ""}
-          onClick={() => handleToggle(2)}
-          aria-label="Gesamte Ausgänge ein- oder ausblenden"
-          aria-expanded={activeButton === 1 ? "true" : "false"}
-          title="Gesamt Ausgänge anzeigen"
-        >
-          <StyledTotalAmount $isNegative={true}>
-            <StyledTotalSpan>Gesamt Ausgang</StyledTotalSpan>
-            {totalExpenses.toFixed(2)} €
-          </StyledTotalAmount>
-        </StyledAccount>
-      </StyledSectionIncomeExpense>
+          <StyledAccount
+            className={activeButton === 1 ? "active" : ""}
+            onClick={() => handleToggle(1)}
+            aria-label="Gesamte Eingänge ein- oder ausblenden"
+            aria-expanded={activeButton === 1 ? "true" : "false"}
+            title="Gesamt Eingänge anzeigen"
+          >
+            <StyledTotalAmount>
+              <StyledTotalSpan>Gesamt Eingang</StyledTotalSpan>
+              {totalIncome.toFixed(2)} €
+            </StyledTotalAmount>
+          </StyledAccount>
+
+          <StyledAccount
+            className={activeButton === 2 ? "active" : ""}
+            onClick={() => handleToggle(2)}
+            aria-label="Gesamte Ausgänge ein- oder ausblenden"
+            aria-expanded={activeButton === 1 ? "true" : "false"}
+            title="Gesamt Ausgänge anzeigen"
+          >
+            <StyledTotalAmount $isNegative={true}>
+              <StyledTotalSpan>Gesamt Ausgang</StyledTotalSpan>
+              {totalExpenses.toFixed(2)} €
+            </StyledTotalAmount>
+          </StyledAccount>
+        </StyledSectionIncomeExpense>
+
+        <Chartbar totalIncome={totalIncome} totalExpenses={totalExpenses} />
+      </StyledSectionTwoColumn>
     </>
   );
 }
+
+const StyledSectionTwoColumn = styled.div`
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: var(--xs);
+`;
+
+const StyledSectionIncomeExpense = styled.section`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+`;
 
 const StyledAccount = styled.button`
   display: flex;
@@ -146,8 +164,4 @@ const StyledTotalSpan = styled.span`
   color: var(--green-text-dark);
 `;
 
-const StyledSectionIncomeExpense = styled.section`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-`;
+
