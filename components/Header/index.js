@@ -14,7 +14,6 @@ export default function Header() {
           <AppNameText>Denn WIR wissen, wo DEIN Geld ab bleibt!</AppNameText>
         </AppName>
       </HomeLink>
-      <LoginButton icon />
     </StyledHeader>
   );
 }
