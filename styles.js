@@ -48,7 +48,7 @@ export default createGlobalStyle`
   --4xl: 2rem;     /* 32px */
   --5xl: 2.5rem;   /* 40px */
 
-/* generals */
+/* generals */ 
   --bgBody: var(--green-50);
   --bgHeader: var(--green-600);
   --headerColor: var(--green-text-light);
