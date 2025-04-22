@@ -26,6 +26,8 @@ const ModalContainer = styled.div`
   justify-content: center;
   align-items: center;
 
+  z-index: 500;
+
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
 

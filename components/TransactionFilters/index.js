@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import categories from "@/db/categories.json";
-import { useModalContext } from "@/utils/ModalContext/ModalContext";
-import { useTransactionsContext } from "@/utils/TransactionsContext/TransactionsContext";
+import { useModalContext } from "@/contexts/ModalContext/ModalContext";
+import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import dayjs from "dayjs";
 
 export default function TransactionFilters({ filterType }) {

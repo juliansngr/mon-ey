@@ -7,15 +7,19 @@ export default function Navigation() {
   const router = useRouter();
   const activeNavPoint = router.pathname;
 
+  if (router.pathname === "/") {
+    return;
+  }
+
   return (
     <NavContainer role="navigation" aria-label="Hauptnavigation der Website">
       <NavList>
         <NavListItem>
           <NavItem
-            href="/"
+            href="/dashboard"
             aria-label="Navigiere zur Startseite"
-            aria-current={activeNavPoint === "/" ? "page" : undefined}
-            $active={activeNavPoint === "/"}
+            aria-current={activeNavPoint === "/dashboard" ? "page" : undefined}
+            $active={activeNavPoint === "/dashboard"}
           >
             <StyledCircle aria-hidden="true">
               <StyledHomeIcon aria-hidden="true" />

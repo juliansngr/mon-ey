@@ -1,5 +1,6 @@
 import Link from "next/link";
 import styled from "styled-components";
+import LoginButton from "../LoginButton";
 
 export default function Header() {
   return (
@@ -13,6 +14,7 @@ export default function Header() {
           <AppNameText>Denn WIR wissen, wo DEIN Geld ab bleibt!</AppNameText>
         </AppName>
       </HomeLink>
+      <LoginButton icon />
     </StyledHeader>
   );
 }
