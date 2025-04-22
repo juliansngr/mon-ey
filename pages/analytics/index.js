@@ -11,11 +11,6 @@ export default function AnalyticsPage() {
     useTransactionsContext();
   const { openModal, closeModal } = useModalContext();
 
-  useEffect(() => {
-    handleFilterChange({ type: null, pattern: null });
-    closeModal();
-  }, []);
-
   function handleClickFilter(filterType) {
     if (activeFilter.type !== filterType || !activeFilter.type) {
       let applyModalFilterTitle;

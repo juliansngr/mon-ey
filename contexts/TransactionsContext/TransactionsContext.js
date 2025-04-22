@@ -2,9 +2,10 @@ import {
   filterTransactions,
   groupTransactions,
 } from "@/utils/FilterFunctionsLib/filterFunctions";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const fetcher = (url) => fetch(url).then((r) => r.json());
 
@@ -12,7 +13,7 @@ const TransactionsContext = createContext();
 
 export function TransactionsProvider({ children }) {
   const { data: session, status } = useSession();
-
+  const { pathname } = useRouter();
   const { data, isLoading, error, mutate } = useSWR(
     status === "authenticated" ? "/api/transactions" : null,
     fetcher
@@ -21,6 +22,14 @@ export function TransactionsProvider({ children }) {
     type: null,
     pattern: null,
   });
+
+  const handleFilterChange = (props) => {
+    setActiveFilter(props);
+  };
+
+  useEffect(() => {
+    handleFilterChange({ type: null, pattern: null });
+  }, [pathname]);
 
   if (status !== "authenticated" || isLoading || !data) {
     return (
@@ -39,10 +48,6 @@ export function TransactionsProvider({ children }) {
       </TransactionsContext.Provider>
     );
   }
-
-  const handleFilterChange = (props) => {
-    setActiveFilter(props);
-  };
 
   let filteredTransactions = data;
 

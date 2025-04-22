@@ -1,3 +1,4 @@
+import BackToTop from "@/components/BackToTop";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
 import { ModalProvider } from "@/contexts/ModalContext/ModalContext";
@@ -20,6 +21,7 @@ export default function App({
             <Header />
             <main>
               <ModalProvider>
+                <BackToTop />
                 <Component {...pageProps} />
               </ModalProvider>
             </main>

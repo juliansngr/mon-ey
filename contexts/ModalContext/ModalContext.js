@@ -2,12 +2,18 @@ import DeleteForm from "@/components/DeleteForm";
 import Modal from "@/components/Modal";
 import TransactionFilters from "@/components/TransactionFilters";
 import TransactionForm from "@/components/TransactionForm";
-import { useContext, createContext, useState, act } from "react";
+import { useRouter } from "next/router";
+import { useContext, createContext, useState, act, useEffect } from "react";
 
 const ModalContext = createContext();
 
 export function ModalProvider({ children }) {
   const [activeModal, setActiveModal] = useState({ type: null, props: {} });
+  const { pathname } = useRouter();
+
+  useEffect(() => {
+    closeModal();
+  }, [pathname]);
 
   const openModal = (modalType, props = {}) => {
     setActiveModal({ type: modalType, props });

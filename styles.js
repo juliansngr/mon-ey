@@ -34,7 +34,7 @@ export default createGlobalStyle`
   --green-text-dark: #002f20;
 
   /* distances */
-  --4xs: 0.125rem;  /* 2px */
+  --4xs: 0.125rem; /* 2px */
   --3xs: 0.25rem;  /* 4px */
   --2xs: 0.5rem;   /* 8px */
   --xs: 0.625rem;  /* 10px */
@@ -46,7 +46,7 @@ export default createGlobalStyle`
   --2xl: 1.5rem;   /* 24px */
   --3xl: 1.875rem; /* 30px */
   --4xl: 2rem;     /* 32px */
-  --5xl: 2.5rem;    /* 40px */
+  --5xl: 2.5rem;   /* 40px */
 
 /* generals */
   --bgBody: var(--green-50);
@@ -78,18 +78,18 @@ ul, ol {
 }
 
   body {
-    margin: 0;
     font-family: system-ui;
     width:100%;
     max-width: 27rem;
+    margin-top: 5.5rem;
     margin-left:auto;
     margin-right:auto;
+    margin-bottom: 0;
     background-color: var(--bgBody);
   }
 
   main {
     padding: 0 var(--xs);
-    margin-top: 5.5rem;
     padding-bottom: 5rem;
   }
 
