@@ -1,4 +1,4 @@
-import { ChartColumn, Home, BadgeEuro, ContactRound } from "lucide-react";
+import { BadgeEuro, ChartColumn, ContactRound, Home } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { css, styled } from "styled-components";
@@ -60,6 +60,7 @@ export default function Navigation() {
             aria-current={activeNavPoint === "/profile" ? "page" : undefined}
             $active={activeNavPoint === "/profile"}
           >
+            <StyledNavText><span>Profil</span></StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledProfileIcon aria-hidden="true" />
             </StyledCircle>
