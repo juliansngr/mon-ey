@@ -33,12 +33,20 @@ export default function Chartbar({ totalIncome, totalExpenses }) {
         if (difference > 0) {
             const ausgabenProzent = (absExpenses / absIncome) * 100;
             const ueberschussProzent = 100 - ausgabenProzent;
-            return `Die Ausgaben betragen ca. ${ausgabenProzent.toFixed(2)} % der Einnahmen – entsprechend ergibt sich ein Überschuss von etwa ${ueberschussProzent.toFixed(2)} %.`;
+            return (
+                <span>
+                    Die Ausgaben betragen ca. <strong>{ausgabenProzent.toFixed(2)} %</strong> der Einnahmen – entsprechend ergibt sich ein <strong>Überschuss</strong> von etwa <strong>{ueberschussProzent.toFixed(2)} %</strong>.
+                </span>
+            );
         } else if (difference < 0) {
             const defizitProzent = absIncome === 0
                 ? 100 // If there is no income, the expenses are 100%
                 : (Math.abs(difference) / absIncome) * 100;
-            return `Die Ausgaben übersteigen die Einnahmen um ca. ${defizitProzent.toFixed(2)} % – es entsteht ein Defizit.`;
+            return (
+                <span>
+                    Die Ausgaben übersteigen die Einnahmen um ca. <strong>{defizitProzent.toFixed(2)} %</strong> – es entsteht ein <strong>Defizit</strong>.
+                </span>
+            );
         } else {
             return "Einnahmen und Ausgaben sind gleich – keine Differenz.";
         }
@@ -84,6 +92,9 @@ border-radius: var(--xs);
 background-color: white;
 border: var(--3xs) solid transparent;
 box-shadow: var(--box-shadow-default);
+@media (min-width: 768px) {
+    max-width: none;
+}
 `;
 
 const Bars = styled.div`
@@ -103,6 +114,9 @@ display: flex;
 flex-direction: column;
 align-items: center;
 max-height: 10rem;
+@media (min-width: 768px) {
+    width: unset;
+}
 `;
 
 const IncomeBar = styled.div`
@@ -129,11 +143,17 @@ const DateText = styled.h2`
 font-size: var(--sm);
 color: var(--green-text-dark);
 margin-bottom: var(--3xs);
+@media (min-width: 768px) {
+        font-size: var(--base);
+    }
 `;
 
 const DifferenceText = styled.p`
     font-size: var(--xs);
     color: var(--green-text-dark);
     text-align: center;
-    font-weight: 500;
+    font-weight: 300;
+    @media (min-width: 768px) {
+        font-size: var(--base);
+    }
 `;
