@@ -72,6 +72,7 @@ const AppWrapper = styled.div`
       grid-area: main;
       top: var(--5xl);
       position: relative;
+      max-width: 53.125rem
     }
 
     & > nav {
