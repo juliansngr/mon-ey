@@ -35,7 +35,9 @@ export default function Chartbar({ totalIncome, totalExpenses }) {
             const ueberschussProzent = 100 - ausgabenProzent;
             return `Die Ausgaben betragen ca. ${ausgabenProzent.toFixed(2)} % der Einnahmen – entsprechend ergibt sich ein Überschuss von etwa ${ueberschussProzent.toFixed(2)} %.`;
         } else if (difference < 0) {
-            const defizitProzent = (Math.abs(difference) / absIncome) * 100;
+            const defizitProzent = absIncome === 0
+                ? 100 // If there is no income, the expenses are 100%
+                : (Math.abs(difference) / absIncome) * 100;
             return `Die Ausgaben übersteigen die Einnahmen um ca. ${defizitProzent.toFixed(2)} % – es entsteht ein Defizit.`;
         } else {
             return "Einnahmen und Ausgaben sind gleich – keine Differenz.";
