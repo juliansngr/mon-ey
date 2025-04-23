@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export default function Chartbar({ totalIncome, totalExpenses }) {
     const barContainerHeight = 130; // Fixed height of the bars in pixels
@@ -81,6 +81,21 @@ export default function Chartbar({ totalIncome, totalExpenses }) {
     );
 }
 
+const sharedBarStyles = css`
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    overflow: hidden;
+    border: 1px solid var(--darkgray);
+    box-shadow: var(--3xs) -1px var(--2xs) var(--3xs) rgba(0, 0, 0, 0.6);
+    transition: background-color 0.6s ease, transform 0.8s ease;
+
+    &::after {
+        font-size: var(--3xl);
+        font-weight: 900;
+    }
+`;
+
 const ChartContainer = styled.div`
 max-width: 10rem;
 display: flex;
@@ -93,7 +108,7 @@ background-color: white;
 border: var(--3xs) solid transparent;
 box-shadow: var(--box-shadow-default);
 @media (min-width: 768px) {
-    max-width: none;
+    max-width: 31.875rem;
 }
 `;
 
@@ -123,12 +138,25 @@ const IncomeBar = styled.div`
 width: 100%;
 background-color: var(--green-500); 
 transition: height 0.3s ease;
+
+@media (min-width: 768px) {
+    ${sharedBarStyles}
+    &::after {
+        content: "+€"
+    }
+}
 `;
 
 const ExpenseBar = styled.div`
 width: 100%;
 background-color: var(--red-500);
 transition: height 0.3s ease;
+@media (min-width: 768px) {
+    ${sharedBarStyles}
+    &::after {
+        content: "-€"
+    }
+}
 `;
 
 const Label = styled.div`
@@ -137,6 +165,9 @@ font-weight: 500;
 letter-spacing: var(--4xs);
 margin-top: var(--3xs);
 text-align: center;
+@media (min-width: 768px) {
+    margin-top: var(--xs);
+}
 `;
 
 const DateText = styled.h2`
@@ -145,6 +176,7 @@ color: var(--green-text-dark);
 margin-bottom: var(--3xs);
 @media (min-width: 768px) {
         font-size: var(--base);
+        margin-bottom: var(--md);
     }
 `;
 
