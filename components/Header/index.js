@@ -1,6 +1,5 @@
 import Link from "next/link";
 import styled from "styled-components";
-import LoginButton from "../LoginButton";
 
 export default function Header() {
   return (
