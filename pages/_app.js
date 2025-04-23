@@ -66,6 +66,9 @@ const AppWrapper = styled.div`
     & > header {
       grid-area: header;
       z-index: 30;
+      @media (min-width: 768px) {
+        border-bottom-left-radius: 0;
+      }
     }
 
     & > main {
@@ -80,11 +83,19 @@ const AppWrapper = styled.div`
       width: 12.5rem;
       top: 4.75rem;
       position: fixed;
+      @media(min-width: 768px){
+        top: 3.75rem;
       & ul {
         flex-direction: column;
         border-radius: var(--2xs);
+        @media (min-width: 768px) {
+          border-top-left-radius: 0;
+        }
         & li {
           border: 0;
+          @media(min-width: 768px){
+            border: 1px solid var(--green-50);
+          }
         }
       }
     }
