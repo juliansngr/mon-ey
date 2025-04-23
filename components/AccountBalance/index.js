@@ -102,6 +102,7 @@ const StyledSectionTwoColumn = styled.div`
   @media (min-width: 768px) {
     flex-direction: column;
     align-items: center;
+    gap: var(--xl);
   }
 `;
 
