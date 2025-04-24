@@ -6,14 +6,20 @@ export default function Tooltip({ text }) {
 
   const handleMouseEnter = () => setIsVisible(true);
   const handleMouseLeave = () => setIsVisible(false);
-  const handleClick = () => setIsVisible(!isVisible);
+
+  // Event-Ausbreitung unterbrechen, sonst wird der Link ausgelöst
+  const handleTooltipClick = (event) => {
+    event.preventDefault();  // Verhindert die Standard-Aktion
+    event.stopPropagation(); // Stoppt die Ereignisausbreitung zum Link
+    setIsVisible(!isVisible);
+  };
 
   return (
-    <TooltipWrapper>
+    <TooltipWrapper >
       <TooltipIcon
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
+        onClick={handleTooltipClick}
         aria-label="Tooltip trigger"
       >
         ?
@@ -61,9 +67,11 @@ const TooltipBox = styled.div`
   padding: var(--2xs) var(--xs);
   border-radius: var(--xs);
   font-size: var(--xs);
-  white-space: nowrap;
   box-shadow: var(--box-shadow-default);
   z-index: 100;
+  white-space: pre-wrap;
+  width: 150px;
+  overflow-wrap: break-word;
 
   &::after {
     content: "";
