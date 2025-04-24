@@ -1,5 +1,5 @@
-import { signIn, signOut, useSession } from "next-auth/react";
 import { LogIn, LogOut } from "lucide-react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import styled from "styled-components";
 
 export default function LoginButton({ icon }) {
@@ -36,4 +36,13 @@ const StyledButton = styled.button`
   padding: ${(props) => (props.$icon === true ? "0" : "var(--md) var(--xl)")};
   border-radius: var(--xs);
   color: var(--green-50);
+  box-shadow: var(--box-shadow-default);
+  transition: background-color 0.6s ease, transform 0.8s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: var(--green-600);
+    cursor: pointer;
+    box-shadow: var(--box-shadow-active);
+  }
 `;

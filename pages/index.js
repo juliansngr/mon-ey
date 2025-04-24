@@ -46,4 +46,13 @@ const DashboardButton = styled.button`
   padding: var(--md) var(--xl);
   border-radius: var(--xs);
   color: var(--green-50);
+  box-shadow: var(--box-shadow-default);
+  transition: background-color 0.6s ease, transform 0.8s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: var(--green-600);
+    cursor: pointer;
+    box-shadow: var(--box-shadow-active);
+  }
 `;
