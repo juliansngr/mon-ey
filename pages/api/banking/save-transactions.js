@@ -17,8 +17,8 @@ export default async function handler(req, res) {
 
     const formatted = transactions.map((tx) => ({
       amount: parseFloat(tx.transactionAmount.amount),
-      category: "Unbekannt", // kannst du später automatisch zuordnen
-      type: tx.transactionAmount.amount < 0 ? "Ausgabe" : "Einnahme",
+      category: "Extern",
+      type: tx.transactionAmount.amount < 0 ? "expense" : "income",
       date: tx.bookingDate,
       partner:
         tx.remittanceInformationUnstructured ||

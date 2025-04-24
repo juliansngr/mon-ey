@@ -32,23 +32,33 @@ export default function BankConnect() {
   const startRequisition = async () => {
     if (!selectedInstitution) return alert("Bitte wähle eine Bank aus.");
     setLoading(true);
+
     try {
       const res = await axios.post("/api/banking/requisition", {
         access_token: accessToken,
         institution_id: selectedInstitution,
+        userId: "643bc8ecfbd7b7a2e3e2ddaa", // <- deine MongoDB-User-ID
       });
-      const { link, requisition_id } = res.data;
 
-      // Speicher requisition_id im localStorage oder häng sie an die Redirect-URL
+      const { link, requisition_id, reuse } = res.data;
+
+      // lokale Speicherung oder an Link hängen
       localStorage.setItem("requisition_id", requisition_id);
 
-      // 💡 Du kannst auch direkt in die Redirect-URL einbauen
-      const redirectURL = new URL(link);
-      redirectURL.searchParams.set("requisition_id", requisition_id);
-      window.location.href = redirectURL.toString();
+      if (reuse) {
+        alert(
+          "Du hast diese Bank bereits verbunden – Weiterleitung zum Import."
+        );
+        window.location.href = `/banking/callback?requisition_id=${requisition_id}`;
+      } else {
+        // Weiterleitung zum Bank-Login
+        window.location.href = link;
+      }
     } catch (err) {
       console.error("Fehler beim Erstellen der Requisition", err);
+      alert("Fehler beim Erstellen der Bankverbindung.");
     }
+
     setLoading(false);
   };
 
@@ -65,6 +75,13 @@ export default function BankConnect() {
 
       {accessToken && (
         <>
+          <button
+            className="px-4 py-2 bg-gray-800 text-white rounded mb-2"
+            onClick={() => setSelectedInstitution("SANDBOXFINANCE_SFIN0000")}
+          >
+            Sandbox Testbank auswählen
+          </button>
+
           <button
             className="px-4 py-2 bg-green-600 text-white rounded mb-4"
             onClick={loadInstitutions}

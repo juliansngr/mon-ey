@@ -1,9 +1,11 @@
+import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export default function BankAuthCallback() {
   const [status, setStatus] = useState("Import läuft...");
   const { data: session } = useSession();
+  const { mutate } = useTransactionsContext();
   console.log(session);
   useEffect(() => {
     const run = async () => {
@@ -46,6 +48,8 @@ export default function BankAuthCallback() {
         if (!transactions?.length)
           return setStatus("Keine Transaktionen gefunden.");
 
+        console.log("Transaktionen von API:", transactions);
+
         // 3. Transaktionen speichern
         const saveRes = await fetch("/api/banking/save-transactions", {
           method: "POST",
@@ -60,6 +64,7 @@ export default function BankAuthCallback() {
 
         if (saveResult.success) {
           setStatus(`✅ ${saveResult.count} Transaktionen gespeichert.`);
+          mutate();
         } else {
           setStatus("❌ Fehler beim Speichern.");
         }
