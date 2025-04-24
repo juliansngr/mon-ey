@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -17,7 +19,7 @@ export default async function handler(req, res) {
   const apiUrl = "https://api.mistral.ai/v1/chat/completions";
 
   try {
-    const response = await fetch(apiUrl, {
+    const response = await axios.post(apiUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
