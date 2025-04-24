@@ -144,6 +144,10 @@ transition: height 0.3s ease;
     &::after {
         content: "+€"
     }
+    &:hover {
+        transition:  transform 2s;
+        transform: rotate(360deg);
+    }
 }
 `;
 
@@ -155,6 +159,10 @@ transition: height 0.3s ease;
     ${sharedBarStyles}
     &::after {
         content: "-€"
+    }
+    &:hover {
+        transition:  transform 2s;
+        transform: rotate(360deg);
     }
 }
 `;
