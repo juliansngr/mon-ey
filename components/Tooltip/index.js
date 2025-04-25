@@ -7,10 +7,10 @@ export default function Tooltip({ text }) {
   const handleMouseEnter = () => setIsVisible(true);
   const handleMouseLeave = () => setIsVisible(false);
 
-  // Event-Ausbreitung unterbrechen, sonst wird der Link ausgelöst
+  // Interrupt event propagation, otherwise the link will be triggered
   const handleTooltipClick = (event) => {
-    event.preventDefault();  // Verhindert die Standard-Aktion
-    event.stopPropagation(); // Stoppt die Ereignisausbreitung zum Link
+    event.preventDefault();  // Prevents the default action
+    event.stopPropagation(); // Stops event propagation to the link
     setIsVisible(!isVisible);
   };
 
