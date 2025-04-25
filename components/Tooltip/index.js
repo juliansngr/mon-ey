@@ -32,6 +32,7 @@ export default function Tooltip({ text }) {
 const TooltipWrapper = styled.div`
   position: relative;
   display: inline-block;
+  margin-left: .25rem;
 `;
 
 const TooltipIcon = styled.span`
@@ -44,13 +45,11 @@ const TooltipIcon = styled.span`
   color: var(--green-50);
   border-radius: 50%;
   font-size: var(--xs);
-  font-weight: bold;
+  font-weight: 900;
   cursor: pointer;
   user-select: none;
-
-  top: -10px;
-    position: relative;
-    left: 5px;
+  vertical-align: top;
+  position: relative;
 
   &:hover {
     background-color: var(--green-600);
@@ -60,7 +59,7 @@ const TooltipIcon = styled.span`
 const TooltipBox = styled.div`
   position: absolute;
   bottom: 125%; /* Position above the icon */
-  left: var(--sm);
+  left: 50%;
   transform: translateX(-50%);
   background-color: var(--darkgray);
   color: var(--lightgray);
