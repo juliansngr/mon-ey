@@ -111,7 +111,7 @@ const NavList = styled.ul`
 
 const NavListItem = styled.li`
   flex: 1;
-  border-right: 1px solid var(--green-50);
+  border-right: 1px solid var(--green-50);  
   &:last-child {
     border: 0;
   }

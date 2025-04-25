@@ -45,6 +45,9 @@ const StyledTransactionCard = styled.li`
 const StyledAmount = styled.p`
   font-size: var(--lg);
   font-weight: 500;
+  min-width: 7.25rem;
+  padding-left: var(--3xs);
+  text-align: right;
   color: ${(props) =>
     props.$type === "income" ? `var(--green-500)` : `var(--red-500)`};
 `;
