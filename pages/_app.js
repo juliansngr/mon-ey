@@ -1,3 +1,4 @@
+import AppWrapper from "@/components/AppWrapper";
 import BackToTop from "@/components/BackToTop";
 import Header from "@/components/Header";
 import Navigation from "@/components/Navigation";
@@ -6,7 +7,6 @@ import { ModalProvider } from "@/contexts/ModalContext/ModalContext";
 import { RulebaseProvider } from "@/contexts/RulebaseContext/RulebaseContext";
 import { TransactionsProvider } from "@/contexts/TransactionsContext/TransactionsContext";
 import { SessionProvider } from "next-auth/react";
-import styled from "styled-components";
 import GlobalStyle from "../styles";
 
 export default function App({
@@ -16,10 +16,10 @@ export default function App({
   return (
     <>
       <GlobalStyle />
-      <AppWrapper>
-        <SessionProvider session={session}>
-          <AuthProvider>
-            <TransactionsProvider>
+      <SessionProvider session={session}>
+        <AuthProvider>
+          <TransactionsProvider>
+            <AppWrapper>
               <Header style={{ gridArea: 'header' }} />
               <main style={{ gridArea: 'main' }}>
                 <RulebaseProvider>
@@ -30,76 +30,11 @@ export default function App({
                 </RulebaseProvider>
               </main>
               <Navigation style={{ gridArea: 'nav' }} />
-            </TransactionsProvider>
-          </AuthProvider>
-        </SessionProvider>
-      </AppWrapper>
+            </AppWrapper>
+          </TransactionsProvider>
+        </AuthProvider>
+      </SessionProvider>
     </>
   );
 }
 
-const AppWrapper = styled.div`
-  display: grid;
-  min-height: 100vh;
-  width: 100%;
-  
-  /* Mobile Layout */
-  grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr;
-  grid-template-areas: 
-    "header"
-    "main"
-    "nav";
-  gap: 0;
-
-
-  @media (min-width: 768px) {
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 12.5rem 1fr;
-    grid-template-areas:
-      "header header"
-      "nav main";
-    max-width: none;
-    margin: 0;
-    gap: var(--xl);
- 
-    & > header {
-      grid-area: header;
-      z-index: 30;
-      @media (min-width: 768px) {
-        border-bottom-left-radius: 0;
-      }
-    }
-
-    & > main {
-      grid-area: main;
-      top: var(--5xl);
-      position: relative;
-      max-width: 53.125rem
-    }
-
-    & > nav {
-      grid-area: nav;
-      width: 12.5rem;
-      top: 4.75rem;
-      position: fixed;
-
-      @media(min-width: 768px){
-        top: 3.75rem;
-        & ul {
-          flex-direction: column;
-          border-radius: var(--2xs);
-          @media (min-width: 768px) {
-            border-top-left-radius: 0;
-          }
-          & li {
-            border: 0;
-            @media(min-width: 768px){
-              border: 1px solid var(--green-50);
-            }
-          }
-        }
-      }
-    }
-  }
-`;
