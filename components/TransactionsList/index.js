@@ -1,10 +1,21 @@
 import dayjs from "dayjs";
-import styled from "styled-components";
-import TransactionCard from "../TransactionCard";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import styled from "styled-components";
+import AdPlacement from "../AdPlacement";
+import TransactionCard from "../TransactionCard";
 
 export default function TransactionsList({ transactions }) {
+  const adProps = {
+    image: "/images/mm-man.png",
+    title: "Save More with Our Offers!",
+    text: "Discover exclusive deals to manage your finances better.",
+    link: "https://app.mon-ey.com/",
+  };
+
+  let adInserted = false; // Track if the AdPlacement has been inserted
+  let transactionCount = 0; // Track the overall transaction count
+
   return (
     <>
       <StyledUl>
@@ -22,14 +33,25 @@ export default function TransactionsList({ transactions }) {
                   .sort(
                     (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
                   )
-                  .map((transaction) => (
-                    <TransactionCardLink
-                      key={transaction.id}
-                      href={`/transactions/${transaction._id}`}
-                    >
-                      <TransactionCard data={transaction} />
-                    </TransactionCardLink>
-                  ))}
+                  .map((transaction) => {
+                    transactionCount++;
+
+                    if (!adInserted && transactionCount === 3) {
+                      adInserted = true;
+                      return (
+                        <AdPlacement {...adProps} key="ad-placement" />
+                      );
+                    }
+
+                    return (
+                      <TransactionCardLink
+                        key={transaction.id}
+                        href={`/transactions/${transaction._id}`}
+                      >
+                        <TransactionCard data={transaction} />
+                      </TransactionCardLink>
+                    );
+                  })}
               </StyledUl>
             </StyledLi>
           );
