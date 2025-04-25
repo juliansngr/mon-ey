@@ -2,6 +2,7 @@ import { uid } from "uid";
 
 class userVariable {
   constructor({
+    id = undefined,
     varName = undefined,
     varText = undefined,
     initialValue = undefined,
@@ -14,7 +15,7 @@ class userVariable {
     deferredDomainValues = undefined,
     preferredDomainValues = undefined,
   } = {}) {
-    this._id = uid();
+    this._id = id;
     this._varName = varName;
     this._varText = varText;
     this._currentValue = currentValue;
@@ -100,18 +101,19 @@ class userRule {
 }
 
 function initializeUserVariables(userVariablesData) {
-  return userVariablesData.map(
-    (userVariableDataset) =>
-      new userVariable({
-        varName: userVariableDataset.varName,
-        varText: userVariableDataset.varText,
-        dataType: userVariableDataset.dataType,
-        initialValue: userVariableDataset.initialValue,
-        isMandatory: userVariableDataset.initialValue,
-        domainType: userVariableDataset.domainType,
-        domainValues: userVariableDataset.domainValues,
-      })
-  );
+  return userVariablesData.map((userVariableDataset) => {
+    const userVarId = uid();
+    return new userVariable({
+      id: userVarId,
+      varName: userVariableDataset.varName,
+      varText: userVariableDataset.varText,
+      dataType: userVariableDataset.dataType,
+      initialValue: userVariableDataset.initialValue,
+      isMandatory: userVariableDataset.initialValue,
+      domainType: userVariableDataset.domainType,
+      domainValues: userVariableDataset.domainValues,
+    });
+  });
 }
 
 function getOperatorsForDatafield({

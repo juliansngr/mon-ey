@@ -5,7 +5,7 @@ export default function RulesList({ rules }) {
   return (
     <StyledUl>
       {rules.map((rule) => (
-        <StyledLi key={rule.id}>
+        <StyledLi key={rule._id}>
           <RuleCard data={rule}></RuleCard>
         </StyledLi>
       ))}

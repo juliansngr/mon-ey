@@ -1,18 +1,20 @@
 import { initializeUserVariables } from "../../utils/RulebaseFunctionsLib/rulebaseFunctions";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import useSWR from "swr";
+import { useSession } from "next-auth/react";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 const RulebaseContext = createContext();
 
 export function RulebaseProvider({ children }) {
+  const { data: session, status } = useSession();
   const {
     data: rules,
     isLoading: rulesLoading,
     error: rulesError,
     mutate: mutateRules,
-  } = useSWR(`/api/dummy-rules/`, fetcher);
+  } = useSWR(status === "authenticated" ? "/api/rules" : null, fetcher);
 
   const {
     data: variables,
@@ -21,8 +23,15 @@ export function RulebaseProvider({ children }) {
     mutate: mutateVariables,
   } = useSWR(`/api/dummy-variables/`, fetcher);
 
+  const [initializedVariables, setInitializedVariables] = useState([]);
   const isLoading = rulesLoading || variablesLoading;
   const error = rulesError || variablesError;
+  useEffect(() => {
+    if (variables) {
+      const initializedVars = initializeUserVariables(variables);
+      setInitializedVariables(initializedVars);
+    }
+  }, [variables]);
 
   if (isLoading) {
     return null;
@@ -31,8 +40,6 @@ export function RulebaseProvider({ children }) {
   if (!rules || !variables) {
     return null;
   }
-
-  const initializedVariables = initializeUserVariables(variables);
 
   const preconditionObjects = [...initializedVariables];
   const consequenceObjects = initializedVariables.filter(

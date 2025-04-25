@@ -37,7 +37,7 @@ export async function handleRuleAdd(
 
   const newRuleDbItemData = newRuleData.ruleData;
 
-  const response = await fetch("/api/dummy-rules", {
+  const response = await fetch("/api/rules", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
