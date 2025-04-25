@@ -65,14 +65,14 @@ export default function Chartbar({ totalIncome, totalExpenses }) {
                     <IncomeBar
                         className="incomeBar"
                         style={{ height: `${incomeHeight}px` }}
-                        aria-label={`Einnahmen: ${totalIncome.toFixed(2)} EUR, Balkenhöhe: ${incomeHeight} Pixel`}
+                        aria-label={`Einnahmen: ${totalIncome.toFixed(2)} EUR`}
                     />
                     <Label>Einnahmen: {totalIncome.toFixed(2)} €</Label>
                 </Bar>
                 <Bar>
                     <ExpenseBar
                         style={{ height: `${expenseHeight}px` }}
-                        aria-label={`Ausgaben: ${totalExpenses.toFixed(2)} EUR, Balkenhöhe: ${expenseHeight} Pixel von 130 Pixel`}
+                        aria-label={`Ausgaben: ${totalExpenses.toFixed(2)} EUR`}
                     />
                     <Label>Ausgaben: {totalExpenses.toFixed(2)} €</Label>
                 </Bar>
@@ -104,7 +104,7 @@ align-items: center;
 margin: 0 0 var(--md);
 padding: var(--3xs);
 border-radius: var(--xs);
-background-color: white;
+background-color: var(--lightgray);
 border: var(--3xs) solid transparent;
 box-shadow: var(--box-shadow-default);
 @media (min-width: 768px) {
