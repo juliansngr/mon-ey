@@ -70,8 +70,11 @@ const TooltipBox = styled.div`
   box-shadow: var(--box-shadow-default);
   z-index: 100;
   white-space: pre-wrap;
-  width: 150px;
   overflow-wrap: break-word;
+  width: 9.75rem;
+  @media (min-width: 768px) {
+    width: 15.75rem;
+  }
 
   &::after {
     content: "";
