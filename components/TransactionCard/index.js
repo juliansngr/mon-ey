@@ -35,9 +35,8 @@ const StyledTransactionCard = styled.li`
   align-items: center;
   padding: var(--md);
   border-radius: var(--xs);
-  background-color: white;
-  box-shadow: 0 0 0 1px #d2d2d5, 0 10px 15px -3px rgba(0, 0, 0, 0.05),
-    0 4px 6px -4px rgba(0, 0, 0, 0.05);
+  background-color: var(--lightgray);
+  box-shadow: var(--box-shadow-default);
 
   transition: background-color 0.3s ease;
 `;
