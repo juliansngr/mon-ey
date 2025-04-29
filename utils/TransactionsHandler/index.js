@@ -10,9 +10,14 @@ export async function handleTransactionAdd(event, { mutate, closeModal }) {
     rawData.type === "expense" ? `-${rawData.amount}` : `${rawData.amount}`
   );
 
+  const category = rawData.category.replace(/^./, (match) =>
+    match.toUpperCase()
+  );
+
   const transactionData = {
     ...rawData,
     amount: amount,
+    category: category,
     date: dayjs(rawData.date).format("YYYY-MM-DDTHH:mm:ss"),
   };
 

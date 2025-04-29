@@ -3,7 +3,7 @@ import { useState } from "react";
 import {
   operators,
   getOperatorsForDatafield,
-} from "@/utils/RulebaseFunctionsLib/rulebaseFunctions";
+} from "@/utils/RulebaseFunctionsLib/index";
 import { useRulebaseContext } from "@/contexts/RulebaseContext/RulebaseContext";
 
 export default function RuleForm({ onSubmit }) {
@@ -11,8 +11,8 @@ export default function RuleForm({ onSubmit }) {
     rule_description: "",
     has_precondition: "on",
     precondition_object: "",
-    precondtion_operator: "",
-    precondtion_pattern: "",
+    precondition_operator: "",
+    precondition_pattern: "",
     consequence_object: "",
     consequence_operator: "",
     consequence_pattern: "",
@@ -27,6 +27,7 @@ export default function RuleForm({ onSubmit }) {
   const [error, setError] = useState("");
 
   function handleFormInput(event) {
+    console.log("event", event.target.name, event.target.value);
     let newFormData = {};
     switch (event.target.name) {
       case "precondition_object":
@@ -60,12 +61,30 @@ export default function RuleForm({ onSubmit }) {
           has_precondition: newToggleValue,
         };
         break;
+      case "precondition_pattern":
+      case "consequence_pattern":
+        if (event.target.multiple) {
+          const selectedOptions = Array.from(event.target.selectedOptions);
+          const selectedValues = selectedOptions.map((option) => option.value);
+
+          newFormData = {
+            ...formData,
+            [event.target.name]: selectedValues,
+          };
+        } else {
+          newFormData = {
+            ...formData,
+            [event.target.name]: event.target.value,
+          };
+        }
+        break;
       default:
         newFormData = {
           ...formData,
           [event.target.name]: event.target.value,
         };
     }
+    console.log("newFormData", newFormData);
     setFormData(newFormData);
   }
 
@@ -88,6 +107,7 @@ export default function RuleForm({ onSubmit }) {
     });
     setSelectableConsequenceOperators(operatorsForInputConsequenceObject);
   }
+
   return (
     <StyledForm onSubmit={onSubmit}>
       <StyledFormLabel>
@@ -105,17 +125,20 @@ export default function RuleForm({ onSubmit }) {
       </StyledFormLabel>
       <StyledFormSection>
         <StyledFormSectionTitle>Vorbedingung</StyledFormSectionTitle>
-        Hat die Regel eine Vorbedingung?
-        <StyledFormLabel>
-          ja
-          <StyledFormInput
-            type="checkbox"
-            id="prompt_precondition"
-            name="has_precondition"
-            checked={formData.has_precondition}
-            onChange={handleFormInput}
-          />
-        </StyledFormLabel>
+        <StyledPromptPreconditionContainer>
+          <span> Hat die Regel eine Vorbedingung?</span>
+          <StyledFormCheckboxLabel>
+            <span>ja</span>
+            <StyledFormCheckbox
+              type="checkbox"
+              id="prompt_precondition"
+              name="has_precondition"
+              checked={formData.has_precondition}
+              onChange={handleFormInput}
+            />
+          </StyledFormCheckboxLabel>
+        </StyledPromptPreconditionContainer>
+
         {formData.has_precondition && (
           <>
             <StyledFormSelect
@@ -126,13 +149,13 @@ export default function RuleForm({ onSubmit }) {
               defaultValue=""
               required
             >
-              <StyledFormSelectDefaultOption value="" disabled hidden>
+              <option value="" disabled hidden>
                 -Welches Eingabefeld soll geprüft werden?-
-              </StyledFormSelectDefaultOption>
+              </option>
               {preconditionObjects.map((preObject) => (
-                <StyledFormSelectOption key={preObject.id} value={preObject.id}>
+                <option key={preObject.id} value={preObject.id}>
                   {preObject.varText ? preObject.varText : preObject.varName}
-                </StyledFormSelectOption>
+                </option>
               ))}
             </StyledFormSelect>
             <StyledFormSelect
@@ -143,16 +166,13 @@ export default function RuleForm({ onSubmit }) {
               onChange={handleFormInput}
               required
             >
-              <StyledFormSelectDefaultOption value="" disabled hidden>
+              <option value="" disabled hidden>
                 -Welche Prüfung soll erfolgen?-
-              </StyledFormSelectDefaultOption>
+              </option>
               {selectablePrecondtionOperators.map((item) => (
-                <StyledFormSelectOption
-                  key={item.operator}
-                  value={item.operator}
-                >
+                <option key={item.operator} value={item.operator}>
                   {item.displayValue}
-                </StyledFormSelectOption>
+                </option>
               ))}
             </StyledFormSelect>
             {["textList", "list", "valueList"].includes(
@@ -173,16 +193,16 @@ export default function RuleForm({ onSubmit }) {
                     : false
                 }
               >
-                <StyledFormSelectDefaultOption value="" disabled hidden>
+                <option value="" disabled hidden>
                   -Welche Werte erfüllen die Vorbedingung?-
-                </StyledFormSelectDefaultOption>
+                </option>
                 {formData.precondition_object.domainValues.map((entry) => (
-                  <StyledFormSelectOption
+                  <option
                     key={`${formData.precondition_object.id}.${entry.value}`}
                     value={entry.value}
                   >
                     {entry?.text ? entry.text : entry.value}
-                  </StyledFormSelectOption>
+                  </option>
                 ))}
               </StyledFormSelect>
             ) : (
@@ -197,11 +217,11 @@ export default function RuleForm({ onSubmit }) {
                     : "text"
                 }
                 step={formData.precondition_object.stepValue}
-                id="precondtion_pattern"
-                name="precondtion_pattern"
+                id="precondition_pattern"
+                name="precondition_pattern"
                 placeholder="Auf welchen Wert wird geprüft?"
                 defaultValue=""
-                aria-label="Prüfwert für Vorbedinung"
+                aria-label="Prüfwert für Vorbedingung"
                 onChange={handleFormInput}
                 pattern={
                   ["ni", "in"].includes(formData.precondition_operator) &&
@@ -239,13 +259,13 @@ export default function RuleForm({ onSubmit }) {
             defaultValue=""
             required
           >
-            <StyledFormSelectDefaultOption value="" disabled hidden>
+            <option value="" disabled hidden>
               -Welches Eingabefeld soll angepasst werden?-
-            </StyledFormSelectDefaultOption>
+            </option>
             {consequenceObjects.map((conObject) => (
-              <StyledFormSelectOption key={conObject.id} value={conObject.id}>
+              <option key={conObject.id} value={conObject.id}>
                 {conObject?.varText ? conObject.varText : conObject.varName}
-              </StyledFormSelectOption>
+              </option>
             ))}
           </StyledFormSelect>
         </StyledFormLabel>
@@ -261,13 +281,13 @@ export default function RuleForm({ onSubmit }) {
           onChange={handleFormInput}
           required
         >
-          <StyledFormSelectOption value="" disabled hidden>
+          <option value="" disabled hidden>
             -Welches Kriterium muss erf&uuml;llt sein?-
-          </StyledFormSelectOption>
+          </option>
           {selectableConsequenceOperators.map((item) => (
-            <StyledFormSelectOption key={item.operator} value={item.operator}>
+            <option key={item.operator} value={item.operator}>
               {item.displayValue}
-            </StyledFormSelectOption>
+            </option>
           ))}
         </StyledFormSelect>
         {["textList", "list", "valueList"].includes(
@@ -284,16 +304,16 @@ export default function RuleForm({ onSubmit }) {
               formData.consequence_object.domainValues.length > 2 ? true : false
             }
           >
-            <StyledFormSelectOption value="" disabled hidden>
+            <option value="" disabled hidden>
               -Welche Werte werden angepasst?-
-            </StyledFormSelectOption>
+            </option>
             {formData.consequence_object.domainValues.map((entry) => (
-              <StyledFormSelectOption
+              <option
                 key={`${formData.consequence_object.id}.${entry.value}`}
                 value={entry.value}
               >
                 {entry?.text ? entry.text : entry.value}
-              </StyledFormSelectOption>
+              </option>
             ))}
           </StyledFormSelect>
         ) : (
@@ -351,24 +371,55 @@ const StyledForm = styled.form`
   gap: var(--base);
 `;
 const StyledFormInput = styled.input`
+  min-width: 300px;
   max-width: 300px;
   padding: var(--3xs);
   line-height: 1.15;
   font-size: 100%;
 `;
 const StyledFormSelect = styled.select`
+  min-width: 300px;
   max-width: 300px;
   padding: var(--3xs);
   line-height: 1.15;
   font-size: 100%;
-`;
-const StyledFormSelectOption = styled.option`
-  font-style: normal;
-  margin-top: var(--xs);
-`;
-const StyledFormSelectDefaultOption = styled.option`
-  font-size: var(--md);
-  margin-top: var(--xs);
+
+  option {
+    font-style: normal;
+    color: black;
+  }
+
+  @-moz-document url-prefix() {
+    & {
+      text-indent: 0;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &:invalid {
+      font-style: italic !important;
+      color: #666 !important;
+      font-size: 90% !important;
+    }
+
+    & option {
+      background-color: white;
+      color: black;
+      font-style: normal;
+      font-size: 100%;
+    }
+
+    & option[value=""][disabled] {
+      background-color: white;
+      color: #666 !important;
+      font-style: italic !important;
+      font-size: 90% !important;
+    }
+  }
+
+  &:invalid {
+    color: #666;
+  }
 `;
 
 const StyledFormSubmit = styled.button`
@@ -378,6 +429,28 @@ const StyledFormSubmit = styled.button`
 `;
 const StyledFormLabel = styled.label`
   max-width: 300px;
+  padding: var(--3xs);
+  line-height: 1.15;
+  font-size: 100%;
+`;
+
+const StyledFormCheckboxLabel = styled.label`
+  padding: var(--3xs);
+  line-height: 1.15;
+  font-size: 100%;
+  display: flex;
+  align-items: center;
+  gap: var(--xs);
+`;
+const StyledPromptPreconditionContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: var(--xs);
+`;
+
+const StyledFormCheckbox = styled.input`
   padding: var(--3xs);
   line-height: 1.15;
   font-size: 100%;

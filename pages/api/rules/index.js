@@ -23,8 +23,18 @@ export default async function handler(req, res) {
 
     res.status(200).json(rules);
   } else if (req.method === "POST") {
+    console.log("Received rule data:", req.body);
     try {
-      const ruleData = { ...req.body, userId };
+      const ruleData = {
+        ...req.body,
+        userId,
+        consequences: {
+          ...req.body.consequences,
+          value: Array.isArray(req.body.consequences.value)
+            ? req.body.consequences.value
+            : [req.body.consequences.value],
+        },
+      };
       await Rule.create(ruleData);
 
       res.status(201).json({ status: "Rule added" });

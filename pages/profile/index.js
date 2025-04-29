@@ -1,6 +1,8 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
+import { Dumbbell } from "lucide-react";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
@@ -21,6 +23,10 @@ export default function ProfilePage() {
           <UserEmail>{user?.email}</UserEmail>
         </UserInfo>
       </ProfileInfoWrapper>
+      <GreenLink href="/training-centre">
+        <StyledDumbbell aria-hidden="true" /> Besser werden!
+      </GreenLink>
+
       <RedButton
         onClick={() => {
           signOut({ callbackUrl: "/" });
@@ -91,4 +97,31 @@ const RedButton = styled.button`
     cursor: pointer;
     box-shadow: var(--box-shadow-active);
   }
+`;
+
+const GreenLink = styled(Link)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--xs) var(--xl);
+  line-height: 1.15;
+  font-size: 100%;
+  color: var(--green-50);
+  border: none;
+  border-radius: var(--xs);
+  background-color: var(--green-500);
+  box-shadow: var(--box-shadow-default);
+  transition: background-color 0.6s ease, transform 0.8s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: var(--green-800);
+    cursor: pointer;
+    box-shadow: var(--box-shadow-active);
+  }
+`;
+
+const StyledDumbbell = styled(Dumbbell)`
+  font-size: 1.5rem;
+  color: var(--green-text-light, #ebfef4);
 `;

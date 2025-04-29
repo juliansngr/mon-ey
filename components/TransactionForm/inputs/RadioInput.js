@@ -10,6 +10,7 @@ export default function RadioInput({ name, options, defaultValue }) {
             name={name}
             id={`${name}_${option.value}`}
             value={option.value}
+            disabled={option.disabled}
             defaultChecked={defaultValue === option.value}
           />
           <StyledLabel htmlFor={`${name}_${option.value}`}>

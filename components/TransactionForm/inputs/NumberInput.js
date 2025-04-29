@@ -6,6 +6,7 @@ export default function NumberInput({
   defaultValue,
   step,
   min,
+  max,
   ariaLabel,
   required,
 }) {
@@ -17,6 +18,7 @@ export default function NumberInput({
       defaultValue={defaultValue}
       step={step}
       min={min}
+      max={max}
       aria-label={ariaLabel}
       required={required}
     />

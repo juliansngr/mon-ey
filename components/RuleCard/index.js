@@ -1,7 +1,18 @@
 import { Fingerprint } from "lucide-react";
+import { useRulebaseContext } from "@/contexts/RulebaseContext/RulebaseContext";
 import styled from "styled-components";
 
 export default function RuleCard({ data }) {
+  const { initializedVariables: allVariables } = useRulebaseContext();
+
+  let ruledVariable = data.consequences.object;
+
+  if (allVariables.length > 0) {
+    ruledVariable = allVariables.find(
+      (item) => item.varName === data.consequences.object
+    ).varText;
+  }
+
   const truncateText = (text, maxLength) =>
     text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
 
@@ -13,7 +24,7 @@ export default function RuleCard({ data }) {
           {truncateText(data.description, 30)}
         </StyledRuleDescription>
         <StyledRuleDetails>
-          beregeltes Eingabefeld: {data.consequences.object}
+          beregeltes Eingabefeld: &quot;{ruledVariable}&quot;
         </StyledRuleDetails>
       </div>
     </StyledRuleCard>

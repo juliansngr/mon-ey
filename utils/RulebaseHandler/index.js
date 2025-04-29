@@ -1,5 +1,3 @@
-import { userRule } from "../RulebaseFunctionsLib/rulebaseFunctions";
-
 export async function handleRuleAdd(
   event,
   { mutateRules, closeModal, initializedVariables }
@@ -7,18 +5,29 @@ export async function handleRuleAdd(
   event.preventDefault();
 
   const formData = new FormData(event.target);
-  const ruleData = Object.fromEntries(formData);
+  const ruleData = {};
+  for (const [key, value] of formData.entries()) {
+    if (key === "precondition_pattern" || key === "consequence_pattern") {
+      ruleData[key] = formData.getAll(key);
+    } else {
+      ruleData[key] = value;
+    }
+  }
+
+  console.log("Rule data:", ruleData);
 
   if (ruleData.has_precondition) {
     const preconditionObject = initializedVariables.find(
       (item) => item._id === ruleData.precondition_object
     );
-    ruleData.precondtions = [
+    ruleData.preconditions = [
       {
         id: "1",
         object: preconditionObject.varName,
         operator: ruleData.precondition_operator,
-        pattern: ruleData.precondition,
+        pattern: Array.isArray(ruleData.precondition_pattern)
+          ? ruleData.precondition_pattern
+          : [ruleData.precondition_pattern],
         connectOperator: undefined,
         connectId: undefined,
       },
@@ -27,16 +36,35 @@ export async function handleRuleAdd(
   const consequenceObject = initializedVariables.find(
     (item) => item._id === ruleData.consequence_object
   );
-  const newRuleData = new userRule({
+  const newRuleDbItemData = {
     description: ruleData.rule_description,
-    precondtions: ruleData.precondtions,
-    consequences_object: consequenceObject.varName,
-    consequences_operator: ruleData.consequence_operator,
-    consequences_value: ruleData.consequence_pattern,
-  });
+    preconditions: ruleData.preconditions || [],
+    consequences: {
+      object: consequenceObject?.varName,
+      operator: ruleData.consequence_operator,
+      value: Array.isArray(ruleData.consequence_pattern)
+        ? ruleData.consequence_pattern
+        : [ruleData.consequence_pattern],
+    },
+  };
 
-  const newRuleDbItemData = newRuleData.ruleData;
+  if (
+    (ruleData.consequence_operator === "in" ||
+      ruleData.consequence_operator === "ni") &&
+    !["list", "textList", "valueList"].includes.consequenceObject.domainType
+  ) {
+    const formattedDomainValues =
+      ruleData.consequence_pattern.match(/([^#]+)/g);
 
+    newRuleDbItemData.consequences = {
+      object: consequenceObject.varName,
+      operator: ruleData.consequence_operator,
+      value: Array.isArray(formattedDomainValues)
+        ? formattedDomainValues
+        : [formattedDomainValues],
+    };
+  }
+  console.log("New rule DB item data:", newRuleDbItemData);
   const response = await fetch("/api/rules", {
     method: "POST",
     headers: {

@@ -1,57 +1,35 @@
 import styled from "styled-components";
-import categories from "@/db/categories.json";
 import dayjs from "dayjs";
 import NumberInput from "./inputs/NumberInput";
 import TextInput from "./inputs/TextInput";
 import RadioInput from "./inputs/RadioInput";
 import SelectInput from "./inputs/SelectInput";
 import DateInput from "./inputs/DateInput";
-
-const transactionInputs = [
-  {
-    type: "number",
-    name: "amount",
-    placeholder: "Betrag (in €)",
-    step: "0.01",
-    min: "0.01",
-    required: true,
-  },
-  {
-    type: "text",
-    name: "partner",
-    placeholder: "An wen? bzw. Von wem?",
-    required: true,
-  },
-  {
-    type: "radio",
-    name: "type",
-    options: [
-      { value: "income", label: "Einnahme" },
-      { value: "expense", label: "Ausgabe" },
-    ],
-    required: true,
-  },
-  {
-    type: "select",
-    name: "category",
-    options: [
-      {
-        value: "",
-        label: "-Bitte Kategorie auswählen-",
-        disabled: true,
-        hidden: true,
-      },
-      ...categories.map((cat) => ({ value: cat, label: cat })),
-    ],
-    required: true,
-  },
-  { type: "datetime-local", name: "date" },
-];
+import { useRulebaseContext } from "@/contexts/RulebaseContext/RulebaseContext";
+import { getUiInputFromVariables } from "@/utils/RulebaseFunctionsLib/index.js";
 
 export default function TransactionForm({ onSubmit, currentTransaction }) {
+  const { initializedVariables } = useRulebaseContext();
+
+  const transactionInputs = [
+    "transactionAmount",
+    "transactionPartner",
+    "transactionType",
+    "transactionCategory",
+  ];
+
+  const transactionInputsUi = getUiInputFromVariables({
+    initializedVariables: initializedVariables,
+    inputVariables: transactionInputs,
+  });
+  transactionInputsUi.push({
+    type: "datetime-local",
+    name: "date",
+  });
+
   return (
     <StyledForm onSubmit={onSubmit}>
-      {transactionInputs.map((input) => {
+      {transactionInputsUi.map((input) => {
         switch (input.type) {
           case "number":
             return (
