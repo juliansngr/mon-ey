@@ -47,7 +47,8 @@ export default function BankAuthCallback() {
           }),
         });
 
-        if (!txRes.ok) throw new Error("Fehler beim Abrufen der Transaktionen");
+        if (!txRes.ok && txRes.status !== 409)
+          throw new Error("Fehler beim Abrufen der Transaktionen");
         const { transactions } = await txRes.json();
 
         if (!transactions?.length)
@@ -74,8 +75,8 @@ export default function BankAuthCallback() {
         } else {
           setStatus("❌ Fehler beim Speichern.");
         }
-      } catch (err) {
-        console.error(err);
+      } catch (error) {
+        console.error(error);
         setStatus("❌ Fehler beim Importieren.");
       }
     };
@@ -84,8 +85,8 @@ export default function BankAuthCallback() {
   }, []);
 
   return (
-    <CallbackWrapper className="p-6 text-center">
-      <CallbackHeading className="text-xl font-bold mb-2">
+    <CallbackWrapper>
+      <CallbackHeading>
         Bitte habe einen Moment Geduld, während wir hier alles für dich
         vorbereiten:
       </CallbackHeading>

@@ -3,9 +3,6 @@ import styled from "styled-components";
 import Tooltip from "../Tooltip";
 
 export default function TransactionCard({ data }) {
-  const truncateText = (text, maxLength) =>
-    text.length > maxLength ? text.slice(0, maxLength) + "..." : text;
-
   return (
     <StyledTransactionCard $type={data.type}>
       <IconTextWrapper>
@@ -15,9 +12,7 @@ export default function TransactionCard({ data }) {
           <StyledCircleArrowOutDownRight />
         )}
         <div>
-          <StyledTransactionPartner>
-            {truncateText(data.partner, 20)}
-          </StyledTransactionPartner>
+          <StyledTransactionPartner>{data.partner}</StyledTransactionPartner>
           {data.category === "Extern" ? (
             <span>
               {data.category}
@@ -79,4 +74,9 @@ const IconTextWrapper = styled.div`
 const StyledTransactionPartner = styled.p`
   font-size: var(--lg);
   font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
 `;

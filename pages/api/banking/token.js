@@ -1,24 +1,32 @@
-import axios from "axios";
-
 export default async function handler(req, res) {
   try {
-    const response = await axios.post(
+    const response = await fetch(
       "https://bankaccountdata.gocardless.com/api/v2/token/new/",
       {
-        secret_id: process.env.GOCARDLESS_SECRET_ID,
-        secret_key: process.env.GOCARDLESS_SECRET_KEY,
-      },
-      {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
+        body: JSON.stringify({
+          secret_id: process.env.GOCARDLESS_SECRET_ID,
+          secret_key: process.env.GOCARDLESS_SECRET_KEY,
+        }),
       }
     );
 
-    res.status(200).json(response.data); // { access, expires }
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Fehler bei Token-Request:", errorData);
+      return res.status(response.status).json({
+        error: errorData.detail || "Token konnte nicht erstellt werden.",
+      });
+    }
+
+    const data = await response.json();
+    res.status(200).json(data);
   } catch (error) {
-    console.error(error.response?.data || error.message);
+    console.error("Netzwerkfehler:", error.message);
     res.status(500).json({ error: "Token konnte nicht erstellt werden." });
   }
 }

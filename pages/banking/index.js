@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import styled from "styled-components";
 
 export default function Banking() {
@@ -11,12 +10,13 @@ export default function Banking() {
   useEffect(() => {
     const getAccessToken = async () => {
       try {
-        const res = await axios.get("/api/banking/token");
-        setAccessToken(res.data.access);
-        localStorage.setItem("access_token", res.data.access);
-        console.log("Access Token:", res.data.access);
+        const res = await fetch("/api/banking/token");
+        if (!res.ok) throw new Error("Token konnte nicht geladen werden.");
+        const data = await res.json();
+        setAccessToken(data.access);
+        localStorage.setItem("access_token", data.access);
       } catch (err) {
-        console.error("Fehler beim Abrufen des Access Tokens", err);
+        console.error("Fehler beim Aufruf des Access Tokens", err);
       }
     };
     getAccessToken();
@@ -24,10 +24,14 @@ export default function Banking() {
 
   const loadInstitutions = async () => {
     try {
-      const res = await axios.post("/api/banking/institutions", {
-        access_token: accessToken,
+      const res = await fetch("/api/banking/institutions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ access_token: accessToken }),
       });
-      setInstitutions(res.data);
+      if (!res.ok) throw new Error("Banken konnten nicht geladen werden.");
+      const data = await res.json();
+      setInstitutions(data);
     } catch (err) {
       console.error("Fehler beim Laden der Banken", err);
     }
@@ -38,15 +42,19 @@ export default function Banking() {
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/banking/requisition", {
-        access_token: accessToken,
-        institution_id: selectedInstitution,
-        userId: "643bc8ecfbd7b7a2e3e2ddaa", // <- deine MongoDB-User-ID
+      const res = await fetch("/api/banking/requisition", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_token: accessToken,
+          institution_id: selectedInstitution,
+          userId: "643bc8ecfbd7b7a2e3e2ddaa",
+        }),
       });
+      if (!res.ok) throw new Error("Requisition konnte nicht erstellt werden.");
+      const data = await res.json();
 
-      const { link, requisition_id, reuse } = res.data;
-
-      // lokale Speicherung oder an Link hängen
+      const { link, requisition_id, reuse } = data;
       localStorage.setItem("requisition_id", requisition_id);
 
       if (reuse) {
@@ -55,7 +63,6 @@ export default function Banking() {
         );
         window.location.href = `/banking/callback?requisition_id=${requisition_id}`;
       } else {
-        // Weiterleitung zum Bank-Login
         window.location.href = link;
       }
     } catch (err) {
@@ -67,35 +74,28 @@ export default function Banking() {
   };
 
   return (
-    <BankingWrapper className="p-6 max-w-lg mx-auto bg-white rounded shadow">
-      <BankingHeading className="text-xl font-bold mb-4">
-        Verknüpfe dein Bankkonto
-      </BankingHeading>
-      <BankingParagraph className="text-xl font-bold mb-4">
+    <BankingWrapper>
+      <BankingHeading>Verknüpfe dein Bankkonto</BankingHeading>
+      <BankingParagraph>
         und importiere deine Transaktionen im Handumdrehen.
       </BankingParagraph>
 
       {accessToken && (
         <>
           <BankingButton
-            className="px-4 py-2 bg-gray-800 text-white rounded mb-2"
             onClick={() => setSelectedInstitution("SANDBOXFINANCE_SFIN0000")}
           >
             Sandbox Testbank auswählen
           </BankingButton>
 
-          <BankingButton
-            className="px-4 py-2 bg-green-600 text-white rounded mb-4"
-            onClick={loadInstitutions}
-          >
+          <BankingButton onClick={loadInstitutions}>
             Jetzt beginnen!
           </BankingButton>
 
           {institutions.length > 0 && (
-            <InstitutionSelectWrapper className="mb-4">
-              <label className="block mb-1">Wähle deine Bank:</label>
+            <InstitutionSelectWrapper>
+              <label>Wähle deine Bank:</label>
               <InstitutionSelect
-                className="w-full border px-3 py-2 rounded"
                 value={selectedInstitution}
                 onChange={(e) => setSelectedInstitution(e.target.value)}
               >
@@ -108,12 +108,9 @@ export default function Banking() {
               </InstitutionSelect>
             </InstitutionSelectWrapper>
           )}
+
           {selectedInstitution && (
-            <BankingButton
-              className="px-4 py-2 bg-purple-600 text-white rounded"
-              onClick={startRequisition}
-              disabled={loading}
-            >
+            <BankingButton onClick={startRequisition} disabled={loading}>
               Weiter zu deiner Bank
             </BankingButton>
           )}
@@ -140,7 +137,7 @@ const BankingHeading = styled.h2`
 
 const BankingParagraph = styled.p`
   font-size: var(--md);
-  font-weight: var(--font-bold);
+  font-weight: bold;
   margin-bottom: var(--xl);
 `;
 

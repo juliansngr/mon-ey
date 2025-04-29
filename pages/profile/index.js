@@ -6,7 +6,7 @@ import styled from "styled-components";
 export default function ProfilePage() {
   const { data: session } = useSession();
   const { user } = session;
-  console.log(session);
+
   return (
     <ProfileWrapper>
       <ProfileInfoWrapper>

@@ -1,5 +1,4 @@
 import dayjs from "dayjs";
-import axios from "axios";
 
 export async function handleTransactionAdd(event, { mutate, closeModal }) {
   event.preventDefault();
@@ -17,8 +16,13 @@ export async function handleTransactionAdd(event, { mutate, closeModal }) {
     date: dayjs(rawData.date).format("YYYY-MM-DDTHH:mm:ss"),
   };
 
-  const response = await axios.post("/api/transactions", transactionData);
-
+  const response = await fetch("/api/transactions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(transactionData),
+  });
   if (response.ok) {
     mutate();
     closeModal();

@@ -1,4 +1,3 @@
-import axios from "axios";
 import dbConnect from "@/db/dbConnect";
 import BankConnection from "@/db/models/BankConnection";
 
@@ -11,7 +10,6 @@ export default async function handler(req, res) {
 
   await dbConnect();
 
-  // 1. Prüfen, ob bereits eine Requisition existiert
   const existing = await BankConnection.findOne({
     userId,
     institutionId: institution_id,
@@ -26,25 +24,34 @@ export default async function handler(req, res) {
   }
 
   try {
-    // 2. Neue Requisition erstellen
-    const response = await axios.post(
+    const response = await fetch(
       "https://bankaccountdata.gocardless.com/api/v2/requisitions/",
       {
-        redirect: process.env.GOCARDLESS_REDIRECT_URI,
-        institution_id,
-        reference: `user-${userId}-${Date.now()}`,
-        user_language: "de",
-      },
-      {
+        method: "POST",
         headers: {
           Authorization: `Bearer ${access_token}`,
+          "Content-Type": "application/json",
         },
+        body: JSON.stringify({
+          redirect: process.env.GOCARDLESS_REDIRECT_URI,
+          institution_id,
+          reference: `user-${userId}-${Date.now()}`,
+          user_language: "de",
+        }),
       }
     );
 
-    const { id, link } = response.data;
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Fehler bei Requisition:", errorData);
+      return res.status(response.status).json({
+        error: errorData.detail || "Fehler beim Erstellen der Requisition.",
+      });
+    }
 
-    // 3. In DB speichern
+    const data = await response.json();
+    const { id, link } = data;
+
     await BankConnection.create({
       userId,
       institutionId: institution_id,
@@ -53,10 +60,7 @@ export default async function handler(req, res) {
 
     res.status(200).json({ requisition_id: id, link });
   } catch (error) {
-    console.error(
-      "Fehler bei Requisition:",
-      error.response?.data || error.message
-    );
+    console.error("Allgemeiner Fehler:", error.message);
     res.status(500).json({ error: "Requisition konnte nicht erstellt werden" });
   }
 }
