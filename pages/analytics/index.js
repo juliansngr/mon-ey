@@ -3,14 +3,19 @@ import TransactionsHeader from "@/components/TransactionsHeader";
 import TransactionsList from "@/components/TransactionsList/";
 import { useModalContext } from "@/contexts/ModalContext/ModalContext";
 import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
+import dbConnect from "@/db/dbConnect";
+import AdPlacementModel from "@/db/models/AdPlacement";
 import { CalendarDays, Tag } from "lucide-react";
 import styled, { css } from "styled-components";
 
 
-export default function AnalyticsPage() {
+export default function AnalyticsPage({ ad }) {
   const { sortedEntries, activeFilter, handleFilterChange } =
     useTransactionsContext();
   const { openModal, closeModal } = useModalContext();
+
+  console.log("sortedEntries:", sortedEntries);
+  console.log("activeFilter:", activeFilter);
 
   function handleClickFilter(filterType) {
     if (activeFilter.type !== filterType || !activeFilter.type) {
@@ -59,13 +64,45 @@ export default function AnalyticsPage() {
       </StyledFilterCriteriaWrapper>
       <TransactionsHeader />
       {sortedEntries.length > 0 ? (
-        <TransactionsList transactions={sortedEntries} />
+        <TransactionsList transactions={sortedEntries} ad={ad} />
       ) : (
         <StyledH2>Keine Daten für den gew&auml;hlten Filter!</StyledH2>
       )}
     </>
   );
 }
+
+export async function getServerSideProps() {
+  await dbConnect();
+
+  let ads = await AdPlacementModel.find();
+  let selectedAd = null;
+
+  console.log("ads aus getServerSideProps: ", ads);
+
+  // 50% Chance, einen Ad auszuwählen
+  // if (Math.random() < 0.5 && ads.length > 0) {
+  //   const randomIndex = Math.floor(Math.random() * ads.length);
+  // Wähle immer ein Ad aus, wenn Anzeigen vorhanden sind
+  if (ads.length > 0) {
+    const randomIndex = Math.floor(Math.random() * ads.length);
+    const ad = ads[randomIndex];
+    selectedAd = {
+      title: ad.title,
+      imageUrl: ad.imageUrl,
+      link: ad.link,
+      text: ad.text,
+    };
+  }
+
+  return {
+    props: {
+      ad: selectedAd, // null oder ein Ad
+    },
+  };
+}
+
+
 
 const StyledH1 = styled.h1`
   font-size: var(--3xl);
