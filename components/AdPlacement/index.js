@@ -33,18 +33,24 @@ const StyledAdContainer = styled.li`
 
 const StyledAdLink = styled(Link)`
     display: flex;
+    align-items: center;
     width: 100%;
     text-decoration: none;
     color: inherit;
     &:hover {
     cursor: pointer;
     }
+
 `;
 
 const StyledAdImage = styled.img`
     width: 5rem;
     height: 5rem;
     object-fit: cover;
+    border-radius: 50%;
+    @media (min-width: 768px) {
+        border-radius: unset;
+    }
 `;
 
 const StyledAdContent = styled.div`
