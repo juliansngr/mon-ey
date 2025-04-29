@@ -1,11 +1,12 @@
 import { signOut, useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
 
 export default function ProfilePage() {
   const { data: session } = useSession();
   const { user } = session;
-  console.log(session);
+
   return (
     <ProfileWrapper>
       <ProfileInfoWrapper>
@@ -21,6 +22,9 @@ export default function ProfilePage() {
           <UserEmail>{user?.email}</UserEmail>
         </UserInfo>
       </ProfileInfoWrapper>
+      <Link href="/banking">
+        <RedButton>Bankkonto verknüpfen</RedButton>
+      </Link>
       <RedButton
         onClick={() => {
           signOut({ callbackUrl: "/" });

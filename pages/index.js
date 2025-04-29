@@ -1,11 +1,11 @@
 import LoginButton from "@/components/LoginButton";
-import { signIn, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import styled from "styled-components";
 
 export default function HomePage() {
   const { data: session } = useSession();
-  console.log(session);
+
   return (
     <ContentWrapper>
       <StyledHeading>
@@ -19,10 +19,15 @@ export default function HomePage() {
         <>
           <LoginButton />
           <StyledTextEntry>
-            Diese App erfordert einen <strong>GitHub-Login, um deine Daten sicher zu speichern</strong> und dir ein personalisiertes Erlebnis zu bieten.
+            Diese App erfordert einen{" "}
+            <strong>GitHub-Login, um deine Daten sicher zu speichern</strong>{" "}
+            und dir ein personalisiertes Erlebnis zu bieten.
           </StyledTextEntry>
           <StyledTextEntry>
-            Mit mon-ey kannst du deine Finanzen einfach im Blick behalten. Erfasse Einnahmen und Ausgaben, visualisiere deine finanzielle Situation mithilfe übersichtlicher Grafiken und analysiere deine Spartipps – alles in einer intuitiven Benutzeroberfläche.
+            Mit mon-ey kannst du deine Finanzen einfach im Blick behalten.
+            Erfasse Einnahmen und Ausgaben, visualisiere deine finanzielle
+            Situation mithilfe übersichtlicher Grafiken und analysiere deine
+            Spartipps – alles in einer intuitiven Benutzeroberfläche.
           </StyledTextEntry>
         </>
       )}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function Tooltip({ text }) {
+export default function Tooltip({ text, onClick }) {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleMouseEnter = () => setIsVisible(true);
@@ -9,13 +9,13 @@ export default function Tooltip({ text }) {
 
   // Interrupt event propagation, otherwise the link will be triggered
   const handleTooltipClick = (event) => {
-    event.preventDefault();  // Prevents the default action
+    event.preventDefault(); // Prevents the default action
     event.stopPropagation(); // Stops event propagation to the link
     setIsVisible(!isVisible);
   };
 
   return (
-    <TooltipWrapper >
+    <TooltipWrapper>
       <TooltipIcon
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -32,7 +32,7 @@ export default function Tooltip({ text }) {
 const TooltipWrapper = styled.div`
   position: relative;
   display: inline-block;
-  margin-left: .25rem;
+  margin-left: 0.25rem;
 `;
 
 const TooltipIcon = styled.span`

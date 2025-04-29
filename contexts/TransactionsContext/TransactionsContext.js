@@ -31,12 +31,16 @@ export function TransactionsProvider({ children }) {
     handleFilterChange({ type: null, pattern: null });
   }, [pathname]);
 
-  if (status !== "authenticated" || isLoading || !data) {
+  if (isLoading) {
+    return <p>Lädt...</p>;
+  }
+
+  if (status !== "authenticated" || !data) {
     return (
       <TransactionsContext.Provider
         value={{
-          data: [],
-          sortedEntries: [],
+          data: null,
+          sortedEntries: null,
           isLoading: false,
           error: null,
           mutate: () => {},

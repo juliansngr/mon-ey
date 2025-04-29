@@ -21,7 +21,9 @@ export default function Navigation() {
             aria-current={activeNavPoint === "/dashboard" ? "page" : undefined}
             $active={activeNavPoint === "/dashboard"}
           >
-            <StyledNavText><span>Startseite</span></StyledNavText>
+            <StyledNavText>
+              <span>Startseite</span>
+            </StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledHomeIcon aria-hidden="true" />
             </StyledCircle>
@@ -34,7 +36,9 @@ export default function Navigation() {
             aria-current={activeNavPoint === "/analytics" ? "page" : undefined}
             $active={activeNavPoint === "/analytics"}
           >
-            <StyledNavText><span>Analysen</span></StyledNavText>
+            <StyledNavText>
+              <span>Analysen</span>
+            </StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledAnalyseIcon aria-hidden="true" />
             </StyledCircle>
@@ -47,7 +51,9 @@ export default function Navigation() {
             aria-current={activeNavPoint === "/moneygpt" ? "page" : undefined}
             $active={activeNavPoint === "/moneygpt"}
           >
-            <StyledNavText><span>moneyGPT</span></StyledNavText>
+            <StyledNavText>
+              <span>moneyGPT</span>
+            </StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledMoneyGPTIcon aria-hidden="true" />
             </StyledCircle>
@@ -60,7 +66,9 @@ export default function Navigation() {
             aria-current={activeNavPoint === "/profile" ? "page" : undefined}
             $active={activeNavPoint === "/profile"}
           >
-            <StyledNavText><span>Profil</span></StyledNavText>
+            <StyledNavText>
+              <span>Profil</span>
+            </StyledNavText>
             <StyledCircle aria-hidden="true">
               <StyledProfileIcon aria-hidden="true" />
             </StyledCircle>
@@ -80,15 +88,15 @@ const StyledCircle = styled.div`
   align-items: center;
   justify-content: center;
   @media (min-width: 768px) {
-    display:none;
+    display: none;
   }
 `;
 
 const StyledNavText = styled.span`
-    display:none;
+  display: none;
 
-@media (min-width: 768px) {
-    display:block;
+  @media (min-width: 768px) {
+    display: block;
     color: var(--green-text-light);
     padding: var(--4xs) var(--xs) var(--3xs);
   }
@@ -111,7 +119,7 @@ const NavList = styled.ul`
 
 const NavListItem = styled.li`
   flex: 1;
-  border-right: 1px solid var(--green-50);  
+  border-right: 1px solid var(--green-50);
   &:last-child {
     border: 0;
   }
@@ -138,16 +146,16 @@ const NavItem = styled(Link)`
         background-color: var(--green-800);
       }
       & > span {
-            scale: 1.1;
-            font-weight:700;
-            letter-spacing: 2px;
-            border-radius: var(--xs);
-            background-color: var(--green-800);
-        }
+        scale: 1.1;
+        font-weight: 700;
+        letter-spacing: 2px;
+        border-radius: var(--xs);
+        background-color: var(--green-800);
+      }
     `}
-    @media (min-width: 768px) {
-        padding: var(--base) 0;
-    }
+  @media (min-width: 768px) {
+    padding: var(--base) 0;
+  }
 `;
 
 const StyledHomeIcon = styled(Home)`
