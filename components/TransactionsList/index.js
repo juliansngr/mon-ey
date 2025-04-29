@@ -9,9 +9,6 @@ export default function TransactionsList({ transactions, ad }) {
   let transactionCount = 0;
   let adInserted = false;
 
-  console.log("transactions(TransactionsList): ", transactions);
-  console.log("Hier Ads(TransactionsList): ", ad);
-
   return (
     <StyledUl>
       {transactions.length === 0 && (
