@@ -14,9 +14,6 @@ export default function AnalyticsPage({ ad }) {
     useTransactionsContext();
   const { openModal, closeModal } = useModalContext();
 
-  console.log("sortedEntries:", sortedEntries);
-  console.log("activeFilter:", activeFilter);
-
   function handleClickFilter(filterType) {
     if (activeFilter.type !== filterType || !activeFilter.type) {
       let applyModalFilterTitle;
@@ -78,13 +75,8 @@ export async function getServerSideProps() {
   let ads = await AdPlacementModel.find();
   let selectedAd = null;
 
-  console.log("ads aus getServerSideProps: ", ads);
-
-  // 50% Chance, einen Ad auszuwählen
-  // if (Math.random() < 0.5 && ads.length > 0) {
-  //   const randomIndex = Math.floor(Math.random() * ads.length);
-  // Wähle immer ein Ad aus, wenn Anzeigen vorhanden sind
-  if (ads.length > 0) {
+  // 50% chance to select an ad
+  if (Math.random() < 0.5 && ads.length > 0) {
     const randomIndex = Math.floor(Math.random() * ads.length);
     const ad = ads[randomIndex];
     selectedAd = {
@@ -95,9 +87,21 @@ export async function getServerSideProps() {
     };
   }
 
+  // If no ad is selected, select a random ad from the list
+  if (!selectedAd && ads.length > 0) {
+    const fallbackIndex = Math.floor(Math.random() * ads.length);
+    const fallbackAd = ads[fallbackIndex];
+    selectedAd = {
+      title: fallbackAd.title,
+      imageUrl: fallbackAd.imageUrl,
+      link: fallbackAd.link,
+      text: fallbackAd.text,
+    };
+  }
+
   return {
     props: {
-      ad: selectedAd, // null oder ein Ad
+      ad: selectedAd, // comment in english -> always, either randomly or fallback, an ad is selected
     },
   };
 }
