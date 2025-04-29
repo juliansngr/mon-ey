@@ -26,13 +26,8 @@ export async function getServerSideProps() {
   let ads = await AdPlacementModel.find();
   let selectedAd = null;
 
-  console.log("ads aus getServerSideProps: ", ads);
-
-  // 50% Chance, einen Ad auszuwählen
-  // if (Math.random() < 0.5 && ads.length > 0) {
-  //   const randomIndex = Math.floor(Math.random() * ads.length);
-  // Wähle immer ein Ad aus, wenn Anzeigen vorhanden sind
-  if (ads.length > 0) {
+  // 50% chance that an ad is selected
+  if (Math.random() < 0.5 && ads.length > 0) {
     const randomIndex = Math.floor(Math.random() * ads.length);
     const ad = ads[randomIndex];
     selectedAd = {
@@ -40,6 +35,18 @@ export async function getServerSideProps() {
       imageUrl: ad.imageUrl,
       link: ad.link,
       text: ad.text,
+    };
+  }
+
+  // Fallback: Falls kein Ad ausgewählt wurde, wähle ein zufälliges Ad aus der Liste
+  if (!selectedAd && ads.length > 0) {
+    const fallbackIndex = Math.floor(Math.random() * ads.length);
+    const fallbackAd = ads[fallbackIndex];
+    selectedAd = {
+      title: fallbackAd.title,
+      imageUrl: fallbackAd.imageUrl,
+      link: fallbackAd.link,
+      text: fallbackAd.text,
     };
   }
 
