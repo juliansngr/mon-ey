@@ -1,26 +1,27 @@
 import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 export default function BankAuthCallback() {
   const [status, setStatus] = useState("Import läuft...");
   const { data: session } = useSession();
   const { mutate } = useTransactionsContext();
-  console.log(session);
+
   useEffect(() => {
     const run = async () => {
       try {
-        const url = new URL(window.location.href);
         const requisitionId =
           new URLSearchParams(window.location.search).get("requisition_id") ||
           localStorage.getItem("requisition_id");
-        const accessToken = localStorage.getItem("access_token"); // aus BankConnect.js vorher setzen
+        const accessToken = localStorage.getItem("access_token");
 
         if (!accessToken || !requisitionId) {
           return setStatus("Zugriffsdaten fehlen.");
         }
 
-        // 1. Konten laden
+        setStatus("Kontaktiere Bank...");
+
         const accountRes = await fetch("/api/banking/accounts", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -30,10 +31,13 @@ export default function BankAuthCallback() {
           }),
         });
 
+        if (!accountRes.ok) throw new Error("Fehler beim Abrufen der Konten");
         const { accountIds } = await accountRes.json();
+
         if (!accountIds?.length) return setStatus("Keine Konten gefunden.");
 
-        // 2. Transaktionen holen (erste Konto-ID verwenden)
+        setStatus("Lade Transaktionen...");
+
         const txRes = await fetch("/api/banking/transactions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -43,28 +47,30 @@ export default function BankAuthCallback() {
           }),
         });
 
+        if (!txRes.ok) throw new Error("Fehler beim Abrufen der Transaktionen");
         const { transactions } = await txRes.json();
-        console.log(transactions);
+
         if (!transactions?.length)
           return setStatus("Keine Transaktionen gefunden.");
 
-        console.log("Transaktionen von API:", transactions);
+        setStatus("Speichert Transaktionen...");
 
-        // 3. Transaktionen speichern
         const saveRes = await fetch("/api/banking/save-transactions", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             transactions,
-            userId: session.user.id, // <-- echte MongoDB-User-ID!
+            userId: session.user.id,
           }),
         });
 
+        if (!saveRes.ok)
+          throw new Error("Fehler beim Speichern der Transaktionen");
         const saveResult = await saveRes.json();
 
         if (saveResult.success) {
-          setStatus(`✅ ${saveResult.count} Transaktionen gespeichert.`);
           mutate();
+          setStatus(`✅ ${saveResult.count} Transaktionen gespeichert.`);
         } else {
           setStatus("❌ Fehler beim Speichern.");
         }
@@ -78,9 +84,25 @@ export default function BankAuthCallback() {
   }, []);
 
   return (
-    <div className="p-6 text-center">
-      <h1 className="text-xl font-bold mb-2">Bank-Datenimport</h1>
+    <CallbackWrapper className="p-6 text-center">
+      <CallbackHeading className="text-xl font-bold mb-2">
+        Bitte habe einen Moment Geduld, während wir hier alles für dich
+        vorbereiten:
+      </CallbackHeading>
       <p>{status}</p>
-    </div>
+    </CallbackWrapper>
   );
 }
+
+const CallbackWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: var(--xl);
+`;
+
+const CallbackHeading = styled.h2`
+  font-size: var(--xl);
+`;

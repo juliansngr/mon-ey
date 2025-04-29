@@ -1,5 +1,6 @@
 import { CircleArrowOutDownRight, CircleArrowOutUpRight } from "lucide-react";
 import styled from "styled-components";
+import Tooltip from "../Tooltip";
 
 export default function TransactionCard({ data }) {
   const truncateText = (text, maxLength) =>
@@ -17,7 +18,14 @@ export default function TransactionCard({ data }) {
           <StyledTransactionPartner>
             {truncateText(data.partner, 20)}
           </StyledTransactionPartner>
-          <p>{data.category}</p>
+          {data.category === "Extern" ? (
+            <span>
+              {data.category}
+              <Tooltip text="Die Transaktion stammt aus einer externen Quelle (Bankkonto), deshalb musst du die Kategorie manuell festlegen." />
+            </span>
+          ) : (
+            <p>{data.category}</p>
+          )}
         </div>
       </IconTextWrapper>
 

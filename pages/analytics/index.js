@@ -6,7 +6,6 @@ import { CalendarDays, Tag } from "lucide-react";
 import { useEffect } from "react";
 import styled, { css } from "styled-components";
 
-
 export default function AnalyticsPage() {
   const { sortedEntries, activeFilter, handleFilterChange } =
     useTransactionsContext();
@@ -80,12 +79,12 @@ const StyledH2 = styled.h2`
 const StyledFilterButton = styled.button`
   background-color: transparent;
   border: none;
-  color:var(--green-500);
+  color: var(--green-500);
   cursor: pointer;
-   &:hover {
+  &:hover {
     transform: scale(1.1);
   }
-  ${props => props.$activated && helperIconStyles}
+  ${(props) => props.$activated && helperIconStyles}
 `;
 
 const IconTextWrapper = styled.div`
@@ -102,14 +101,14 @@ const StyledCalendarDays = styled(CalendarDays)`
     cursor: pointer;
   }
 
-  ${props => props.$activated && helperIconStyles}
+  ${(props) => props.$activated && helperIconStyles}
 `;
 
 const StyledTag = styled(Tag)`
   width: var(--iconSize);
   height: var(--iconSize);
 
-  ${props => props.$activated && helperIconStyles}
+  ${(props) => props.$activated && helperIconStyles}
 `;
 
 const StyledFilterCriteriaWrapper = styled.div`
@@ -120,11 +119,11 @@ const StyledFilterCriteriaWrapper = styled.div`
 `;
 
 const helperIconStyles = css`
-      background-color: var(--green-800);
-      border-radius: 50%;
-      padding: var(--sm);
-      box-shadow: var(--box-shadow-active);
-      color: var(--green-text-light);
-      width: 100%;
-      height: 100%;
+  background-color: var(--green-800);
+  border-radius: 50%;
+  padding: var(--sm);
+  box-shadow: var(--box-shadow-active);
+  color: var(--green-text-light);
+  width: 100%;
+  height: 100%;
 `;

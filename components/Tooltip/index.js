@@ -1,19 +1,25 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-export default function Tooltip({ text }) {
+export default function Tooltip({ text, onClick }) {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleMouseEnter = () => setIsVisible(true);
   const handleMouseLeave = () => setIsVisible(false);
-  const handleClick = () => setIsVisible(!isVisible);
+  const handleClick = () => {
+    setIsVisible(!isVisible);
+  };
 
   return (
     <TooltipWrapper>
       <TooltipIcon
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={handleClick}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          handleClick();
+        }}
         aria-label="Tooltip trigger"
       >
         ?
@@ -26,6 +32,7 @@ export default function Tooltip({ text }) {
 const TooltipWrapper = styled.div`
   position: relative;
   display: inline-block;
+  z-index: 100;
 `;
 
 const TooltipIcon = styled.span`
@@ -41,10 +48,8 @@ const TooltipIcon = styled.span`
   font-weight: bold;
   cursor: pointer;
   user-select: none;
-
-  top: -10px;
-    position: relative;
-    left: 5px;
+  left: 5px;
+  position: relative;
 
   &:hover {
     background-color: var(--green-600);
