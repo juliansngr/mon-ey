@@ -23,7 +23,6 @@ export default async function handler(req, res) {
 
     res.status(200).json(rules);
   } else if (req.method === "POST") {
-    console.log("Received rule data:", req.body);
     try {
       const ruleData = {
         ...req.body,

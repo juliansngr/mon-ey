@@ -49,11 +49,6 @@ function applyConsequence(allVariables, consequence) {
       switch (consequenceObject.domainType) {
         case "valueList":
         case "textList":
-          const excludeItemValues = consequenceObject.domainValues
-            .filter((item) => item.value === consequence.value)
-            .map((item) => item.value);
-          consequenceObject.excludeValues(excludeItemValues);
-          break;
         case "list":
         case "":
           consequenceObject.excludeValues(consequence.value);
