@@ -1,10 +1,14 @@
 import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 export default function BankAuthCallback() {
-  const [status, setStatus] = useState("Import läuft...");
+  const [status, setStatus] = useState({
+    message: "Import läuft...",
+    processEnded: false,
+  });
   const { data: session } = useSession();
   const { mutate } = useTransactionsContext();
 
@@ -17,10 +21,16 @@ export default function BankAuthCallback() {
         const accessToken = localStorage.getItem("access_token");
 
         if (!accessToken || !requisitionId) {
-          return setStatus("Zugriffsdaten fehlen.");
+          return setStatus({
+            message: "Zugriffsdaten fehlen.",
+            processEnded: false,
+          });
         }
 
-        setStatus("Kontaktiere Bank...");
+        setStatus({
+          message: "Kontaktiere Bank...",
+          processEnded: false,
+        });
 
         const accountRes = await fetch("/api/banking/accounts", {
           method: "POST",
@@ -34,9 +44,16 @@ export default function BankAuthCallback() {
         if (!accountRes.ok) throw new Error("Fehler beim Abrufen der Konten");
         const { accountIds } = await accountRes.json();
 
-        if (!accountIds?.length) return setStatus("Keine Konten gefunden.");
+        if (!accountIds?.length)
+          return setStatus({
+            message: "Kein Konto gefunden.",
+            processEnded: false,
+          });
 
-        setStatus("Lade Transaktionen...");
+        setStatus({
+          message: "Lade Transaktionen...",
+          processEnded: false,
+        });
 
         const txRes = await fetch("/api/banking/transactions", {
           method: "POST",
@@ -52,9 +69,15 @@ export default function BankAuthCallback() {
         const { transactions } = await txRes.json();
 
         if (!transactions?.length)
-          return setStatus("Keine Transaktionen gefunden.");
+          return setStatus({
+            message: "Keine Transaktionen gefunden.",
+            processEnded: false,
+          });
 
-        setStatus("Speichert Transaktionen...");
+        setStatus({
+          message: "Speichert Transaktionen...",
+          processEnded: false,
+        });
 
         const saveRes = await fetch("/api/banking/save-transactions", {
           method: "POST",
@@ -71,13 +94,22 @@ export default function BankAuthCallback() {
 
         if (saveResult.success) {
           mutate();
-          setStatus(`✅ ${saveResult.count} Transaktionen gespeichert.`);
+          setStatus({
+            message: `✅ ${saveResult.count} Transaktionen gespeichert.`,
+            processEnded: true,
+          });
         } else {
-          setStatus("❌ Fehler beim Speichern.");
+          setStatus({
+            message: "❌ Fehler beim Speichern.",
+            processEnded: true,
+          });
         }
       } catch (error) {
         console.error(error);
-        setStatus("❌ Fehler beim Importieren.");
+        setStatus({
+          message: "❌ Fehler beim Importieren.",
+          processEnded: true,
+        });
       }
     };
 
@@ -90,7 +122,12 @@ export default function BankAuthCallback() {
         Bitte habe einen Moment Geduld, während wir hier alles für dich
         vorbereiten:
       </CallbackHeading>
-      <p>{status}</p>
+      <p>{status.message}</p>
+      {status.processEnded && (
+        <Link href="/dashboard">
+          <CallbackButton>Zurück zur Übersicht</CallbackButton>
+        </Link>
+      )}
     </CallbackWrapper>
   );
 }
@@ -106,4 +143,13 @@ const CallbackWrapper = styled.div`
 
 const CallbackHeading = styled.h2`
   font-size: var(--xl);
+`;
+
+const CallbackButton = styled.button`
+  border: none;
+  cursor: pointer;
+  background-color: var(--green-500);
+  padding: var(--md) var(--xl);
+  border-radius: var(--xs);
+  color: var(--green-50);
 `;
