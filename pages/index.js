@@ -16,7 +16,15 @@ export default function HomePage() {
           <DashboardButton>Zum Dashboard</DashboardButton>
         </Link>
       ) : (
-        <LoginButton />
+        <>
+          <LoginButton />
+          <StyledTextEntry>
+            Diese App erfordert einen <strong>GitHub-Login, um deine Daten sicher zu speichern</strong> und dir ein personalisiertes Erlebnis zu bieten.
+          </StyledTextEntry>
+          <StyledTextEntry>
+            Mit mon-ey kannst du deine Finanzen einfach im Blick behalten. Erfasse Einnahmen und Ausgaben, visualisiere deine finanzielle Situation mithilfe übersichtlicher Grafiken und analysiere deine Spartipps – alles in einer intuitiven Benutzeroberfläche.
+          </StyledTextEntry>
+        </>
       )}
     </ContentWrapper>
   );
@@ -46,4 +54,17 @@ const DashboardButton = styled.button`
   padding: var(--md) var(--xl);
   border-radius: var(--xs);
   color: var(--green-50);
+  box-shadow: var(--box-shadow-default);
+  transition: background-color 0.6s ease, transform 0.8s ease;
+
+  &:hover {
+    transform: scale(1.1);
+    background-color: var(--green-600);
+    cursor: pointer;
+    box-shadow: var(--box-shadow-active);
+  }
+`;
+
+const StyledTextEntry = styled.p`
+  color: var(--green-600);
 `;

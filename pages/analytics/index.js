@@ -1,9 +1,9 @@
+import Tooltip from "@/components/Tooltip";
 import TransactionsHeader from "@/components/TransactionsHeader";
 import TransactionsList from "@/components/TransactionsList/";
 import { useModalContext } from "@/contexts/ModalContext/ModalContext";
 import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { CalendarDays, Tag } from "lucide-react";
-import { useEffect } from "react";
 import styled, { css } from "styled-components";
 
 export default function AnalyticsPage() {
@@ -38,20 +38,23 @@ export default function AnalyticsPage() {
 
   return (
     <>
-      <StyledH1>Analyse</StyledH1>
+      <StyledH1>
+        Analyse
+        <Tooltip text="Hier kannst du Transaktionen nach Kategorie oder Datum filtern und Muster in deinen Einnahmen und Ausgaben analysieren." />
+      </StyledH1>
       <StyledH2>Filtern nach:</StyledH2>
       <StyledFilterCriteriaWrapper>
         <StyledFilterButton onClick={() => handleClickFilter("category")}>
           <IconTextWrapper>
             <StyledTag
-              $activated={activeFilter.type === "category" ? true : false}
+              $activated={activeFilter?.type === "category" ? true : false}
             ></StyledTag>
           </IconTextWrapper>
         </StyledFilterButton>
         <StyledFilterButton onClick={() => handleClickFilter("date")}>
           <IconTextWrapper>
             <StyledCalendarDays
-              $activated={activeFilter.type === "date" ? true : false}
+              $activated={activeFilter?.type === "date" ? true : false}
             ></StyledCalendarDays>
           </IconTextWrapper>
         </StyledFilterButton>

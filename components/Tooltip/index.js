@@ -6,7 +6,11 @@ export default function Tooltip({ text, onClick }) {
 
   const handleMouseEnter = () => setIsVisible(true);
   const handleMouseLeave = () => setIsVisible(false);
-  const handleClick = () => {
+
+  // Interrupt event propagation, otherwise the link will be triggered
+  const handleTooltipClick = (event) => {
+    event.preventDefault(); // Prevents the default action
+    event.stopPropagation(); // Stops event propagation to the link
     setIsVisible(!isVisible);
   };
 
@@ -15,11 +19,7 @@ export default function Tooltip({ text, onClick }) {
       <TooltipIcon
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={(event) => {
-          event.preventDefault();
-          event.stopPropagation();
-          handleClick();
-        }}
+        onClick={handleTooltipClick}
         aria-label="Tooltip trigger"
       >
         ?
@@ -32,7 +32,7 @@ export default function Tooltip({ text, onClick }) {
 const TooltipWrapper = styled.div`
   position: relative;
   display: inline-block;
-  z-index: 100;
+  margin-left: 0.25rem;
 `;
 
 const TooltipIcon = styled.span`
@@ -45,10 +45,10 @@ const TooltipIcon = styled.span`
   color: var(--green-50);
   border-radius: 50%;
   font-size: var(--xs);
-  font-weight: bold;
+  font-weight: 900;
   cursor: pointer;
   user-select: none;
-  left: 5px;
+  vertical-align: top;
   position: relative;
 
   &:hover {
@@ -59,16 +59,21 @@ const TooltipIcon = styled.span`
 const TooltipBox = styled.div`
   position: absolute;
   bottom: 125%; /* Position above the icon */
-  left: var(--sm);
+  left: 50%;
   transform: translateX(-50%);
   background-color: var(--darkgray);
   color: var(--lightgray);
   padding: var(--2xs) var(--xs);
   border-radius: var(--xs);
   font-size: var(--xs);
-  white-space: nowrap;
   box-shadow: var(--box-shadow-default);
   z-index: 100;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  width: 9.75rem;
+  @media (min-width: 768px) {
+    width: 15.75rem;
+  }
 
   &::after {
     content: "";

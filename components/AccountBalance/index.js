@@ -98,12 +98,24 @@ const StyledSectionTwoColumn = styled.div`
   display: flex;
   justify-content: space-between;
   margin-bottom: var(--xs);
+
+  @media (min-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--xl);
+  }
 `;
 
 const StyledSectionIncomeExpense = styled.section`
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--base);
+  }
 `;
 
 const StyledAccount = styled.button`

@@ -86,11 +86,35 @@ ul, ol {
     margin-right:auto;
     margin-bottom: 0;
     background-color: var(--bgBody);
+
+    @media (max-width: 767px) {
+      max-width: 27rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @media (min-width: 768px) {
+      max-width: none;
+      margin: 0;
+    }
   }
 
   main {
     padding: 0 var(--xs);
     padding-bottom: 5rem;
+
+    @media (min-width: 768px) {
+      margin-top: 0;
+      padding: var(--xl);
+    }
+  }
+
+  nav {
+    @media (min-width: 768px) {
+      width: 200px;
+      height: 100%;
+      position: relative;
+    }
   }
 
 input::-webkit-outer-spin-button,
