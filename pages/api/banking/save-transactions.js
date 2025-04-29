@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  const { transactions, userId } = req.body;
+  const { newTransactions: transactions, userId } = req.body;
 
   if (!Array.isArray(transactions) || !userId) {
     return res.status(400).json({ error: "Fehlende Daten" });
@@ -25,6 +25,7 @@ export default async function handler(req, res) {
         tx.remittanceInformationStructured ||
         "Unbekannt",
       userId,
+      transactionId: tx.internalTransactionId,
     }));
 
     await Transaction.insertMany(formatted);

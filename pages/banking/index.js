@@ -137,7 +137,7 @@ const BankingHeading = styled.h2`
 
 const BankingParagraph = styled.p`
   font-size: var(--md);
-  font-weight: bold;
+
   margin-bottom: var(--xl);
 `;
 

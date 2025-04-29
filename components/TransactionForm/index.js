@@ -77,6 +77,7 @@ export default function TransactionForm({ onSubmit, currentTransaction }) {
             : dayjs().format("YYYY-MM-DDTHH:mm")
         }
         aria-label="Zeitpunkt der Transaktion wählen"
+        required
       />
       <StyledFormSubmit aria-label="Transaktion hinzufügen">
         {currentTransaction ? "Änderungen speichern" : "Hinzufügen"}

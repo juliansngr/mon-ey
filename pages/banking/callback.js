@@ -1,7 +1,7 @@
 import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 
 export default function BankAuthCallback() {
@@ -10,9 +10,15 @@ export default function BankAuthCallback() {
     processEnded: false,
   });
   const { data: session } = useSession();
-  const { mutate } = useTransactionsContext();
+  const { mutate, data: savedTransactions } = useTransactionsContext();
+  const hasRun = useRef(false);
 
   useEffect(() => {
+    mutate();
+    if (!session?.user?.id || !savedTransactions) return;
+    if (hasRun.current) return;
+    hasRun.current = true;
+
     const run = async () => {
       try {
         const requisitionId =
@@ -64,8 +70,7 @@ export default function BankAuthCallback() {
           }),
         });
 
-        if (!txRes.ok && txRes.status !== 409)
-          throw new Error("Fehler beim Abrufen der Transaktionen");
+        if (!txRes.ok) throw new Error("Fehler beim Abrufen der Transaktionen");
         const { transactions } = await txRes.json();
 
         if (!transactions?.length)
@@ -74,7 +79,24 @@ export default function BankAuthCallback() {
             processEnded: false,
           });
 
-        console.log(transactions);
+        setStatus({
+          message: "Verarbeitet Transaktionen...",
+          processEnded: false,
+        });
+
+        const newTransactions = transactions.filter(
+          (tx) =>
+            !savedTransactions?.some(
+              (saved) => saved?.transactionId === tx.internalTransactionId
+            )
+        );
+
+        if (newTransactions.length === 0) {
+          return setStatus({
+            message: "Keine neuen Transaktionen gefunden.",
+            processEnded: true,
+          });
+        }
 
         setStatus({
           message: "Speichert Transaktionen...",
@@ -85,7 +107,7 @@ export default function BankAuthCallback() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            transactions,
+            newTransactions,
             userId: session.user.id,
           }),
         });
