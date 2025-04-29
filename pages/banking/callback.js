@@ -74,6 +74,8 @@ export default function BankAuthCallback() {
             processEnded: false,
           });
 
+        console.log(transactions);
+
         setStatus({
           message: "Speichert Transaktionen...",
           processEnded: false,
