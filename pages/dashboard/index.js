@@ -26,8 +26,8 @@ export async function getServerSideProps() {
   let ads = await AdPlacementModel.find();
   let selectedAd = null;
 
-  // 50% chance that an ad is selected
-  if (ads.length > 0 && Math.random() < 0.5) {
+  // Add an Ad if there are any available
+  if (ads.length > 0) {
     const randomIndex = Math.floor(Math.random() * ads.length);
     selectedAd = {
       title: ads[randomIndex].title,

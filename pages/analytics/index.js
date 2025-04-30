@@ -87,21 +87,20 @@ export async function getServerSideProps() {
     };
   }
 
-  // If no ad is selected, select a random ad from the list
-  if (!selectedAd && ads.length > 0) {
-    const fallbackIndex = Math.floor(Math.random() * ads.length);
-    const fallbackAd = ads[fallbackIndex];
+  // Add an Ad if there are any available
+  if (ads.length > 0) {
+    const randomIndex = Math.floor(Math.random() * ads.length);
     selectedAd = {
-      title: fallbackAd.title,
-      imageUrl: fallbackAd.imageUrl,
-      link: fallbackAd.link,
-      text: fallbackAd.text,
+      title: ads[randomIndex].title,
+      imageUrl: ads[randomIndex].imageUrl,
+      link: ads[randomIndex].link,
+      text: ads[randomIndex].text,
     };
   }
 
   return {
     props: {
-      ad: selectedAd, // comment in english -> always, either randomly or fallback, an ad is selected
+      ad: selectedAd, // null or one ad object
     },
   };
 }
