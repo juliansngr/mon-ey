@@ -3,8 +3,7 @@ import TransactionsHeader from "@/components/TransactionsHeader";
 import TransactionsList from "@/components/TransactionsList/";
 import { useModalContext } from "@/contexts/ModalContext/ModalContext";
 import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
-import dbConnect from "@/db/dbConnect";
-import AdPlacementModel from "@/db/models/AdPlacement";
+import { getAdServerSideProps } from "@/utils/AdServerSideProps/adServerSideProps";
 import { CalendarDays, Tag } from "lucide-react";
 import styled, { css } from "styled-components";
 
@@ -69,41 +68,7 @@ export default function AnalyticsPage({ ad }) {
   );
 }
 
-export async function getServerSideProps() {
-  await dbConnect();
-
-  let ads = await AdPlacementModel.find();
-  let selectedAd = null;
-
-  // 50% chance to select an ad
-  if (Math.random() < 0.5 && ads.length > 0) {
-    const randomIndex = Math.floor(Math.random() * ads.length);
-    const ad = ads[randomIndex];
-    selectedAd = {
-      title: ad.title,
-      imageUrl: ad.imageUrl,
-      link: ad.link,
-      text: ad.text,
-    };
-  }
-
-  // Add an Ad if there are any available
-  if (ads.length > 0) {
-    const randomIndex = Math.floor(Math.random() * ads.length);
-    selectedAd = {
-      title: ads[randomIndex].title,
-      imageUrl: ads[randomIndex].imageUrl,
-      link: ads[randomIndex].link,
-      text: ads[randomIndex].text,
-    };
-  }
-
-  return {
-    props: {
-      ad: selectedAd, // null or one ad object
-    },
-  };
-}
+export { getAdServerSideProps as getServerSideProps };
 
 
 
