@@ -68,7 +68,10 @@ export default function Chat() {
             Wattebällchen. Brutal ehrlich, deshalb nix für schwache Nerven.
             Traust du dich?
           </DefaultText>
-          <RedButton aria-label="Ich traue mich! Zeig was MoneyGPT analysiert hat" onClick={() => sendTransactions()}>
+          <RedButton
+            aria-label="Ich traue mich! Zeig was MoneyGPT analysiert hat"
+            onClick={() => sendTransactions()}
+          >
             <BicepsFlexed aria-hidden="true" />
             Ich traue mich!
           </RedButton>
@@ -98,7 +101,10 @@ export default function Chat() {
           <ResponseWrapper>
             <ReactMarkdown>{response}</ReactMarkdown>
 
-            <RedButton aria-label="Nochmal analysieren" onClick={() => sendTransactions()}>
+            <RedButton
+              aria-label="Nochmal analysieren"
+              onClick={() => sendTransactions()}
+            >
               <RotateCw aria-hidden="true" />
               Nochmal analysieren
             </RedButton>

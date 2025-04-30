@@ -41,6 +41,9 @@ export default function TransactionFilters({ filterType }) {
                 {cat}
               </StyledFilterSelectOption>
             ))}
+            <StyledFilterSelectOption value="Extern">
+              Extern
+            </StyledFilterSelectOption>
           </StyledFilterSelect>
         )}
         {filterType === "date" && (
