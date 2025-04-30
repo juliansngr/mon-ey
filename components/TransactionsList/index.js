@@ -23,12 +23,12 @@ export default function TransactionsList({ transactions, ad }) {
             <StyledUl>
               {dayTransactions
                 .sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
-                .map((transaction) => {
+                .reduce((acc, transaction, index) => {
                   transactionCount++;
 
+                  // Add AdPlacement after every 3 transactions if it hasn't been inserted yet
                   if (!adInserted && ad && transactionCount === 3) {
-                    adInserted = true;
-                    return (
+                    acc.push(
                       <AdPlacement
                         key={`ad-${transaction._id}`}
                         image={ad.imageUrl}
@@ -37,9 +37,11 @@ export default function TransactionsList({ transactions, ad }) {
                         link={ad.link}
                       />
                     );
+                    adInserted = true;
                   }
 
-                  return (
+                  // Add the next transaction card to the list
+                  acc.push(
                     <TransactionCardLink
                       key={transaction._id}
                       href={`/transactions/${transaction._id}`}
@@ -47,7 +49,9 @@ export default function TransactionsList({ transactions, ad }) {
                       <TransactionCard data={transaction} />
                     </TransactionCardLink>
                   );
-                })}
+
+                  return acc;
+                }, [])}
             </StyledUl>
           </StyledLi>
         );
