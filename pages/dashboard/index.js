@@ -2,9 +2,9 @@ import AccountBalance from "@/components/AccountBalance";
 import TransactionsHeader from "@/components/TransactionsHeader";
 import TransactionsList from "@/components/TransactionsList/";
 import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
-import { useEffect } from "react";
+import { getAdServerSideProps } from "@/utils/AdServerSideProps/adServerSideProps";
 
-export default function HomePage() {
+export default function HomePage({ ad }) {
   const { isLoading, sortedEntries, data } = useTransactionsContext();
 
   if (isLoading) return null;
@@ -13,7 +13,11 @@ export default function HomePage() {
     <>
       <AccountBalance transactions={data} />
       <TransactionsHeader hasAddButton />
-      <TransactionsList transactions={sortedEntries} />
+      <TransactionsList transactions={sortedEntries} ad={ad} />
     </>
   );
 }
+
+
+export { getAdServerSideProps as getServerSideProps };
+

@@ -12,8 +12,9 @@ const transactionSchema = new Schema({
   transactionId: { type: String, required: false },
 });
 
+// Check if the model already exists to avoid recompilation errors
+// This is important when using hot module replacement (HMR) in development
 const Transaction =
-  mongoose.models.Transaction ||
-  mongoose.model("Transaction", transactionSchema);
+  mongoose.models.Transactions || mongoose.model("Transactions", transactionSchema);
 
 export default Transaction;

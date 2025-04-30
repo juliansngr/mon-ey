@@ -3,10 +3,11 @@ import TransactionsHeader from "@/components/TransactionsHeader";
 import TransactionsList from "@/components/TransactionsList/";
 import { useModalContext } from "@/contexts/ModalContext/ModalContext";
 import { useTransactionsContext } from "@/contexts/TransactionsContext/TransactionsContext";
+import { getAdServerSideProps } from "@/utils/AdServerSideProps/adServerSideProps";
 import { CalendarDays, Tag } from "lucide-react";
 import styled, { css } from "styled-components";
 
-export default function AnalyticsPage() {
+export default function AnalyticsPage({ ad }) {
   const { sortedEntries, activeFilter, handleFilterChange } =
     useTransactionsContext();
   const { openModal, closeModal } = useModalContext();
@@ -61,13 +62,17 @@ export default function AnalyticsPage() {
       </StyledFilterCriteriaWrapper>
       <TransactionsHeader />
       {sortedEntries.length > 0 ? (
-        <TransactionsList transactions={sortedEntries} />
+        <TransactionsList transactions={sortedEntries} ad={ad} />
       ) : (
         <StyledH2>Keine Daten für den gew&auml;hlten Filter!</StyledH2>
       )}
     </>
   );
 }
+
+export { getAdServerSideProps as getServerSideProps };
+
+
 
 const StyledH1 = styled.h1`
   font-size: var(--3xl);

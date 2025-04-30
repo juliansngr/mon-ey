@@ -1,65 +1,65 @@
 import dayjs from "dayjs";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import styled from "styled-components";
 import AdPlacement from "../AdPlacement";
 import TransactionCard from "../TransactionCard";
 
-export default function TransactionsList({ transactions }) {
-  const adProps = {
-    image: "/images/mm-man.png",
-    title: "Save More with Our Offers!",
-    text: "Discover exclusive deals to manage your finances better.",
-    link: "https://app.mon-ey.com/",
-  };
 
-  let adInserted = false; // Track if the AdPlacement has been inserted
-  let transactionCount = 0; // Track the overall transaction count
+export default function TransactionsList({ transactions, ad }) {
+  let transactionCount = 0;
+  let adInserted = false;
 
   return (
-    <>
-      <StyledUl>
-        {transactions.length === 0 && (
-          <NoTransactionText>Keine Transaktionen vorhanden.</NoTransactionText>
-        )}
-        {transactions.map(([isoDate, dayTransactions]) => {
-          const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
+    <StyledUl>
+      {transactions.length === 0 && (
+        <NoTransactionText>Keine Transaktionen vorhanden.</NoTransactionText>
+      )}
+      {transactions.map(([isoDate, dayTransactions]) => {
+        const formattedDate = dayjs(isoDate).format("DD.MM.YYYY");
 
-          return (
-            <StyledLi key={isoDate}>
-              <h3>{formattedDate}</h3>
-              <StyledUl>
-                {dayTransactions
-                  .sort(
-                    (a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf()
-                  )
-                  .map((transaction) => {
-                    transactionCount++;
+        return (
+          <StyledLi key={isoDate}>
+            <h3>{formattedDate}</h3>
+            <StyledUl>
+              {dayTransactions
+                .sort((a, b) => dayjs(b.date).valueOf() - dayjs(a.date).valueOf())
+                .reduce((acc, transaction, index) => {
+                  transactionCount++;
 
-                    if (!adInserted && transactionCount === 3) {
-                      adInserted = true;
-                      return (
-                        <AdPlacement {...adProps} key="ad-placement" />
-                      );
-                    }
-
-                    return (
-                      <TransactionCardLink
-                        key={transaction.id}
-                        href={`/transactions/${transaction._id}`}
-                      >
-                        <TransactionCard data={transaction} />
-                      </TransactionCardLink>
+                  // Add AdPlacement after every 3 transactions if it hasn't been inserted yet
+                  if (!adInserted && ad && transactionCount === 3) {
+                    acc.push(
+                      <AdPlacement
+                        key={`ad-${transaction._id}`}
+                        image={ad.imageUrl}
+                        title={ad.title}
+                        text={ad.text}
+                        link={ad.link}
+                      />
                     );
-                  })}
-              </StyledUl>
-            </StyledLi>
-          );
-        })}
-      </StyledUl>
-    </>
+                    adInserted = true;
+                  }
+
+                  // Add the next transaction card to the list
+                  acc.push(
+                    <TransactionCardLink
+                      key={transaction._id}
+                      href={`/transactions/${transaction._id}`}
+                    >
+                      <TransactionCard data={transaction} />
+                    </TransactionCardLink>
+                  );
+
+                  return acc;
+                }, [])}
+            </StyledUl>
+          </StyledLi>
+        );
+      })}
+    </StyledUl>
   );
 }
+
 
 const StyledUl = styled.ul`
   display: flex;
