@@ -27,32 +27,19 @@ export async function getServerSideProps() {
   let selectedAd = null;
 
   // 50% chance that an ad is selected
-  if (Math.random() < 0.5 && ads.length > 0) {
+  if (ads.length > 0 && Math.random() < 0.5) {
     const randomIndex = Math.floor(Math.random() * ads.length);
-    const ad = ads[randomIndex];
     selectedAd = {
-      title: ad.title,
-      imageUrl: ad.imageUrl,
-      link: ad.link,
-      text: ad.text,
-    };
-  }
-
-  // Fallback: Falls kein Ad ausgewählt wurde, wähle ein zufälliges Ad aus der Liste
-  if (!selectedAd && ads.length > 0) {
-    const fallbackIndex = Math.floor(Math.random() * ads.length);
-    const fallbackAd = ads[fallbackIndex];
-    selectedAd = {
-      title: fallbackAd.title,
-      imageUrl: fallbackAd.imageUrl,
-      link: fallbackAd.link,
-      text: fallbackAd.text,
+      title: ads[randomIndex].title,
+      imageUrl: ads[randomIndex].imageUrl,
+      link: ads[randomIndex].link,
+      text: ads[randomIndex].text,
     };
   }
 
   return {
     props: {
-      ad: selectedAd, // null oder ein Ad
+      ad: selectedAd, // null or one ad object
     },
   };
 }
